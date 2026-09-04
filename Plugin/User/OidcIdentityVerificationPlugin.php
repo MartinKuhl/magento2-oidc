@@ -60,11 +60,11 @@ class OidcIdentityVerificationPlugin
         callable $proceed,
         $passwordString
     ) {
-        // Check if cookie has OIDC authenticated flag (set by Oidccallback controller)
-        $cookieValue = $this->cookieManager->getCookie('oidc_authenticated');
-        $isOidcAuth = ($cookieValue === '1');
+        // Check if cookie has OIDC or passkey authenticated flag
+        // (set by Oidccallback / Passkey\LoginVerify controllers)
+        $isOidcAuth = $this->cookieManager->getCookie('oidc_authenticated') === '1'
+            || $this->cookieManager->getCookie('passkey_authenticated') === '1';
 
-        $this->oauthUtility->customlog("OIDC Identity Bypass: Cookie value = " . var_export($cookieValue, true));
         $this->oauthUtility->customlog("OIDC Identity Bypass: isOidcAuth = " . var_export($isOidcAuth, true));
 
         if ($isOidcAuth) {

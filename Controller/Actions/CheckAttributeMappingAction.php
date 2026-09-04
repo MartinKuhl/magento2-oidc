@@ -359,99 +359,95 @@ class CheckAttributeMappingAction extends BaseAction
                 $this->oauthUtility->customlog("Admin callback URL: " . $adminCallbackUrl);
 
                 return $this->resultRedirectFactory->create()->setUrl($adminCallbackUrl);
-            } else {
-                // User tried to login as admin but has no admin account
-                // Check if auto-create admin is enabled (per-provider first, then global config)
-                $autoCreateAdmin = $this->providerAutoCreateAdmin
-                    ?? $this->oauthUtility->getStoreConfig(OAuthConstants::AUTO_CREATE_ADMIN);
-                $autoCreateMsg = "Auto-create admin setting: ";
-                $autoCreateMsg .= ($autoCreateAdmin ? 'ENABLED' : 'DISABLED');
-                $this->oauthUtility->customlog($autoCreateMsg);
-
-                if ($autoCreateAdmin) {
-                    $this->oauthUtility->customlog("=== Auto-creating admin user for: " . $userEmail . " ===");
-
-                    // Extract attributes using configured mappings
-                    $adminFirstName = $flattenedAttrs[$this->firstName] ?? null;
-                    $adminLastName = $flattenedAttrs[$this->lastName] ?? null;
-                    $adminUserName = $flattenedAttrs[$this->usernameAttribute] ?? $userEmail;
-
-                    $mappedLog = sprintf(
-                        'Mapped attributes - userName: %s, firstName: %s, lastName: %s',
-                        $adminUserName,
-                        $adminFirstName ?? '',
-                        $adminLastName ?? ''
-                    );
-                    $this->oauthUtility->customlog($mappedLog);
-
-                    // Get groups from OIDC response
-                    $groupAttribute = $this->oauthUtility->getStoreConfig(OAuthConstants::MAP_GROUP);
-                    $userGroups = [];
-                    if (!empty($groupAttribute)) {
-                        $rawGroups = $flattenedAttrs[$groupAttribute] ?? $attrs[$groupAttribute] ?? null;
-                        $userGroups = $this->oidcAuthenticationService->normalizeGroups($rawGroups);
-                    }
-                    $groupsJson = json_encode($userGroups) ?: '[]';
-                    $this->oauthUtility->customlog("User groups from OIDC: " . $groupsJson);
-
-                    // Create the admin user via UserProvisioningService (fires before/after events)
-                    $adminUser = $this->userProvisioningService->provisionAdmin(
-                        $userEmail,
-                        $adminUserName,
-                        $adminFirstName,
-                        $adminLastName,
-                        $userGroups,
-                        $this->providerId,
-                        $flattenedAttrs
-                    );
-
-                    if ($adminUser && $adminUser->getId()) {
-                        $this->oauthUtility->customlog("Admin user created successfully. ID: " . $adminUser->getId());
-
-                        // Sync profile and role for the newly created admin (if enabled)
-                        $this->syncAdminProfileIfEnabled($adminUser, $flattenedAttrs, $attrs);
-                        $this->syncAdminRoleIfEnabled($adminUser, $flattenedAttrs, $attrs);
-
-                        // Redirect to admin callback for login
-                        $nonce = $this->securityHelper->createAdminLoginNonce($userEmail, $this->providerId);
-                        $this->cookieManager->setPublicCookie(
-                            'oidc_admin_nonce',
-                            $nonce,
-                            $this->cookieMetadataFactory->createPublicCookieMetadata()
-                                ->setDuration(120)
-                                ->setPath('/' . $this->backendUrl->getAreaFrontName())
-                                ->setHttpOnly(true)
-                                ->setSecure(true)
-                                ->setSameSite('Lax')
-                        );
-                        $adminCallbackUrl = $this->backendUrl->getUrl('m2oidc/actions/oidccallback');
-                        $this->oauthUtility->customlog("Redirecting to admin callback: " . $adminCallbackUrl);
-
-                        return $this->resultRedirectFactory->create()->setUrl($adminCallbackUrl);
-                    } else {
-                        $this->oauthUtility->customlog("ERROR: Failed to create admin user for: " . $userEmail);
-                        $groupList = implode(', ', array_map(fn(string $v): string => $v, $userGroups));
-                        $errorMessage = OAuthMessages::parse(
-                            'ADMIN_ROLE_MAPPING_NO_MATCH',
-                            ['groups' => $groupList !== '' ? $groupList : '(none)']
-                        );
-                        $adminLoginUrl = $this->backendUrl->getUrl('admin')
-                            . '?oidc_error=' . urlencode(base64_encode($errorMessage));
-                        return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
-                    }
-                } else {
-                    // Auto-create disabled - show error
-                    $errorMsg = "ERROR: Admin login attempted but no admin account exists for: ";
-                    $this->oauthUtility->customlog($errorMsg . $userEmail);
-                    $errorMessage = OAuthMessages::parse(
-                        'ADMIN_ACCOUNT_NOT_FOUND',
-                        ['email' => $userEmail]
-                    );
-                    $adminLoginUrl = $this->backendUrl->getUrl('admin')
-                        . '?oidc_error=' . urlencode(base64_encode($errorMessage));
-                    return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
-                }
             }
+            // User tried to login as admin but has no admin account
+            // Check if auto-create admin is enabled (per-provider first, then global config)
+            $autoCreateAdmin = $this->providerAutoCreateAdmin
+                ?? $this->oauthUtility->getStoreConfig(OAuthConstants::AUTO_CREATE_ADMIN);
+            $autoCreateMsg = "Auto-create admin setting: ";
+            $autoCreateMsg .= ($autoCreateAdmin ? 'ENABLED' : 'DISABLED');
+            $this->oauthUtility->customlog($autoCreateMsg);
+            if ($autoCreateAdmin) {
+                $this->oauthUtility->customlog("=== Auto-creating admin user for: " . $userEmail . " ===");
+
+                // Extract attributes using configured mappings
+                $adminFirstName = $flattenedAttrs[$this->firstName] ?? null;
+                $adminLastName = $flattenedAttrs[$this->lastName] ?? null;
+                $adminUserName = $flattenedAttrs[$this->usernameAttribute] ?? $userEmail;
+
+                $mappedLog = sprintf(
+                    'Mapped attributes - userName: %s, firstName: %s, lastName: %s',
+                    $adminUserName,
+                    $adminFirstName ?? '',
+                    $adminLastName ?? ''
+                );
+                $this->oauthUtility->customlog($mappedLog);
+
+                // Get groups from OIDC response
+                $groupAttribute = $this->oauthUtility->getStoreConfig(OAuthConstants::MAP_GROUP);
+                $userGroups = [];
+                if (!empty($groupAttribute)) {
+                    $rawGroups = $flattenedAttrs[$groupAttribute] ?? $attrs[$groupAttribute] ?? null;
+                    $userGroups = $this->oidcAuthenticationService->normalizeGroups($rawGroups);
+                }
+                $groupsJson = json_encode($userGroups) ?: '[]';
+                $this->oauthUtility->customlog("User groups from OIDC: " . $groupsJson);
+
+                // Create the admin user via UserProvisioningService (fires before/after events)
+                $adminUser = $this->userProvisioningService->provisionAdmin(
+                    $userEmail,
+                    $adminUserName,
+                    $adminFirstName,
+                    $adminLastName,
+                    $userGroups,
+                    $this->providerId,
+                    $flattenedAttrs
+                );
+
+                if ($adminUser instanceof \Magento\User\Model\User && $adminUser->getId()) {
+                    $this->oauthUtility->customlog("Admin user created successfully. ID: " . $adminUser->getId());
+
+                    // Sync profile and role for the newly created admin (if enabled)
+                    $this->syncAdminProfileIfEnabled($adminUser, $flattenedAttrs, $attrs);
+                    $this->syncAdminRoleIfEnabled($adminUser, $flattenedAttrs, $attrs);
+
+                    // Redirect to admin callback for login
+                    $nonce = $this->securityHelper->createAdminLoginNonce($userEmail, $this->providerId);
+                    $this->cookieManager->setPublicCookie(
+                        'oidc_admin_nonce',
+                        $nonce,
+                        $this->cookieMetadataFactory->createPublicCookieMetadata()
+                            ->setDuration(120)
+                            ->setPath('/' . $this->backendUrl->getAreaFrontName())
+                            ->setHttpOnly(true)
+                            ->setSecure(true)
+                            ->setSameSite('Lax')
+                    );
+                    $adminCallbackUrl = $this->backendUrl->getUrl('m2oidc/actions/oidccallback');
+                    $this->oauthUtility->customlog("Redirecting to admin callback: " . $adminCallbackUrl);
+
+                    return $this->resultRedirectFactory->create()->setUrl($adminCallbackUrl);
+                }
+                $this->oauthUtility->customlog("ERROR: Failed to create admin user for: " . $userEmail);
+                $groupList = implode(', ', array_map(fn(string $v): string => $v, $userGroups));
+                $errorMessage = OAuthMessages::parse(
+                    'ADMIN_ROLE_MAPPING_NO_MATCH',
+                    ['groups' => $groupList !== '' ? $groupList : '(none)']
+                );
+                $adminLoginUrl = $this->backendUrl->getUrl('admin')
+                    . '?oidc_error=' . urlencode(base64_encode($errorMessage));
+                return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
+            }
+            // Auto-create disabled - show error
+            $errorMsg = "ERROR: Admin login attempted but no admin account exists for: ";
+            $this->oauthUtility->customlog($errorMsg . $userEmail);
+            $errorMessage = OAuthMessages::parse(
+                'ADMIN_ACCOUNT_NOT_FOUND',
+                ['email' => $userEmail]
+            );
+            $adminLoginUrl = $this->backendUrl->getUrl('admin')
+                . '?oidc_error=' . urlencode(base64_encode($errorMessage));
+            return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
         }
 
         // Customer login flow (either explicit customer intent or default)

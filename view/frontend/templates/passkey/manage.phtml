@@ -1,0 +1,170 @@
+<?php
+/** @var \M2Oidc\OAuth\Block\Passkey\ManagePasskeys $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<div class="m2oidc-passkey-manage">
+    <p><?= $escaper->escapeHtml(__(
+        'Passkeys let you sign in without a password, using your device\'s fingerprint, '
+        . 'face recognition, screen lock, or a security key.'
+    )) ?></p>
+
+    <div id="m2oidc-passkey-list">
+        <?php $credentials = $block->getCredentials(); ?>
+        <?php if (count($credentials) === 0): ?>
+            <p id="m2oidc-passkey-empty"><?= $escaper->escapeHtml(__('No passkeys registered yet.')) ?></p>
+        <?php else: ?>
+            <table class="data-table" id="m2oidc-passkey-table">
+                <thead>
+                    <tr>
+                        <th><?= $escaper->escapeHtml(__('Name')) ?></th>
+                        <th><?= $escaper->escapeHtml(__('Registered')) ?></th>
+                        <th><?= $escaper->escapeHtml(__('Action')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($credentials as $stored): ?>
+                        <?php
+                        $passkeyName = $stored->nickname !== null && $stored->nickname !== ''
+                            ? $stored->nickname
+                            : (string) __('Unnamed passkey');
+                        ?>
+                        <tr class="m2oidc-passkey-row">
+                            <td><?= $escaper->escapeHtml($passkeyName) ?></td>
+                            <td><?= $escaper->escapeHtml($stored->createdAt) ?></td>
+                            <td>
+                                <button type="button" class="action secondary m2oidc-passkey-delete-btn"
+                                    data-credential-id="<?= (int) $stored->dbId ?>">
+                                    <span><?= $escaper->escapeHtml(__('Remove')) ?></span>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
+
+    <button type="button" id="m2oidc-passkey-register-btn" class="action primary" style="margin-top:16px;">
+        <span><?= $escaper->escapeHtml(__('Register a New Passkey')) ?></span>
+    </button>
+    <div id="m2oidc-passkey-manage-error"
+         class="message message-error error"
+         style="display:none;margin-top:8px;"></div>
+</div>
+<script>
+    (function () {
+        'use strict';
+
+        var registrationOptionsUrl = <?= /* @noEscape */ json_encode($block->getRegistrationOptionsUrl()) ?>;
+        var registrationVerifyUrl = <?= /* @noEscape */ json_encode($block->getRegistrationVerifyUrl()) ?>;
+        var deleteUrl = <?= /* @noEscape */ json_encode($block->getDeleteUrl()) ?>;
+        var formKey = <?= /* @noEscape */ json_encode($block->getFormKey()) ?>;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var errorBox = document.getElementById('m2oidc-passkey-manage-error');
+            var registerBtn = document.getElementById('m2oidc-passkey-register-btn');
+            var list = document.getElementById('m2oidc-passkey-list');
+
+            function showError(message) {
+                errorBox.textContent = message;
+                errorBox.style.display = '';
+            }
+
+            if (list) {
+                list.addEventListener('click', function (event) {
+                    var btn = event.target.closest('.m2oidc-passkey-delete-btn');
+                    if (!btn) {
+                        return;
+                    }
+                    if (!window.confirm('<?= $escaper->escapeJs(__(
+                        'Remove this passkey? You will need to register it again to use it for login.'
+                    )) ?>')) {
+                        return;
+                    }
+                    var body = new FormData();
+                    body.append('form_key', formKey);
+                    body.append('credential_id', btn.getAttribute('data-credential-id'));
+                    fetch(deleteUrl, {
+                        method: 'POST',
+                        body: body,
+                        credentials: 'same-origin',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    })
+                        .then(function (r) { return r.json(); })
+                        .then(function (d) {
+                            if (d.success) {
+                                btn.closest('.m2oidc-passkey-row').remove();
+                            } else {
+                                showError(d.error || 'Unable to remove passkey.');
+                            }
+                        })
+                        .catch(function () { showError('Request failed.'); });
+                });
+            }
+
+            if (registerBtn) {
+                var creationOptionsSupported = window.PublicKeyCredential
+                    && typeof PublicKeyCredential.parseCreationOptionsFromJSON === 'function';
+                if (!creationOptionsSupported) {
+                    registerBtn.disabled = true;
+                    showError('<?= $escaper->escapeJs(__('This browser does not support passkeys.')) ?>');
+                    return;
+                }
+
+                registerBtn.addEventListener('click', function () {
+                    errorBox.style.display = 'none';
+                    registerBtn.disabled = true;
+
+                    var body = new FormData();
+                    body.append('form_key', formKey);
+
+                    fetch(registrationOptionsUrl, {
+                        method: 'POST',
+                        body: body,
+                        credentials: 'same-origin',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    })
+                        .then(function (response) { return response.json(); })
+                        .then(function (data) {
+                            if (!data.success) {
+                                throw new Error(data.error || 'Unable to start passkey registration.');
+                            }
+                            var options = PublicKeyCredential.parseCreationOptionsFromJSON(data.options);
+                            return navigator.credentials.create({ publicKey: options }).then(function (credential) {
+                                var namePrompt =
+                                    '<?= $escaper->escapeJs(__('Name this passkey (e.g. "My Phone"):')) ?>';
+                                var nickname = window.prompt(namePrompt, '') || '';
+                                var verifyBody = new FormData();
+                                verifyBody.append('form_key', formKey);
+                                verifyBody.append('nonce', data.nonce);
+                                verifyBody.append('nickname', nickname);
+                                verifyBody.append('credential', JSON.stringify(credential.toJSON()));
+                                return fetch(registrationVerifyUrl, {
+                                    method: 'POST',
+                                    body: verifyBody,
+                                    credentials: 'same-origin',
+                                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                                })
+                                    .then(function (response) { return response.json(); });
+                            });
+                        })
+                        .then(function (result) {
+                            if (result.success) {
+                                window.location.reload();
+                                return;
+                            }
+                            showError(result.error || 'Passkey registration failed.');
+                            registerBtn.disabled = false;
+                        })
+                        .catch(function (err) {
+                            registerBtn.disabled = false;
+                            if (err && err.name === 'NotAllowedError') {
+                                return;
+                            }
+                            showError(err && err.message ? err.message : 'Passkey registration failed.');
+                        });
+                });
+            }
+        });
+    })();
+</script>

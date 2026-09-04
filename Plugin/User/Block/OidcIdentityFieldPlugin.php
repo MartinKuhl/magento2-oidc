@@ -55,12 +55,11 @@ class OidcIdentityFieldPlugin
      */
     public function afterSetForm($subject, $result)
     {
-        // Read OIDC flag from cookie (set by Oidccallback controller)
-        $cookieValue = $this->cookieManager->getCookie('oidc_authenticated');
-        $isOidcAuth = ($cookieValue === '1');
+        // Read OIDC/passkey flag from cookie (set by Oidccallback / Passkey\LoginVerify controllers)
+        $isOidcAuth = $this->cookieManager->getCookie('oidc_authenticated') === '1'
+            || $this->cookieManager->getCookie('passkey_authenticated') === '1';
 
         $this->oauthUtility->customlog("OidcIdentityFieldPlugin: afterSetForm called for " . get_class($subject));
-        $this->oauthUtility->customlog("OidcIdentityFieldPlugin: Cookie value = " . var_export($cookieValue, true));
         $this->oauthUtility->customlog("OidcIdentityFieldPlugin: isOidcAuth = " . var_export($isOidcAuth, true));
 
         // Only modify for OIDC-authenticated users

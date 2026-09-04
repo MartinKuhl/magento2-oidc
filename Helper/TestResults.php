@@ -31,7 +31,7 @@ class TestResults
     public function output(\Exception|null $exception = null, bool $hasException = false, array $data = []): string
     {
         $html = '';
-        if ($hasException && $exception) {
+        if ($hasException && $exception instanceof \Exception) {
             $errOut = $this->escaper->escapeHtml($exception->getMessage());
             $html .= "<div class='error'>" . $errOut . "</div>";
         } else {

@@ -59,10 +59,11 @@ class OidcPasswordExpirationPlugin
     }
 
     /**
-     * Check if current session is OIDC authenticated.
+     * Check if current session is OIDC- or passkey-authenticated.
      */
     private function isOidcSession(): bool
     {
-        return (bool) $this->authSession->getIsOidcAuthenticated();
+        return (bool) $this->authSession->getIsOidcAuthenticated()
+            || (bool) $this->authSession->getIsPasskeyAuthenticated();
     }
 }

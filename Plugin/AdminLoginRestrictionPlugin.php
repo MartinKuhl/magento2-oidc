@@ -8,6 +8,7 @@ use Magento\Backend\Model\Auth;
 use Magento\Framework\Exception\AuthenticationException;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Helper\OAuthSecurityHelper;
+use M2Oidc\OAuth\Helper\PasskeySecurityHelper;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -27,21 +28,27 @@ class AdminLoginRestrictionPlugin
     /** @var OAuthSecurityHelper */
     private readonly OAuthSecurityHelper $securityHelper;
 
+    /** @var PasskeySecurityHelper */
+    private readonly PasskeySecurityHelper $passkeySecurityHelper;
+
     /**
      * Constructor.
      *
-     * @param OAuthUtility        $oauthUtility
-     * @param LoggerInterface     $logger
-     * @param OAuthSecurityHelper $securityHelper
+     * @param OAuthUtility          $oauthUtility
+     * @param LoggerInterface       $logger
+     * @param OAuthSecurityHelper   $securityHelper
+     * @param PasskeySecurityHelper $passkeySecurityHelper
      */
     public function __construct(
         OAuthUtility $oauthUtility,
         LoggerInterface $logger,
-        OAuthSecurityHelper $securityHelper
+        OAuthSecurityHelper $securityHelper,
+        PasskeySecurityHelper $passkeySecurityHelper
     ) {
         $this->oauthUtility = $oauthUtility;
         $this->logger = $logger;
         $this->securityHelper = $securityHelper;
+        $this->passkeySecurityHelper = $passkeySecurityHelper;
     }
 
     /**
@@ -57,8 +64,10 @@ class AdminLoginRestrictionPlugin
      */
     public function beforeLogin(Auth $subject, string $username, $password): null
     {
-        // Allow OIDC-authenticated logins — detect by ephemeral token format (non-consuming)
-        if ($this->securityHelper->isOidcAuthToken($password)) {
+        // Allow OIDC- or passkey-authenticated logins — detect by ephemeral token format (non-consuming)
+        if ($this->securityHelper->isOidcAuthToken($password)
+            || $this->passkeySecurityHelper->isPasskeyAuthToken($password)
+        ) {
             return null;
         }
 

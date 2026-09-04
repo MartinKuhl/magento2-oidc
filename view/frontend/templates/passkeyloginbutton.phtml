@@ -1,0 +1,97 @@
+<?php
+/** @var \M2Oidc\OAuth\Block\Passkey $block */
+/** @var \Magento\Framework\Escaper $escaper */
+
+if (!$block->isEnabledForCustomer()) {
+    return;
+}
+?>
+<div id="mo-passkey-customer-login-wrapper" class="sso-button-container" style="display:none;">
+    <button type="button" id="mo-passkey-customer-login-btn" class="sso-button sso-button--neutral">
+        <span><?= $escaper->escapeHtml(__('Login with Passkey')) ?></span>
+    </button>
+    <div id="mo-passkey-customer-error" class="message message-error error"
+        style="display:none;margin-top:8px;max-width:470px;width:100%;box-sizing:border-box;text-align:center;"></div>
+</div>
+<script>
+    (function () {
+        'use strict';
+
+        var loginOptionsUrl = <?= /* @noEscape */ json_encode($block->getLoginOptionsUrl()) ?>;
+        var loginVerifyUrl = <?= /* @noEscape */ json_encode($block->getLoginVerifyUrl()) ?>;
+        var formKey = <?= /* @noEscape */ json_encode($block->getFormKey()) ?>;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var wrapper = document.getElementById('mo-passkey-customer-login-wrapper');
+            var btn = document.getElementById('mo-passkey-customer-login-btn');
+            var errorBox = document.getElementById('mo-passkey-customer-error');
+
+            if (!wrapper || !btn) {
+                return;
+            }
+            if (!window.PublicKeyCredential || typeof PublicKeyCredential.parseRequestOptionsFromJSON !== 'function') {
+                return; // browser too old for passkeys — button stays hidden
+            }
+
+            wrapper.style.display = '';
+
+            function showError(message) {
+                errorBox.textContent = message;
+                errorBox.style.display = '';
+            }
+
+            btn.addEventListener('click', function () {
+                errorBox.style.display = 'none';
+                btn.disabled = true;
+
+                var body = new FormData();
+                body.append('form_key', formKey);
+
+                fetch(loginOptionsUrl, {
+                    method: 'POST',
+                    body: body,
+                    credentials: 'same-origin',
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                    .then(function (response) { return response.json(); })
+                    .then(function (data) {
+                        if (!data.success) {
+                            throw new Error(data.error || 'Unable to start passkey login.');
+                        }
+                        var options = PublicKeyCredential.parseRequestOptionsFromJSON(data.options);
+                        var getOptions = { publicKey: options, mediation: 'optional' };
+                        return navigator.credentials.get(getOptions).then(function (credential) {
+                            var isLoginPage = window.location.href.indexOf('/customer/account/login') !== -1;
+                            var verifyBody = new FormData();
+                            verifyBody.append('form_key', formKey);
+                            verifyBody.append('nonce', data.nonce);
+                            verifyBody.append('credential', JSON.stringify(credential.toJSON()));
+                            verifyBody.append('relay_state', isLoginPage ? '' : window.location.href);
+                            return fetch(loginVerifyUrl, {
+                                method: 'POST',
+                                body: verifyBody,
+                                credentials: 'same-origin',
+                                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                            })
+                                .then(function (response) { return response.json(); });
+                        });
+                    })
+                    .then(function (result) {
+                        if (result.success) {
+                            window.location.href = result.redirectUrl;
+                            return;
+                        }
+                        showError(result.error || 'Passkey login failed.');
+                        btn.disabled = false;
+                    })
+                    .catch(function (err) {
+                        btn.disabled = false;
+                        if (err && err.name === 'NotAllowedError') {
+                            return; // user dismissed the browser prompt
+                        }
+                        showError(err && err.message ? err.message : 'Passkey login failed.');
+                    });
+            });
+        });
+    })();
+</script>

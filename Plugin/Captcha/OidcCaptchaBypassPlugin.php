@@ -55,11 +55,13 @@ class OidcCaptchaBypassPlugin
         callable $proceed,
         \Magento\Framework\Event\Observer $observer
     ) {
-        // Check if this is OIDC authentication by looking for marker in event data
-        if ($observer->getEvent()->getData('oidc_auth') === true) {
+        // Check if this is an OIDC or passkey authentication by looking for the marker in event data
+        if ($observer->getEvent()->getData('oidc_auth') === true
+            || $observer->getEvent()->getData('passkey_auth') === true
+        ) {
             $username = $observer->getEvent()->getUsername();
             $this->oauthUtility->customlog(
-                "CAPTCHA: Bypassing CAPTCHA validation for OIDC authentication: " . $username
+                "CAPTCHA: Bypassing CAPTCHA validation for OIDC/passkey authentication: " . $username
             );
 
             // Return the subject without calling proceed() - this skips CAPTCHA validation

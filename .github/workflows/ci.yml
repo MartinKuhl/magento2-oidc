@@ -150,7 +150,8 @@ jobs:
               "magento/module-integration": "*",
               "magento/module-graph-ql": "*",
               "vimeo/psalm": "*",
-              "phpunit/phpunit": "^11.5"
+              "phpunit/phpunit": "^11.5",
+              "web-auth/webauthn-lib": "^5.3"
             },
             "repositories": [
               {

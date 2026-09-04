@@ -138,10 +138,6 @@ table {
     height: 395px
 }
 
-.btn-round{
-    border-radius: 5px;
-}
-
 .show_info {
     color: #676056;
     text-transform: initial;

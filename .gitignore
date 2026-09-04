@@ -1,4 +1,7 @@
 composer.phar
+composer.lock
 /vendor/
 Code-Review.md
 .phpunit.result.cache
+/reports/
+/Test/reports/

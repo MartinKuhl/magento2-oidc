@@ -88,13 +88,13 @@ Fix all the mentioned issue and warnings. Use sub-agents where applicable. DO no
 ##############################################
 
 ### ToDo ###
-- adjust PHPStan, Psalm, PHPCS, PHPUnit and Rector for PHP 8.4 & PHP 8.5 --> 8.2 to 8.5
 
 ### FIX ###
 - 
 
 ### TESTING ###
-- 
+- Passkey (WebAuthn) feature added in 1.0.0 (Model/Passkey/*, Helper/PasskeyConfig.php, Helper/PasskeySecurityHelper.php, PasskeyCredentialAdapter/Plugin, Controller/**/Passkey/*) has no dedicated PHPUnit coverage yet — only incidental coverage via Test/Unit/Observer/CustomerDeleteObserverTest.php (passkey cleanup on customer delete). Write Unit tests for PasskeyRegistrationService/PasskeyAuthenticationService (mock webauthn-lib validators), PasskeySecurityHelper (token/nonce format + TTL), and an Integration test for the full admin + customer passkey login flow, mirroring AdminOidcLoginFlowTest.php / CustomerOidcLoginFlowTest.php.
+- Manually verify passkey login end-to-end after any change: see the "Test passkey registration and login" item in @github/magento2-oidc-sso/CLAUDE.md's Testing Checklist.
 
 ### LATER - more complex ###:
 -

@@ -10,6 +10,7 @@ use Magento\Authorization\Model\Role;
 use Magento\User\Model\ResourceModel\User as UserResource;
 use Magento\User\Model\User;
 use Magento\User\Model\UserFactory;
+use M2Oidc\OAuth\Test\Unit\Fixtures\UserWithRoleId;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Model\Provider\MappingRepository;
 use M2Oidc\OAuth\Model\Service\AdminProfileSyncService;
@@ -87,7 +88,8 @@ class AdminProfileSyncServiceTest extends TestCase
 
     /**
      * Build a User mock with preset getter return values.
-     * setters are in addMethods() since they are not in UserInterface.
+     * setRoleId() is declared on the UserWithRoleId test double since it is
+     * only reachable via User's magic __call() on the real class.
      *
      * @param array<string> $roles
      */
@@ -99,13 +101,13 @@ class AdminProfileSyncServiceTest extends TestCase
         string $email = 'a@example.com',
         array  $roles = []
     ): User&MockObject {
-        $user = $this->getMockBuilder(User::class)
+        $user = $this->getMockBuilder(UserWithRoleId::class)
             ->disableOriginalConstructor()
             ->onlyMethods([
                 'getId', 'getFirstName', 'getLastName', 'getUserName', 'getEmail', 'getRoles',
                 'setFirstName', 'setLastName', 'setUserName', 'setEmail', 'setHasDataChanges',
+                'setRoleId',
             ])
-            ->addMethods(['setRoleId'])
             ->getMock();
 
         $user->method('getId')->willReturn($id);

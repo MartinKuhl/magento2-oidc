@@ -1,17 +1,27 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <!-- CheckAttributeMappingAction Dependencies — shared="false" prevents per-request state leaking between concurrent requests -->
+    <!-- CheckAttributeMappingAction Dependencies — shared="false" prevents per-request
+         state leaking between concurrent requests -->
     <type name="M2Oidc\OAuth\Controller\Actions\CheckAttributeMappingAction" shared="false">
         <arguments>
             <argument name="testAction" xsi:type="object">M2Oidc\OAuth\Controller\Actions\ShowTestResults</argument>
-            <argument name="processUserAction" xsi:type="object">M2Oidc\OAuth\Controller\Actions\ProcessUserAction</argument>
+            <argument name="processUserAction" xsi:type="object">
+                M2Oidc\OAuth\Controller\Actions\ProcessUserAction
+            </argument>
             <argument name="userFactory" xsi:type="object">Magento\User\Model\UserFactory</argument>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
             <argument name="backendUrl" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>
-            <argument name="userProvisioningService" xsi:type="object">M2Oidc\OAuth\Model\Service\UserProvisioningService</argument>
-            <argument name="adminProfileSyncService" xsi:type="object">M2Oidc\OAuth\Model\Service\AdminProfileSyncService</argument>
+            <argument name="userProvisioningService" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\UserProvisioningService
+            </argument>
+            <argument name="adminProfileSyncService" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\AdminProfileSyncService
+            </argument>
         </arguments>
     </type>
 
@@ -19,7 +29,9 @@
     <type name="M2Oidc\OAuth\Model\Service\UserProvisioningService">
         <arguments>
             <argument name="adminUserCreator" xsi:type="object">M2Oidc\OAuth\Model\Service\AdminUserCreator</argument>
-            <argument name="customerUserCreator" xsi:type="object">M2Oidc\OAuth\Model\Service\CustomerUserCreator</argument>
+            <argument name="customerUserCreator" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\CustomerUserCreator
+            </argument>
             <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
             <argument name="eventManager" xsi:type="object">Magento\Framework\Event\ManagerInterface</argument>
         </arguments>
@@ -28,7 +40,9 @@
     <!-- MappingRepository Dependencies (Phase 4) -->
     <type name="M2Oidc\OAuth\Model\Provider\MappingRepository">
         <arguments>
-            <argument name="attrResource" xsi:type="object">M2Oidc\OAuth\Model\ResourceModel\OauthAttributeMapping</argument>
+            <argument name="attrResource" xsi:type="object">
+                M2Oidc\OAuth\Model\ResourceModel\OauthAttributeMapping
+            </argument>
             <argument name="roleResource" xsi:type="object">M2Oidc\OAuth\Model\ResourceModel\OauthRoleMapping</argument>
         </arguments>
     </type>
@@ -43,7 +57,9 @@
         <arguments>
             <argument name="mappers" xsi:type="array">
                 <item name="default_admin"    xsi:type="object">M2Oidc\OAuth\Model\Attribute\AdminAttributeMapper</item>
-                <item name="default_customer" xsi:type="object">M2Oidc\OAuth\Model\Attribute\CustomerAttributeMapper</item>
+                <item name="default_customer" xsi:type="object">
+                    M2Oidc\OAuth\Model\Attribute\CustomerAttributeMapper
+                </item>
             </argument>
         </arguments>
     </type>
@@ -51,17 +67,26 @@
     <!-- AdminUserCreator Dependencies (Phase 4: MappingRepository; Phase 3.2: AdminAttributeMapper via MapperPool) -->
     <type name="M2Oidc\OAuth\Model\Service\AdminUserCreator">
         <arguments>
-            <argument name="mappingRepository" xsi:type="object">M2Oidc\OAuth\Model\Provider\MappingRepository</argument>
-            <argument name="adminAttributeMapper" xsi:type="object">M2Oidc\OAuth\Model\Attribute\AdminAttributeMapper</argument>
+            <argument name="mappingRepository" xsi:type="object">
+                M2Oidc\OAuth\Model\Provider\MappingRepository
+            </argument>
+            <argument name="adminAttributeMapper" xsi:type="object">
+                M2Oidc\OAuth\Model\Attribute\AdminAttributeMapper
+            </argument>
             <argument name="mapperPool" xsi:type="object">M2Oidc\OAuth\Model\Attribute\MapperPool</argument>
         </arguments>
     </type>
 
-    <!-- CustomerUserCreator Dependencies (Phase 4: MappingRepository; Phase 3.2: CustomerAttributeMapper via MapperPool) -->
+    <!-- CustomerUserCreator Dependencies (Phase 4: MappingRepository; Phase 3.2:
+         CustomerAttributeMapper via MapperPool) -->
     <type name="M2Oidc\OAuth\Model\Service\CustomerUserCreator">
         <arguments>
-            <argument name="mappingRepository" xsi:type="object">M2Oidc\OAuth\Model\Provider\MappingRepository</argument>
-            <argument name="attributeMapper" xsi:type="object">M2Oidc\OAuth\Model\Attribute\CustomerAttributeMapper</argument>
+            <argument name="mappingRepository" xsi:type="object">
+                M2Oidc\OAuth\Model\Provider\MappingRepository
+            </argument>
+            <argument name="attributeMapper" xsi:type="object">
+                M2Oidc\OAuth\Model\Attribute\CustomerAttributeMapper
+            </argument>
             <argument name="mapperPool" xsi:type="object">M2Oidc\OAuth\Model\Attribute\MapperPool</argument>
         </arguments>
     </type>
@@ -74,7 +99,9 @@
          that construct OidcRateLimiter. -->
     <type name="M2Oidc\OAuth\Model\Security\OidcRateLimiter">
         <arguments>
-            <argument name="strategy" xsi:type="object">M2Oidc\OAuth\Model\Security\RateLimiterStrategy\FixedWindowStrategy</argument>
+            <argument name="strategy" xsi:type="object">
+                M2Oidc\OAuth\Model\Security\RateLimiterStrategy\FixedWindowStrategy
+            </argument>
         </arguments>
     </type>
 
@@ -82,7 +109,9 @@
          Inject this instead of OidcRateLimiter in controllers that benefit from true sliding windows. -->
     <virtualType name="OidcSlidingWindowRateLimiter" type="M2Oidc\OAuth\Model\Security\OidcRateLimiter">
         <arguments>
-            <argument name="strategy" xsi:type="object">M2Oidc\OAuth\Model\Security\RateLimiterStrategy\SlidingWindowStrategy</argument>
+            <argument name="strategy" xsi:type="object">
+                M2Oidc\OAuth\Model\Security\RateLimiterStrategy\SlidingWindowStrategy
+            </argument>
         </arguments>
     </virtualType>
 
@@ -110,22 +139,30 @@
     <!-- Provider Save controller Dependencies (Phase 4: dual-write to normalized tables) -->
     <type name="M2Oidc\OAuth\Controller\Adminhtml\Provider\Save">
         <arguments>
-            <argument name="mappingRepository" xsi:type="object">M2Oidc\OAuth\Model\Provider\MappingRepository</argument>
+            <argument name="mappingRepository" xsi:type="object">
+                M2Oidc\OAuth\Model\Provider\MappingRepository
+            </argument>
         </arguments>
     </type>
 
     <!-- ProcessUserAction Dependencies -->
     <type name="M2Oidc\OAuth\Controller\Actions\ProcessUserAction">
         <arguments>
-            <argument name="resultRedirectFactory" xsi:type="object">Magento\Framework\Controller\Result\RedirectFactory</argument>
+            <argument name="resultRedirectFactory" xsi:type="object">
+                Magento\Framework\Controller\Result\RedirectFactory
+            </argument>
         </arguments>
     </type>
 
     <!-- ReadAuthorizationResponse Dependencies -->
     <type name="M2Oidc\OAuth\Controller\Actions\ReadAuthorizationResponse">
         <arguments>
-            <argument name="oidcAuthService" xsi:type="object">M2Oidc\OAuth\Model\Service\OidcAuthenticationService</argument>
-            <argument name="attrMappingAction" xsi:type="object">M2Oidc\OAuth\Controller\Actions\CheckAttributeMappingAction</argument>
+            <argument name="oidcAuthService" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\OidcAuthenticationService
+            </argument>
+            <argument name="attrMappingAction" xsi:type="object">
+                M2Oidc\OAuth\Controller\Actions\CheckAttributeMappingAction
+            </argument>
         </arguments>
     </type>
 
@@ -142,9 +179,32 @@
     <!-- OIDC Credential Plugin Configuration -->
     <type name="M2Oidc\OAuth\Plugin\Auth\OidcCredentialPlugin">
         <arguments>
-            <argument name="oidcCredentialAdapter" xsi:type="object">M2Oidc\OAuth\Model\Auth\OidcCredentialAdapter</argument>
+            <argument name="oidcCredentialAdapter" xsi:type="object">
+                M2Oidc\OAuth\Model\Auth\OidcCredentialAdapter
+            </argument>
             <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
             <argument name="securityHelper" xsi:type="object">M2Oidc\OAuth\Helper\OAuthSecurityHelper</argument>
+        </arguments>
+    </type>
+
+    <!-- Passkey Credential Adapter Configuration -->
+    <type name="M2Oidc\OAuth\Model\Auth\PasskeyCredentialAdapter">
+        <arguments>
+            <argument name="userFactory" xsi:type="object">Magento\User\Model\UserFactory</argument>
+            <argument name="eventManager" xsi:type="object">Magento\Framework\Event\ManagerInterface</argument>
+            <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
+            <argument name="securityHelper" xsi:type="object">M2Oidc\OAuth\Helper\PasskeySecurityHelper</argument>
+        </arguments>
+    </type>
+
+    <!-- Passkey Credential Plugin Configuration -->
+    <type name="M2Oidc\OAuth\Plugin\Auth\PasskeyCredentialPlugin">
+        <arguments>
+            <argument name="passkeyCredentialAdapter" xsi:type="object">
+                M2Oidc\OAuth\Model\Auth\PasskeyCredentialAdapter
+            </argument>
+            <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
+            <argument name="securityHelper" xsi:type="object">M2Oidc\OAuth\Helper\PasskeySecurityHelper</argument>
         </arguments>
     </type>
 
@@ -157,7 +217,9 @@
             <argument name="messageManager" xsi:type="object">Magento\Framework\Message\ManagerInterface</argument>
             <argument name="url" xsi:type="object">Magento\Framework\UrlInterface</argument>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
             <argument name="backendUrl" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>
             <argument name="securityHelper" xsi:type="object">M2Oidc\OAuth\Helper\OAuthSecurityHelper</argument>
             <argument name="scopeConfig" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface</argument>
@@ -179,6 +241,9 @@
         <plugin name="oidc_credential_interceptor"
                 type="M2Oidc\OAuth\Plugin\Auth\OidcCredentialPlugin"
                 sortOrder="10"/>
+        <plugin name="passkey_credential_interceptor"
+                type="M2Oidc\OAuth\Plugin\Auth\PasskeyCredentialPlugin"
+                sortOrder="12"/>
         <plugin name="oidc_logout_cookie_cleanup"
                 type="M2Oidc\OAuth\Plugin\Auth\OidcLogoutPlugin"
                 sortOrder="20"/>
@@ -190,6 +255,9 @@
             <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
             <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
             <argument name="securityHelper" xsi:type="object">M2Oidc\OAuth\Helper\OAuthSecurityHelper</argument>
+            <argument name="passkeySecurityHelper" xsi:type="object">
+                M2Oidc\OAuth\Helper\PasskeySecurityHelper
+            </argument>
         </arguments>
     </type>
 
@@ -241,6 +309,9 @@
         <plugin name="oidc_user_info_provider"
                 type="M2Oidc\OAuth\Plugin\User\Block\OidcUserInfoPlugin"
                 sortOrder="30"/>
+        <plugin name="passkey_user_info_provider"
+                type="M2Oidc\OAuth\Plugin\User\Block\PasskeyUserInfoPlugin"
+                sortOrder="40"/>
     </type>
 
     <!-- Plugin to display OIDC Provider in admin Customer View -->
@@ -262,6 +333,9 @@
         <plugin name="oidc_identity_field_account"
                 type="M2Oidc\OAuth\Plugin\User\Block\OidcIdentityFieldPlugin"
                 sortOrder="20"/>
+        <plugin name="passkey_user_info_provider_account"
+                type="M2Oidc\OAuth\Plugin\User\Block\PasskeyUserInfoPlugin"
+                sortOrder="30"/>
     </type>
 
     <!-- Suppress password expiration warning for OIDC users -->
@@ -323,9 +397,13 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session</argument>
             <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
             <argument name="securityHelper" xsi:type="object">M2Oidc\OAuth\Helper\OAuthSecurityHelper</argument>
-            <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface</argument>
+            <argument name="customerRepository" xsi:type="object">
+                Magento\Customer\Api\CustomerRepositoryInterface
+            </argument>
         </arguments>
     </type>
 
@@ -333,7 +411,9 @@
     <type name="M2Oidc\OAuth\Controller\Actions\CustomerLoginAction">
         <arguments>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
         </arguments>
     </type>
 
@@ -379,7 +459,9 @@
     <virtualType name="MooauthProviderListingDataProvider"
                  type="M2Oidc\OAuth\Ui\Component\DataProvider">
         <arguments>
-            <argument name="collection" xsi:type="object" shared="false">M2Oidc\OAuth\Model\ResourceModel\M2OidcOauthClientApps\Grid\Collection</argument>
+            <argument name="collection" xsi:type="object" shared="false">
+                M2Oidc\OAuth\Model\ResourceModel\M2OidcOauthClientApps\Grid\Collection
+            </argument>
             <argument name="filterPool" xsi:type="object" shared="false">MooauthProviderListingFilterPool</argument>
         </arguments>
     </virtualType>
@@ -388,7 +470,9 @@
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>
             <argument name="appliers" xsi:type="array">
-                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="regular" xsi:type="object">
+                    Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter
+                </item>
             </argument>
         </arguments>
     </virtualType>
@@ -396,7 +480,9 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="m2oidc_provider_listing_data_source" xsi:type="string">M2Oidc\OAuth\Model\ResourceModel\M2OidcOauthClientApps\Grid\Collection</item>
+                <item name="m2oidc_provider_listing_data_source" xsi:type="string">
+                    M2Oidc\OAuth\Model\ResourceModel\M2OidcOauthClientApps\Grid\Collection
+                </item>
             </argument>
         </arguments>
     </type>
@@ -417,7 +503,9 @@
             <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
             <argument name="response" xsi:type="object">Magento\Framework\App\ResponseInterface</argument>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
         </arguments>
     </type>
@@ -426,7 +514,9 @@
     <type name="M2Oidc\OAuth\Plugin\Auth\OidcLogoutPlugin">
         <arguments>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
             <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
             <argument name="authSession" xsi:type="object">Magento\Backend\Model\Auth\Session\Proxy</argument>
             <argument name="backendUrl" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>
@@ -438,7 +528,9 @@
     <type name="M2Oidc\OAuth\Observer\CustomerLoginAutoRedirectObserver">
         <arguments>
             <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="cookieMetadataFactory" xsi:type="object">Magento\Framework\Stdlib\Cookie\CookieMetadataFactory</argument>
+            <argument name="cookieMetadataFactory" xsi:type="object">
+                Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
+            </argument>
         </arguments>
     </type>
 
@@ -462,20 +554,26 @@
     <!-- FEAT-03: Oidccallback — inject AdminTokenRefreshService -->
     <type name="M2Oidc\OAuth\Controller\Adminhtml\Actions\Oidccallback">
         <arguments>
-            <argument name="adminTokenRefreshService" xsi:type="object">M2Oidc\OAuth\Model\Service\AdminTokenRefreshService</argument>
+            <argument name="adminTokenRefreshService" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\AdminTokenRefreshService
+            </argument>
         </arguments>
     </type>
 
     <!-- FEAT-03: Token Auto-Refresh observers -->
     <type name="M2Oidc\OAuth\Observer\TokenAutoRefreshObserver">
         <arguments>
-            <argument name="tokenRefreshService" xsi:type="object">M2Oidc\OAuth\Model\Service\TokenRefreshService</argument>
+            <argument name="tokenRefreshService" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\TokenRefreshService
+            </argument>
         </arguments>
     </type>
 
     <type name="M2Oidc\OAuth\Observer\AdminTokenAutoRefreshObserver">
         <arguments>
-            <argument name="adminTokenRefreshService" xsi:type="object">M2Oidc\OAuth\Model\Service\AdminTokenRefreshService</argument>
+            <argument name="adminTokenRefreshService" xsi:type="object">
+                M2Oidc\OAuth\Model\Service\AdminTokenRefreshService
+            </argument>
         </arguments>
     </type>
 
