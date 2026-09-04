@@ -26,6 +26,16 @@
         <severity>0</severity>
     </rule>
 
+    <!--
+        Same testVersion quirk as above: the Magento2 ruleset's internal 8.1-8.2
+        testVersion also makes PHPCompatibility flag `readonly class` (PHP 8.2+) as
+        unsupported "in PHP 8.1 or earlier". Our minimum PHP is 8.2 (see composer.json),
+        so readonly classes are valid.
+    -->
+    <rule ref="PHPCompatibility.Classes.NewReadonlyClasses.Found">
+        <severity>0</severity>
+    </rule>
+
     <!-- Enforce declare(strict_types=1) in all PHP files -->
     <rule ref="Generic.PHP.RequireStrictTypes">
         <include-pattern>*\.php$</include-pattern>

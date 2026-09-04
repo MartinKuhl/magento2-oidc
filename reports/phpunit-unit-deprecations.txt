@@ -1,0 +1,473 @@
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.9
+Configuration: /var/www/html/github/magento2-oidc-sso/Test/phpunit.xml
+
+...............................................................  63 / 628 ( 10%)
+............................................................... 126 / 628 ( 20%)
+......................................DDDDD.DD................. 189 / 628 ( 30%)
+............................................................... 252 / 628 ( 40%)
+.......................................DDDDDDDDDDDDDDDDDDDDDDDD 315 / 628 ( 50%)
+D.DDDDDDDDDDDDD..DDDDDD....D................................... 378 / 628 ( 60%)
+.............D...........DDDDD...................DDD........... 441 / 628 ( 70%)
+............................................................... 504 / 628 ( 80%)
+............................................................... 567 / 628 ( 90%)
+.............................................................   628 / 628 (100%)
+
+Time: 00:00.426, Memory: 16.00 MB
+
+There were 69 PHPUnit test runner deprecations:
+
+1) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Controller\Actions\CheckAttributeMappingActionIdpBindingTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+2) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Controller\Actions\ProcessUserActionIdpBindingTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+3) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Controller\Actions\ProcessUserActionRelayStateTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+4) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Controller\BackChannelLogoutTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+5) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Controller\IdpInitiatedLoginTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+6) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Controller\ProviderSettingsIndexTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+7) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Controller\ProviderSettingsIndexTest::testInvalidLoginTypeFallsBackToCustomer(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+8) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Controller\ProviderSettingsIndexTest::testInvalidButtonColorIsClearedToEmptyString(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+9) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Controller\ProviderSettingsIndexTest::testValidButtonColorIsStoredAsIs(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+10) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Cron\HealthCheckAlertTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+11) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+12) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testReturnsFailureForNonSuccessHttpCode(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+13) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+14) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\OAuth\AccessTokenRequestBodyTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+15) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\OAuth\AuthorizationRequestTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+16) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\OAuthSecurityHelperMultiProviderTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+17) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\OAuthSecurityHelperTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+18) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\OAuthUtilityExtractNameTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+19) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Helper\OAuthUtilityExtractNameTest::testExtractNameFromEmail(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+20) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Helper\OAuthUtilityIsBlankTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+21) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Helper\OAuthUtilityIsBlankTest::testIsBlank(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+22) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Attribute\AdminAttributeMapperTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+23) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+24) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+25) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Attribute\GenderMapperTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+26) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Attribute\GenderMapperTest::testMapsToMale(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+27) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Attribute\GenderMapperTest::testMapsToFemale(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+28) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Attribute\GenderMapperTest::testReturnsNullForUnrecognizedValues(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+29) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Attribute\TransformerTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+30) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+31) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Cache\FileAtomicCacheTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+32) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Cache\RedisAtomicCacheTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+33) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Cache\RedisConnectionFactoryTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+34) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Health\ProviderReachabilityCheckerTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+35) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\ResourceModel\OidcProviderRepositoryTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+36) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Security\OidcRateLimiterTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+37) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+38) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorApplyNameFallbacksTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+39) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+40) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+41) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobForValidFormats(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+42) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+43) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderForUnspecifiedValues(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+44) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+45) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+46) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+47) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFormatDateOfBirthParsesCorrectly(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+48) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\GroupMappingResolverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+49) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\OidcAuthenticationServiceTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+50) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\OidcSessionRegistryKeyTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+51) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\RandomPasswordGeneratorTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+52) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+53) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Validation\ProviderDataValidatorTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+54) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\ProviderDataValidatorTest::testInvalidEnumValueIsNormalizedWithWarning(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+55) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\ProviderDataValidatorTest::testValidEnumValueIsKeptWithoutWarning(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+56) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\ProviderDataValidatorTest::testUnsafeEndpointUrlIsStrippedWithWarning(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+57) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Model\Validation\SsrfUrlValidatorTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+58) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\SsrfUrlValidatorTest::testBlockedUrlsAreRejected(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+59) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\SsrfUrlValidatorTest::testAllowedUrlsAreAccepted(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+60) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\SsrfUrlValidatorTest::testPrivateHostsAreDetected(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+61) Metadata found in doc-comment for method M2Oidc\OAuth\Test\Unit\Model\Validation\SsrfUrlValidatorTest::testPublicHostsAreNotDetectedAsPrivate(). Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+62) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Observer\AdminTokenAutoRefreshObserverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+63) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Observer\AdminUserDeleteObserverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+64) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Observer\CustomerDeleteObserverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+65) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+66) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Observer\TokenAutoRefreshObserverTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+67) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Plugin\Auth\OidcLogoutPluginTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+68) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Plugin\OidcCredentialPluginTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+69) Metadata found in doc-comment for class M2Oidc\OAuth\Test\Unit\Setup\Patch\Data\EncryptPlaintextClientSecretsTest. Metadata in doc-comments is deprecated and will no longer be supported in PHPUnit 12. Update your test code to use attributes instead.
+
+--
+
+61 tests triggered 63 PHPUnit deprecations:
+
+1) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMatchesViaFilteredIdOrIso3Query
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:123
+
+2) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMatchesViaLocaleNameScanWhenFilteredQueryMisses
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:135
+
+3) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveNameScanIsCaseInsensitive
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:147
+
+4) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMatchesViaIntlEnglishNameWhenOtherStepsMiss
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:163
+
+5) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveReturnsNullWhenNoStepMatches
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:180
+
+6) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMemoizesResultForSameInputWithinOneRequest
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:209
+
+7) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMemoizationIsCaseInsensitiveByKey
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:221
+
+8) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesFirstnameWhenChanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:178
+
+9) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenUnchanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:195
+
+10) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenKeyNotInAttrs
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:212
+
+11) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesLastnameWhenChanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:227
+
+12) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsLastnameWhenUnchanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:244
+
+13) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesUsernameWhenAvailable
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:258
+
+14) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsUsernameWhenTakenByAnotherUser
+* MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+* MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:280
+
+15) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileAllowsUsernameUpdateWhenSameUserOwnsIt
+* MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+* MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:300
+
+16) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsUsernameWhenUnchanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:321
+
+17) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesEmailWhenChanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:343
+
+18) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsEmailWhenEmailKeyIsEmpty
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:353
+
+19) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsEmailWhenUnchanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:363
+
+20) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenSyncOnSsoIsZero
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:377
+
+21) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSyncsFirstnameWhenSyncOnSsoIsOne
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:391
+
+22) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsLastnameWhenSyncOnSsoIsZero
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:405
+
+23) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsUsernameWhenSyncOnSsoIsZero
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:428
+
+24) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsEmailWhenSyncOnSsoIsZero
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:451
+
+25) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileLegacyModeAlwaysSyncsWhenNoNormalizedRow
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:478
+
+26) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileLegacyModeWithProviderIdZeroNeverCallsMappingRepository
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:491
+
+27) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileDoesNotSaveWhenNothingChanged
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:504
+
+28) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileDoesNotSaveWhenAllValuesMatch
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:514
+
+29) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileExtractsFromRawAttrsWhenNotInFlat
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:534
+
+30) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileFlatAttrsTakePriorityOverRaw
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:545
+
+31) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSavesOnceWhenMultipleFieldsChange
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:567
+
+32) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileExtractsFirstValueFromArrayAttr
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:593
+
+33) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenNoGroupsAndNoDefaultRole
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:626
+
+34) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenNoGroupsAndNoRoleMappings
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:636
+
+35) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignsDefaultRoleWhenNoGroupsInResponse
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:647
+
+36) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignsFirstMatchingRole
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:673
+
+37) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignsSecondMappingWhenFirstGroupDoesNotMatch
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:696
+
+38) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenNoMappingMatchesAndNoDefaultRole
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:712
+
+39) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleUsesDefaultRoleWhenNoMappingMatches
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:724
+
+40) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenUserAlreadyHasTargetRole
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:749
+
+41) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenUserAlreadyHasTargetRoleAsInt
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:761
+
+42) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleLogsAndSkipsWhenDefaultRoleNotFound
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:777
+
+43) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignByNameSkipsWhenRoleAlreadyAssigned
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:802
+
+44) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenGroupAttributeKeyIsEmpty
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:826
+
+45) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsMalformedMappingRows
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:842
+
+46) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testExactGroupMatchReturnsConfiguredRoleId
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:137
+
+47) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testCaseInsensitiveGroupMatch
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:159
+
+48) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testFirstMatchingGroupWins
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:181
+
+49) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testNoGroupMatchFallsBackToDefaultRole
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:211
+
+50) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testEmptyGroupsArrayUsesDefaultRole
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:233
+
+51) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testDefaultRoleUsedWhenNoMappingsConfigured
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:254
+
+52) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testIsAdminUserReturnsTrueWhenUserFoundByEmail
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:361
+
+53) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSkipsWhenCountryNotResolvable
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:546
+
+54) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testAddressCreatedWhenStreetPresent
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:167
+
+55) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testAddressNotCreatedWhenStreetCityAndCountryAllEmpty
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:205
+
+56) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testAddressCreatedWithCountryFromRawAttrs
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:228
+
+57) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testTwoLetterCountryCodePassedThroughUppercased
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:262
+
+58) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFullCountryNameResolvedToId
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:299
+
+59) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testGenderSetOnCustomerWhenAttributePresent
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:432
+
+60) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testDobSetOnCustomerWhenAttributePresent
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:457
+
+61) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testEmptyFirstNameFallsBackToEmailPrefix
+MockBuilder::addMethods() is deprecated and will be removed in PHPUnit 12 without replacement.
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:486
+
+OK, but there were issues!
+Tests: 628, Assertions: 1422, PHPUnit Deprecations: 130.

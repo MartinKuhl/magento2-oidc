@@ -1,0 +1,68 @@
+<?php
+/** @var \M2Oidc\OAuth\Block\Adminhtml\Passkeysettings\Index $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<div class="admin__page-nav-title">
+    <span><?= $escaper->escapeHtml(__('Passkey Settings')) ?></span>
+</div>
+
+<form id="m2oidc-passkey-settings-form" action="<?= $escaper->escapeUrl($block->getSaveUrl()) ?>" method="post">
+    <input type="hidden" name="form_key" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>" />
+    <br/>
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label"><?= $escaper->escapeHtml(__('Enable Passkey Login for Admin')) ?></label>
+            <div class="admin__field-control">
+                <input type="checkbox" name="enabled_admin" value="1" class="admin__control-checkbox"
+                    id="enabled_admin" <?= $block->isEnabledForAdmin() ? 'checked="checked"' : '' ?> />
+                <label for="enabled_admin"></label>
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label">
+                <?= $escaper->escapeHtml(__('Enable Passkey Login for Customers')) ?>
+            </label>
+            <div class="admin__field-control">
+                <input type="checkbox" name="enabled_customer" value="1" class="admin__control-checkbox"
+                    id="enabled_customer" <?= $block->isEnabledForCustomer() ? 'checked="checked"' : '' ?> />
+                <label for="enabled_customer"></label>
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="rp_name">
+                <?= $escaper->escapeHtml(__('Relying Party Name')) ?>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" name="rp_name" id="rp_name" class="admin__control-text"
+                    value="<?= $escaper->escapeHtmlAttr($block->getRpName()) ?>"
+                    placeholder="<?= $escaper->escapeHtmlAttr(
+                        (string) __('Shown in the browser/OS passkey prompt. Defaults to the store name.')
+                    ) ?>" />
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="rp_id">
+                <?= $escaper->escapeHtml(__('Relying Party ID (domain) Override')) ?>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" name="rp_id" id="rp_id" class="admin__control-text"
+                    value="<?= $escaper->escapeHtmlAttr($block->getConfiguredRpId()) ?>"
+                    placeholder="<?= $escaper->escapeHtmlAttr((string) __(
+                        'Defaults to the store base URL\'s domain. '
+                        . 'A single RP ID means passkeys are not portable across different store domains.'
+                    )) ?>" />
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions">
+        <button type="submit" class="action-primary"><?= $escaper->escapeHtml(__('Save Passkey Settings')) ?></button>
+    </div>
+</form>
+
+<br/>
+
+<h3><?= $escaper->escapeHtml(__('Registered Passkeys')) ?></h3>
+<p><?= $escaper->escapeHtml(__(
+    'All passkeys registered across admin and customer accounts. '
+    . 'Use this for lockout recovery — e.g. a user lost their device.'
+)) ?></p>

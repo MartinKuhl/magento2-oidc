@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Magento 2 module that provides OAuth/OIDC authentication for both customer (frontend) and admin (backend) users. The module is registered as `M2Oidc_OAuth` and supports automatic admin and customer login after successful OIDC authentication, multi-provider configuration, RP-Initiated Logout, back-channel and front-channel logout, headless/PWA login, claims-based access control, per-attribute claim transformers, CLI config export/import, and Zitadel-specific Base64-encoded claims with nested role normalization.
 
+The module also ships a second, fully independent passwordless login method — **Passkey (WebAuthn/FIDO2) authentication** — for both admin and customer users, unrelated to any external IdP. It's backed by `web-auth/webauthn-lib` and bridges into Magento's native `Auth::login()` the same way OIDC does (a single-use ephemeral token, never a password). See "Passkey (WebAuthn) Authentication Flow" below.
+
 Deeper protocol-level and historical notes live under `Docs/` (`TECHNICAL_DOCUMENTATION.md`, `Dev-Doc.md`, `zitadel-m2oidc-setup.md`) — this file stays a map of the codebase; consult those for full protocol detail.
 
 ## Magento 2 Development Commands
@@ -142,6 +144,14 @@ The module implements a dual authentication flow for admin and customer users:
    - Issues a Magento customer token and returns an HTML page that posts it to the opener window via `window.postMessage` (target restricted to the store's base URL origin), then closes the popup
    - No session cookie is created — the token is the sole credential, suited to PWA/headless storefronts
 
+9. **Passkey (WebAuthn) Authentication** — independent of the OIDC flow above; no external IdP involved:
+   - Toggled per user type at **M2 OIDC > Passkey Settings** (`m2oidc_passkey/general/{enabled_admin,enabled_customer,rp_name,rp_id}` in `core_config_data` — not `system.xml`)
+   - **Registration** (self-service, already-authenticated only): `RegistrationOptions` builds a `PublicKeyCredentialCreationOptions` (discoverable/resident key required, ES256/RS256, `attestation=none`) via `Model/Passkey/PasskeyRegistrationService`; `RegistrationVerify` verifies the attestation and persists the credential to `m2oidc_passkey_credentials`
+   - **Customer login** (usernameless/discoverable): `Controller/Actions/Passkey/LoginOptions` returns assertion options with empty `allowCredentials`; `LoginVerify` verifies the assertion via `PasskeyAuthenticationService`, mints a one-time nonce (`m2passkey_customer_nonce` cookie, 120s), and hands off to `PasskeyCustomerCallback` — the same clean-HTTP-context pattern as `CustomerOidcCallback`
+   - **Admin login** (email-scoped): `Controller/Adminhtml/Actions/Passkey/LoginOptions` scopes `allowCredentials` to the typed email's own credentials when a match exists; `LoginVerify` verifies the assertion, mints a `PKEY_`-prefixed ephemeral token (mirrors OIDC's `OIDC_`-prefixed one), and calls `Auth::login($email, $token)` — `PasskeyCredentialPlugin` injects `PasskeyCredentialAdapter` the same way `OidcCredentialPlugin` injects `OidcCredentialAdapter`. Sets `is_passkey_authenticated` on the auth storage and a `passkey_authenticated` cookie (admin session lifetime)
+   - **Lockout recovery**: `M2Oidc_OAuth::passkey_settings` ACL-gated admins can delete any user's credential from the Registered Passkeys grid; self-service delete endpoints only ever touch the caller's own credentials
+   - **Cleanup**: `AdminUserDeletePlugin` / `CustomerDeleteObserver` delete all of a deleted user's passkey credentials alongside the existing OIDC mapping cleanup
+
 ### Key Components
 
 #### Controllers (Controller/Actions/)
@@ -159,6 +169,14 @@ The module implements a dual authentication flow for admin and customer users:
 - `BackChannelLogout.php`: OIDC Back-Channel Logout; POST endpoint for IdP server-side logout; IP-based rate limiting via `OidcRateLimiter` (returns HTTP 429 on exceeded limit); supports both string and array formats for the `aud` claim; destroys sessions via the shared `SessionDestructionService`
 - `FrontChannelLogout.php`: OIDC Front-Channel Logout; `GET` endpoint for IdP iframe-based logout (Entra, some Keycloak configs); looks up sessions via `OidcSessionRegistry` and destroys them via the shared `SessionDestructionService`; always returns a 1×1 GIF
 - `Controller/Health/Check.php`: Unauthenticated health check; checks per-provider config completeness (`clientID`, `access_token_endpoint`) and `is_active` — does not make outbound HTTP calls to the IdP
+
+#### Passkey Controllers — Frontend (Controller/Passkey/, Controller/Actions/Passkey/)
+- `Controller/Passkey/Index.php`: `GET m2oidc/passkey/index` — customer "My Account > Passkeys" page; implements `AccountInterface` so Magento's customer auth plugin auto-redirects anonymous visitors to login
+- `Actions/Passkey/RegistrationOptions.php` / `RegistrationVerify.php`: Self-service, logged-in customer only; build creation options / verify attestation and persist via `PasskeyRegistrationService`
+- `Actions/Passkey/Delete.php`: Self-service delete — scoped to the logged-in customer's own credentials (`deleteOwnedCredential()`)
+- `Actions/Passkey/LoginOptions.php`: Anonymous; returns assertion options with **empty `allowCredentials`** — usernameless/discoverable login
+- `Actions/Passkey/LoginVerify.php`: Anonymous; verifies the assertion via `PasskeyAuthenticationService`, mints a one-time nonce (`createCustomerPasskeyLoginNonce`), sets the `m2passkey_customer_nonce` cookie (120s), redirects to `PasskeyCustomerCallback`
+- `Actions/Passkey/PasskeyCustomerCallback.php`: Clean-HTTP-context handoff target, mirrors `CustomerOidcCallback.php`; redeems the nonce, enforces cross-website guard, calls `CustomerSession::setCustomerAsLoggedIn()`
 
 #### Console Commands (Console/Command/)
 - `ExportOidcConfig.php`: `bin/magento oidc:config:export [--provider-id=<id>] [--output=<file>]`; exports one or all provider rows to JSON; `client_secret` and `health_alert_webhook_url` are Magento-encrypted in the output (`--no-encrypt` for testing only); `EXCLUDED_FIELDS = ['received_oidc_claims', 'last_test_status', 'last_test_at', 'health_alert_consecutive_failures', 'health_alert_last_status', 'health_alert_first_failure_at', 'health_alert_last_notified_at']` are stripped from every exported row (these carry internal claim-key names and test-run/cron-owned runtime metadata that isn't portable across environments)
@@ -186,15 +204,26 @@ The module implements a dual authentication flow for admin and customer users:
 - `Sessions/Delete.php`: POST handler for deleting individual session activity records; validates `id` param, calls `UserProviderResource::deleteById()`; requires admin resource `M2Oidc_OAuth::oidc_sessions`
 - `Adminhtml/Actions/HealthCheck.php`: Admin health check with configuration diagnostics
 
+#### Passkey Controllers — Admin (Controller/Adminhtml/Actions/Passkey/, Controller/Adminhtml/Passkeysettings/)
+- `Actions/Passkey/RegistrationOptions.php` / `RegistrationVerify.php`: Self-service, already-authenticated admin only (`ADMIN_RESOURCE = Magento_Backend::admin`); build creation options / verify attestation for the current admin's own account
+- `Actions/Passkey/Delete.php`: Self-service delete — scoped to the authenticated admin's own credentials
+- `Actions/Passkey/LoginOptions.php`: Anonymous; does **not** extend `Backend\App\Action` (reachable pre-auth, mirrors `Oidccallback.php`); scopes `allowCredentials` to the typed email's own admin credentials when a match exists, otherwise discoverable
+- `Actions/Passkey/LoginVerify.php`: Anonymous; verifies the assertion, mints a `PKEY_` ephemeral token via `PasskeySecurityHelper::createPasskeyAuthToken()`, calls `Auth::login($email, $token)`; on success sets `is_passkey_authenticated` on the auth storage and a `passkey_authenticated` cookie (duration = `admin/security/session_lifetime`)
+- `Passkeysettings/Index.php`: Admin page **Passkey Settings** (`/admin/m2oidc/passkeysettings/index`, `ADMIN_RESOURCE = M2Oidc_OAuth::passkey_settings`) — enable/disable toggles, RP name/ID form, plus the cross-user Registered Passkeys grid (`m2oidc_passkey_listing` UI component) for lockout recovery
+- `Passkeysettings/Save.php`: Writes `enabled_admin`/`enabled_customer`/`rp_name`/`rp_id` to `core_config_data` under `m2oidc_passkey/general/*` and cleans the config cache
+- `Passkeysettings/Delete.php`: `POST /admin/m2oidc/passkeysettings/delete` — ACL-gated, deletes **any** user's credential by row ID (`deleteById()`); the lockout-recovery counterpart to the self-service `Delete.php` controllers above
+
 #### Authentication Integration (Model/Auth/)
 - `OidcCredentialAdapter.php`: Implements `StorageInterface` to bridge OIDC with Magento's native auth
   - Validates ephemeral auth token (single-use, 300s TTL from cache) — never checks password
   - Fires `admin_user_authenticate_before` and `admin_user_authenticate_after` events with `oidc_auth` marker
   - **PHP 8 serialization**: uses `__serialize()` / `__unserialize()` (replaces `__sleep()`/`__wakeup()`); `__unserialize()` eagerly calls `restoreDependencies()` and reloads User from DB — no more lazy `ObjectManager::getInstance()`
   - Proxies User model methods via `__call()` magic method
+- `PasskeyCredentialAdapter.php`: Structurally identical to `OidcCredentialAdapter` (same `StorageInterface`, `__serialize()`/`__unserialize()`, `restoreDependencies()`, `__call()` proxy) but validates a `PKEY_`-prefixed token via `PasskeySecurityHelper::validateAndConsumePasskeyAuthToken()` instead of an OIDC one, and dispatches `admin_user_authenticate_before/after` with a `passkey_auth` marker (password logged as the literal string `'[PASSKEY]'`, never left empty)
 
 #### Plugins (Plugin/)
 - `Auth/OidcCredentialPlugin.php`: Intercepts `Auth::getCredentialStorage()` to inject OIDC adapter; detects ephemeral token format (non-consuming); unconditionally clears OIDC flag in `afterLogin()` (guards against stale state in recycled PHP-FPM workers)
+- `Auth/PasskeyCredentialPlugin.php`: Structurally identical to `OidcCredentialPlugin` but detects the `PKEY_` token format and injects `PasskeyCredentialAdapter`; sortOrder 12 (between `OidcCredentialPlugin` at 10 and `OidcLogoutPlugin` at 20 on `Magento\Backend\Model\Auth`) — the two token formats are deliberately distinct so the plugins can never both claim the same login
 - `Auth/OidcLogoutPlugin.php`: `aroundLogout` on `Magento\Backend\Model\Auth`; orchestrates RP-Initiated Logout; reads session **before** `proceed()`; handles Authelia forward-auth detection; calls RFC 7009 revocation
 - `AdminLoginRestrictionPlugin.php`: `beforeLogin` on `Magento\Backend\Model\Auth`; blocks non-OIDC logins when `m2oidc_disable_non_oidc_admin_login` is set; safety net allows normal login if no OIDC button is shown (prevents lockout)
 - `CustomerLoginRestrictionPlugin.php`: Blocks non-OIDC customer logins when configured; analogous to admin restriction
@@ -205,14 +234,17 @@ The module implements a dual authentication flow for admin and customer users:
 - `User/OidcIdentityVerificationPlugin.php`: Bypasses identity verification prompts for OIDC admin users
 - `User/Block/OidcIdentityFieldPlugin.php`: Hides identity verification form field for OIDC users
 - `User/Block/OidcUserInfoPlugin.php`: Injects OIDC info block into admin user profile page
+- `User/Block/PasskeyUserInfoPlugin.php`: Injects the passkey registration/management UI into the admin User Edit / My Account (Account Settings) form, after the OIDC info block — `Magento\User\Block\User\Edit\Tab\Main` (sortOrder 40) and `Magento\Backend\Block\System\Account\Edit\Form` (sortOrder 30)
 - `Customer/Block/OidcInfoPlugin.php`: Injects OIDC info block into customer account page
 - `Csp/OidcCspPolicyCollector.php`: Adds IdP domains to Content Security Policy whitelist dynamically
-- `User/AdminUserDeletePlugin.php`: `afterDelete` on `Magento\User\Model\User`; removes the matching row from `m2oidc_oauth_user_provider` after admin user deletion; works alongside `AdminUserDeleteObserver` for belt-and-suspenders reliability
+- `User/AdminUserDeletePlugin.php`: `afterDelete` on `Magento\User\Model\User`; removes the matching row from `m2oidc_oauth_user_provider` **and** all of the deleted admin's `m2oidc_passkey_credentials` rows; works alongside `AdminUserDeleteObserver` for belt-and-suspenders reliability
 
 #### Helpers (Helper/)
 - `OAuthUtility.php`: **Thin facade** — delegates logging to `OidcLogger` (public readonly `$oidcLogger`), provider resolution to `ProviderResolver` (public readonly `$providerResolver`), config reads to `OidcConfigReader` (public readonly `$configReader`), and DB ops to `OidcProviderRepository` (inherited from `Data`). `isBlank()` does not treat the literal string `"0"` as blank.
 - `OAuthSecurityHelper.php`: Security primitives — PKCE generation/verification (S256/PLAIN), state token create/validate/consume (one-time use), relay state encode/decode (JSON+Base64 — the legacy pipe-delimited fallback lives in `ReadAuthorizationResponse.php`, not here), OIDC nonce store/consume, **ephemeral admin login tokens** (`createOidcAuthToken()` / `validateAndConsumeOidcAuthToken()` with **300s (5-minute) cache TTL**), **customer login nonces** (`createCustomerLoginNonce()` / `redeemCustomerLoginNonce()`, **300s TTL**), redirect URL validation (same-origin check; also rejects null bytes and backslashes as bypass vectors). **All one-time token storage/consumption now uses `AtomicCacheInterface::save()` / `getAndDelete()`** — eliminates TOCTOU race between separate load+remove calls. **Admin login nonces are provider-bound**: `createAdminLoginNonce(string $email, int $providerId = 0)` stores `providerId` alongside `email` in the nonce payload, and `redeemAdminLoginNonce(string $nonce, int $expectedProviderId = 0)` cross-validates it — a nonce minted under one provider's context cannot be redeemed under a different provider's context. `CheckAttributeMappingAction` passes `$this->providerId` when minting the nonce; `Controller/Adminhtml/Actions/Oidccallback.php` reads the `oidc_provider_id_transport` cookie early and passes it into `redeemAdminLoginNonce()`.
 - `JwtVerifier.php`: Fetches JWKS (cached with configurable per-provider TTL via `jwks_cache_ttl` column, default 86400 s, read via `OAuthConstants::JWKS_CACHE_TTL`); verifies JWT signature; validates issuer/audience/nonce; logs WARNING when nonce validation is skipped (null `expectedNonce`); circuit-breaker: opens a 60 s `m2oidc_jwks_fail_*` cache flag after a failed JWKS re-fetch to prevent hammering an unavailable IdP
+- `PasskeyConfig.php`: Global (non-provider-scoped) passkey config — `isEnabledForAdmin()`/`isEnabledForCustomer()`, `getRpName()`/`getRpId()` (fall back to store frontend name / base-URL host when unset), `getOrigin()` (scheme://host[:port] the WebAuthn ceremony's `AllowedOrigins` must match). Reads `m2oidc_passkey/general/*` — there is no per-provider passkey config, unlike everything else in `OidcConfigReader`
+- `PasskeySecurityHelper.php`: Passkey security primitives, structurally parallel to `OAuthSecurityHelper` but with a distinct `PKEY_` marker — one-time WebAuthn challenge nonces (`createChallengeNonce()`/`redeemChallengeNonce()`, 300s TTL), ephemeral `PKEY_` admin login bridge tokens (`createPasskeyAuthToken()`/`validateAndConsumePasskeyAuthToken()`, 300s TTL), customer login handoff nonces (`createCustomerPasskeyLoginNonce()`/`redeemCustomerPasskeyLoginNonce()`), and a deterministic non-PII WebAuthn user handle (`deriveUserHandle()` = `sha256($userType:$userId)`). All storage via `AtomicCacheInterface`.
 - `Data.php`: Base config data access; all DB operations on `m2oidc_oauth_client_apps` delegated to `OidcProviderRepository`; ~100 lines of inline DB logic removed
 - `SessionHelper.php`: Cross-origin SSO cookie helpers (SameSite=None); `updateSessionCookies()` re-sets cookies for cross-origin flows
 - `OAuthConstants.php`: Constants for config paths and defaults
@@ -295,6 +327,15 @@ The module implements a dual authentication flow for admin and customer users:
 **Health Checks (Model/Health/):**
 - `ProviderReachabilityChecker.php`: Content-level reachability probe used by `Cron/HealthCheckAlert.php`. Prefers the provider's `jwks_endpoint`, confirming the response decodes to JSON containing a `keys` field; falls back to `well_known_config_url`, checking for an `authorization_endpoint` field, when no JWKS endpoint is configured. Returns `null` (nothing to check — caller should skip, not count as a failure) when neither endpoint is configured. Mirrors the same JWKS check already used by `Controller/Adminhtml/Actions/HealthCheck.php`'s admin-facing health check, so the automated alerting cron and the manual "Health Check" button agree on what "reachable" means.
 
+**Passkey (Model/Passkey/, Model/PasskeyCredential*, Model/ResourceModel/PasskeyCredential*):**
+- `Passkey/WebauthnCeremonyFactory.php`: Single seam constructing every `web-auth/webauthn-lib` object (serializer with `NoneAttestationStatementSupport` only, RP entity, ES256/RS256 params, `AuthenticatorSelectionCriteria` with `residentKey=required`, ceremony step managers with `AllowedOrigins` locked to `PasskeyConfig::getOrigin()`), configured from `PasskeyConfig`
+- `Passkey/PasskeyRegistrationService.php`: Builds `PublicKeyCredentialCreationOptions` and verifies+persists the attestation; shared by admin and customer self-service registration controllers
+- `Passkey/PasskeyAuthenticationService.php`: Builds `PublicKeyCredentialRequestOptions` and verifies the assertion, bumping the stored credential's signature counter; shared by admin and customer login controllers
+- `Passkey/StoredCredential.php`: Readonly DTO pairing a `m2oidc_passkey_credentials` row with the deserialized `Webauthn\CredentialRecord`
+- `PasskeyCredential.php` + `PasskeyCredentialFactory.php`: ORM model/factory for `m2oidc_passkey_credentials`
+- `ResourceModel/PasskeyCredential.php` + `PasskeyCredentialRepository.php`: Resource model + app-level repository — the sole seam between webauthn-lib's `Webauthn\CredentialRecord` and DB storage; key methods `saveNewCredential()`, `findByRawCredentialId()`, `findAllForUser()`/`getDescriptorsForUser()`, `updateAfterAuthentication()`, `deleteAllForUser()` (account-deletion cleanup), `deleteOwnedCredential()` (self-service delete), `deleteById()` (ACL-gated any-user delete)
+- `ResourceModel/PasskeyCredential/Collection.php` + `CollectionFactory.php`: Backs the Registered Passkeys admin grid and per-user credential lookups
+
 **ORM Models:**
 - `M2oidcOauthClientApps.php` + ResourceModel: Primary provider configuration model
 - `OauthAttributeMapping.php` + ResourceModel: Normalized attribute mappings
@@ -318,11 +359,12 @@ The module implements a dual authentication flow for admin and customer users:
 - `AdminTokenAutoRefreshObserver.php`: Listens to `controller_action_predispatch` (adminhtml); calls `AdminTokenRefreshService::refreshIfNeeded()` to silently renew the admin access token before expiry
 - `TestConfigRequestObserver.php`: Detects a test-config request and renders the test-results body inline. Bound to `controller_action_predispatch` in both `etc/frontend/events.xml` and `etc/adminhtml/events.xml`.
 - `AdminUserDeleteObserver.php`: Fires on `admin_user_delete_after` (global area); removes the matching row from `m2oidc_oauth_user_provider` so the Sessions activity view stays accurate
-- `CustomerDeleteObserver.php`: Fires on `customer_delete`; same cleanup for customer OIDC mappings
+- `CustomerDeleteObserver.php`: Fires on `customer_delete`; removes the customer's OIDC mapping row **and** all of the customer's `m2oidc_passkey_credentials` rows (via `PasskeyCredentialRepository::deleteAllForUser()`)
 
 #### UI Components (Ui/)
 - `Ui/Component/DataProvider.php`: Data provider for provider management grid
 - `Ui/Component/DataProvider/SessionDataProvider.php`: Data provider for active sessions admin UI (`/admin/m2oidc/sessions/index`)
+- `Ui/Component/DataProvider/PasskeyCredentialDataProvider.php`: Data provider for the Registered Passkeys grid on the Passkey Settings page; collection-backed (no cross-table joins needed)
 - `Ui/Component/Listing/Column/Actions.php`: Provider grid row actions
 - `Ui/Component/Listing/Column/OnlineStatus.php`: Shows active OIDC session status in provider listing
 - `Ui/Component/Listing/Column/ActiveUserCount.php`: Shows user counts as **"total (active)"** — total includes historical OIDC-linked users; active excludes deleted Magento accounts
@@ -331,16 +373,21 @@ The module implements a dual authentication flow for admin and customer users:
 - `Ui/Component/Listing/Column/TestStatusOptions.php`: Test status badge column
 - `Ui/Component/Listing/Column/ActiveStatus.php`: Colored Active/Inactive badge for provider listing; reads `is_active` from collection data — no extra DB query; green bullet for Active, red bullet for Inactive
 - `Ui/Component/Listing/Column/SessionActions.php`: Renders "Delete" action link per row in the session activity grid; generates POST URL via `UrlBuilder`; includes confirmation dialog
+- `Ui/Component/Listing/Column/PasskeyActions.php`: Renders "Delete" action link per row in the Registered Passkeys grid; posts to the ACL-gated `Passkeysettings/Delete.php` (any-user delete), not the self-service one
 
 #### Frontend Assets (view/adminhtml/web/)
 - `js/dirtyTracking.js`: Vanilla JS (ES5-compatible) that snapshots provider form values on page load and highlights modified fields with amber border (`m2oidc-field-modified` CSS class) and modified rows (`m2oidc-row-modified`); uses `MutationObserver` to track dynamically added mapping rows
+- `js/passkey-manage.js`: Drives the admin self-service passkey registration/delete UI injected by `PasskeyUserInfoPlugin`; loaded via `requirejs-config.js` deps alongside `unlink-button.js`
 - `css/adminSettings.css`: Styles for dirty-field highlighting (amber borders, row accents)
 - `images/m2oidc_logo.png`: Module logo used in admin menu and README
 
 #### Blocks (Block/)
 - `OAuth.php`: Template block class for admin/customer configuration pages and SSO buttons; exposes 26 public methods. Note that `MappingRepository::getAdminRoleMappings()` is the actively-used role-mapping accessor — the block-level method of the same name is a different, unused method. Three methods look unused at a glance but are called directly by templates: `isDebugLogEnable()` (`view/adminhtml/templates/misc.phtml`), `getSSOButtonText()` (`view/frontend/templates/authentication_popup_data.phtml`), `getCustomerSession()` (`view/frontend/templates/invalidate.phtml`).
   - `resolveButtonColor(?string $raw, string $fallback): string` / `resolveButtonLabel(?string $rawLabel, string $displayName): string`: shared `#rrggbb`-validation-with-fallback and label-resolution helpers, used by both `adminssobutton.phtml` and `customerssobutton.phtml`.
+- `Passkey.php`: "Login with Passkey" button block, reused on both the admin login page and the customer login page (`getUrl()` resolves to the correct area automatically, same convention as `OAuth.php`)
+- `Passkey/ManagePasskeys.php`: Customer "My Account > Passkeys" self-service list/register/delete block
 - `Adminhtml/OidcErrorMessage.php`: OIDC error display block (unchanged)
+- `Adminhtml/Passkeysettings/Index.php`: Passkey Settings page block — form field accessors plus Registered Passkeys grid URLs
 
 #### Logging
 - Custom logger: `Logger/Logger.php` and `Logger/Handler.php`
@@ -393,19 +440,32 @@ The module implements a dual authentication flow for admin and customer users:
 - **IdP binding is enforced at login**: `ProcessUserAction` (customer) and `CheckAttributeMappingAction` (admin) call `getBoundProviderId()` on every login; if the stored `provider_id` differs from the current provider the login is rejected with `OAuthMessages::PROVIDER_MISMATCH`. If no binding exists yet (pre-OIDC account), the first IdP to authenticate the user claims the binding via `saveMapping()`.
 - Records can be individually deleted from the Sessions admin UI (`Sessions/Delete.php`)
 
+`m2oidc_passkey_credentials`:
+- Registered WebAuthn passkey credentials for admin and customer users; one row per credential (a user may register several, one per device)
+- `credential_id`: primary key
+- `user_type`: 'customer' | 'admin'
+- `user_id`: customer entity_id or admin user_id
+- `public_key_credential_id`: base64url-encoded WebAuthn credential ID reported by the authenticator; unique constraint, the lookup key for login
+- `credential_record`: full serialized `Webauthn\CredentialRecord` JSON (public key, signature counter, trust path, AAGUID) — `PasskeyCredentialRepository` is the sole seam between this blob and webauthn-lib's typed object
+- `nickname`: user-assigned label, nullable, max 191 chars
+- `transports`: denormalized comma-separated transports for display only
+- `created_at`, `last_used_at`: timestamps
+- Index on `(user_type, user_id)`; **no FK to `admin_user`/`customer_entity`** — cleanup on account deletion is explicit (`AdminUserDeletePlugin`, `CustomerDeleteObserver`), not an FK cascade
+
 ### Configuration
 
 **Dependency injection (etc/di.xml):**
 - `CheckAttributeMappingAction`: Injected with `UserProvisioningService`, admin factories, cookie managers, `OAuthSecurityHelper`
 - `AdminUserCreator`/`CustomerUserCreator`: Injected with `MappingRepository` for normalized lookups; also injected with `MapperPool` (nullable)
 - `OidcCredentialPlugin`/`OidcCredentialAdapter`: Full DI for auth integration
+- `PasskeyCredentialPlugin`/`PasskeyCredentialAdapter`: Full DI for passkey auth integration, mirroring `OidcCredentialPlugin`/`OidcCredentialAdapter`
 - `Oidccallback`: Injected with `Auth`, `OAuthSecurityHelper`, `ScopeConfigInterface`
 - **MapperPool** registered with `default_admin` / `default_customer` defaults; third-party modules add `{providerId}_{type}` overrides
 - **OidcRateLimiter** configured with `FixedWindowStrategy` by default
 - **OidcSlidingWindowRateLimiter** virtual type: same type as `OidcRateLimiter` but injected with `SlidingWindowStrategy` — use for Redis deployments
 - **AtomicCacheInterface** preference: `RedisAtomicCache` by default (falls back to `FileAtomicCache`-style behavior when its dedicated Redis connection is unavailable)
 - Plugins registered on:
-  - `Magento\Backend\Model\Auth`: `AdminLoginRestrictionPlugin` (sortOrder 5), `OidcCredentialPlugin` (10), `OidcLogoutPlugin` (20)
+  - `Magento\Backend\Model\Auth`: `AdminLoginRestrictionPlugin` (sortOrder 5), `OidcCredentialPlugin` (10), `PasskeyCredentialPlugin` (12), `OidcLogoutPlugin` (20)
   - `Magento\Captcha\Observer\CheckUserLoginBackendObserver`: `OidcCaptchaBypassPlugin` (10)
   - `Magento\Customer\Api\AccountManagementInterface`: `CustomerLoginRestrictionPlugin` (5)
   - `Magento\User\Model\User`: `OidcIdentityVerificationPlugin` (10), `AdminUserDeletePlugin` (20)
@@ -435,6 +495,7 @@ The module implements a dual authentication flow for admin and customer users:
 - Sign In Settings: `/admin/m2oidc/signinsettings/index`
 - Sessions: `/admin/m2oidc/sessions/index` (active OIDC sessions; unlink a provider binding via `POST /admin/m2oidc/provider/unlinkuser`)
 - Health Check: `/admin/m2oidc/actions/healthcheck`
+- Passkey Settings: `/admin/m2oidc/passkeysettings/index` (enable/disable toggles, RP name/ID, cross-user Registered Passkeys grid for lockout recovery; ACL `M2Oidc_OAuth::passkey_settings`) — settings are stored in `core_config_data` under `m2oidc_passkey/general/*`, not `system.xml`
 
 ### Security Features
 
@@ -450,6 +511,7 @@ The module implements a dual authentication flow for admin and customer users:
 | **Back-Channel Logout** | Active | Server-to-server logout via JWT logout token; session destruction by ID |
 | **Front-Channel Logout** | Active | IdP-iframe-based logout (Entra/Keycloak); `sid`-based session lookup via `OidcSessionRegistry`; shares `SessionDestructionService` with Back-Channel Logout |
 | **Headless / PWA Login** | Active | Per-provider `headless_mode` flag; token delivered via `postMessage` instead of a session cookie |
+| **Passkey (WebAuthn) Login** | Active | Independent of OIDC; discoverable/resident credentials only (ES256/RS256, `attestation=none`); WebAuthn ceremonies locked to the configured RP ID/origin; bridged into `Auth::login()` via a `PKEY_`-prefixed ephemeral token (300s TTL), sharing the same `OidcRateLimiter` as OIDC endpoints |
 | **RP-Initiated Logout** | Active | Admin + customer; id_token_hint; RFC 7009 token revocation; Authelia compat |
 | **Logout Guard** | Active | `oidc_logout_guard` cookie — **120s TTL for admin** (`OidcLogoutPlugin`), **300s TTL for customer** (`OAuthLogoutObserver`); prevents auto-redirect loop after IdP logout |
 | **Login Restriction** | Configurable | Block non-OIDC logins per provider; safety net prevents lockout |
@@ -458,7 +520,7 @@ The module implements a dual authentication flow for admin and customer users:
 | **XSS Prevention** | Active | Error messages sanitized; non-printable chars removed |
 | **Open Redirect** | Protected | `validateRedirectUrl()` enforces same-origin; rejects login-page relay states |
 | **CAPTCHA Bypass** | Controlled | Intentional bypass for OIDC (auth already done at IdP) |
-| **Password Bypass** | Protected | `OidcPasswordExpirationPlugin`, `OidcForcePasswordChangePlugin` suppress password flows for OIDC users |
+| **Password Bypass** | Protected | `OidcPasswordExpirationPlugin`, `OidcForcePasswordChangePlugin`, `OidcIdentityVerificationPlugin` suppress password flows for OIDC **and** passkey-authenticated admins alike (checking the `oidc_authenticated`/`passkey_authenticated` cookies or session flags) |
 | **Stale Flag Guard** | Active | `OidcCredentialPlugin` unconditionally clears OIDC flag in `afterLogin()` |
 | **Per-User IdP Binding** | Active | `ProcessUserAction` / `CheckAttributeMappingAction` check `m2oidc_oauth_user_provider` on every login; cross-IdP login rejected with `PROVIDER_MISMATCH`; first OIDC login of a pre-existing account claims the binding |
 | **Lockout Prevention** | Active | Provider save auto-reverts `disable_non_oidc_*_login` if no OIDC users exist yet for that provider |
@@ -795,6 +857,13 @@ Before deploying OIDC changes, verify:
   - Open provider edit form, modify a field → amber border appears on changed field
   - Save and reload → no amber borders on unmodified fields
 
+- [ ] **Test passkey registration and login** (independent of the above — no OIDC provider needed):
+  - Enable both toggles at **M2 OIDC > Passkey Settings**
+  - Customer: register a passkey from **My Account > Passkeys**, log out, log back in with **Login with Passkey** (no email typed) — verify `PasskeyCustomerCallback` establishes the session
+  - Admin: register a passkey from the user profile page, log out, log back in with **Login with Passkey** (email typed) — verify `is_passkey_authenticated`/`passkey_authenticated` cookie set and standard admin auth events fire
+  - Lockout recovery: delete a user's passkey from the Registered Passkeys grid on the Passkey Settings page and confirm it can no longer be used to log in
+  - Account deletion: delete the test customer/admin and confirm their `m2oidc_passkey_credentials` rows are gone
+
 ---
 
 ## Testing Structure
@@ -853,7 +922,7 @@ Don't trust a hardcoded test-count figure in documentation — run `grep -c "fun
 - `DexDiscoveryTest.php`: OIDC discovery document handling
 - `AbstractOidcIntegrationTest.php`: Shared base class (not a test suite itself)
 
-**Coverage**: All critical flows covered. `OidcAuthenticationService` Zitadel Base64 scenarios covered in `Test/Unit/Model/Service/OidcAuthenticationServiceTest.php`.
+**Coverage**: All critical OIDC flows covered. `OidcAuthenticationService` Zitadel Base64 scenarios covered in `Test/Unit/Model/Service/OidcAuthenticationServiceTest.php`. **Gap**: the Passkey (WebAuthn) feature has no dedicated unit or integration test suite yet — `Observer/CustomerDeleteObserverTest.php` covers passkey-credential cleanup on customer deletion only, incidentally, as part of the broader delete-observer test. If you touch `Model/Passkey/*`, `Helper/PasskeySecurityHelper.php`, `Helper/PasskeyConfig.php`, or the passkey controllers, there is no existing regression coverage to lean on — write it as you go rather than assuming it exists.
 
 ---
 

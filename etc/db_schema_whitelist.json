@@ -79,7 +79,12 @@
             "health_alert_consecutive_failures": true,
             "health_alert_last_status": true,
             "health_alert_first_failure_at": true,
-            "health_alert_last_notified_at": true
+            "health_alert_last_notified_at": true,
+            "claim_encoding": true,
+            "jwks_cache_ttl": true,
+            "http_timeout": true,
+            "log_file_suffix": true,
+            "headless_mode": true
         },
         "index": {
             "M2OIDC_OAUTH_CLIENT_APPS_IS_ACTIVE_LOGIN_TYPE_SORT_ORDER": true
@@ -110,7 +115,9 @@
             "provider_id": true,
             "attribute_type": true,
             "attribute_name": true,
-            "sync_on_sso": true
+            "sync_on_sso": true,
+            "transform_function": true,
+            "transform_params": true
         },
         "constraint": {
             "PRIMARY": true,
@@ -139,6 +146,26 @@
             "MOOAUTH_ROLE_MAPPING_PROVIDER_ID_FK": true,
             "M2OIDC_OAUTH_ROLE_MAPPINGS_PROVIDER_ID_MAPPING_TYPE_OIDC_GROUP": true,
             "FK_19667ED91AD83A7465EBF72738BC0690": true
+        }
+    },
+    "m2oidc_passkey_credentials": {
+        "column": {
+            "credential_id": true,
+            "user_type": true,
+            "user_id": true,
+            "public_key_credential_id": true,
+            "credential_record": true,
+            "nickname": true,
+            "transports": true,
+            "created_at": true,
+            "last_used_at": true
+        },
+        "index": {
+            "M2OIDC_PASSKEY_CREDENTIALS_USER_TYPE_USER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "M2OIDC_PASSKEY_CREDENTIALS_PUBLIC_KEY_CREDENTIAL_ID": true
         }
     }
 }

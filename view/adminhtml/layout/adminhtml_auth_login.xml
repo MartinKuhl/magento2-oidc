@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="admin_login" />
     <body>
         <!-- OIDC Error Messages -->
@@ -26,8 +27,8 @@
         
         <!-- SSO Login Button — jetzt in form.additional.info statt form.buttons -->
         <referenceContainer name="form.additional.info">
-            <block class="M2Oidc\OAuth\Block\OAuth" 
-                name="m2oidc.oauth.admin.link" 
+            <block class="M2Oidc\OAuth\Block\OAuth"
+                name="m2oidc.oauth.admin.link"
                 template="adminssobutton.phtml"
                 after="-">
                 <arguments>
@@ -36,6 +37,10 @@
                     </argument>
                 </arguments>
             </block>
+            <block class="M2Oidc\OAuth\Block\Passkey"
+                name="m2oidc.passkey.admin.login"
+                template="passkeyloginbutton.phtml"
+                after="m2oidc.oauth.admin.link"/>
         </referenceContainer>
     </body>
 </page>

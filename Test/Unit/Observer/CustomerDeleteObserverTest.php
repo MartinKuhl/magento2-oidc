@@ -7,6 +7,7 @@ namespace M2Oidc\OAuth\Test\Unit\Observer;
 use Magento\Customer\Model\Customer;
 use Magento\Framework\Event;
 use Magento\Framework\Event\Observer;
+use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredentialRepository;
 use M2Oidc\OAuth\Model\ResourceModel\UserProvider;
 use M2Oidc\OAuth\Observer\CustomerDeleteObserver;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -20,13 +21,20 @@ class CustomerDeleteObserverTest extends TestCase
     /** @var UserProvider&MockObject */
     private UserProvider $userProviderResource;
 
+    /** @var PasskeyCredentialRepository&MockObject */
+    private PasskeyCredentialRepository $passkeyCredentialRepository;
+
     /** @var CustomerDeleteObserver */
     private CustomerDeleteObserver $observer;
 
     protected function setUp(): void
     {
         $this->userProviderResource = $this->createMock(UserProvider::class);
-        $this->observer = new CustomerDeleteObserver($this->userProviderResource);
+        $this->passkeyCredentialRepository = $this->createMock(PasskeyCredentialRepository::class);
+        $this->observer = new CustomerDeleteObserver(
+            $this->userProviderResource,
+            $this->passkeyCredentialRepository
+        );
     }
 
     private function buildObserver(int $customerId): Observer
@@ -44,6 +52,10 @@ class CustomerDeleteObserverTest extends TestCase
             ->expects($this->once())
             ->method('deleteMapping')
             ->with('customer', 7);
+        $this->passkeyCredentialRepository
+            ->expects($this->once())
+            ->method('deleteAllForUser')
+            ->with('customer', 7);
 
         $this->observer->execute($this->buildObserver(7));
     }
@@ -53,6 +65,9 @@ class CustomerDeleteObserverTest extends TestCase
         $this->userProviderResource
             ->expects($this->never())
             ->method('deleteMapping');
+        $this->passkeyCredentialRepository
+            ->expects($this->never())
+            ->method('deleteAllForUser');
 
         $this->observer->execute($this->buildObserver(0));
     }

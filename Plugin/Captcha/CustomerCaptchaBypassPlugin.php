@@ -56,10 +56,12 @@ class CustomerCaptchaBypassPlugin
         callable $proceed,
         Observer $observer
     ) {
-        // Check for OIDC authentication marker in event data
-        if ($observer->getEvent()->getData('oidc_auth') === true) {
+        // Check for OIDC or passkey authentication marker in event data
+        if ($observer->getEvent()->getData('oidc_auth') === true
+            || $observer->getEvent()->getData('passkey_auth') === true
+        ) {
             $this->oauthUtility->customlog(
-                "Customer CAPTCHA: Bypassing validation for OIDC"
+                "Customer CAPTCHA: Bypassing validation for OIDC/passkey"
             );
             // Return subject without calling proceed()
             // This skips CAPTCHA validation

@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!-- This XML is used to add a menu item to our Magento Admin Backend Settings Page -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <!-- Adding a OAuth Client menu item in admin backend for access to other sub settings -->
         <add id="M2Oidc_OAuth::OAuth"
@@ -40,10 +41,19 @@
             action="m2oidc/sessions/index"
             resource="M2Oidc_OAuth::oidc_sessions"/>
 
+        <!-- Passkey Settings: enable/disable toggles, RP config, and cross-user credential management -->
+        <add id="M2Oidc_OAuth::passkey_settings"
+            title="Passkey Settings"
+            module="M2Oidc_OAuth"
+            sortOrder="2"
+            parent="M2Oidc_OAuth::OAuth"
+            action="m2oidc/passkeysettings/index"
+            resource="M2Oidc_OAuth::passkey_settings"/>
+
         <add id="M2Oidc_OAuth::signin_settings"
             title="Miscellaneous"
             module="M2Oidc_OAuth"
-            sortOrder="2"
+            sortOrder="3"
             parent="M2Oidc_OAuth::OAuth"
             action="m2oidc/signinsettings"
             resource="M2Oidc_OAuth::signin_settings"/>

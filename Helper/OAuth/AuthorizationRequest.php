@@ -50,12 +50,12 @@ class AuthorizationRequest
     /**
      * @var string|null PKCE code_challenge (RFC 7636 §4.2) — null when PKCE is disabled (FEAT-01)
      */
-    private ?string $codeChallenge = null;
+    private readonly ?string $codeChallenge;
 
     /**
      * @var string|null PKCE code_challenge_method ('S256' or 'plain') — null when PKCE is disabled
      */
-    private ?string $codeChallengeMethod = null;
+    private readonly ?string $codeChallengeMethod;
 
     /**
      * Initialize authorization request parameters.

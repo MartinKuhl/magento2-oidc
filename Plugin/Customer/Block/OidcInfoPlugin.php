@@ -107,7 +107,7 @@ class OidcInfoPlugin
         $needle = '</tbody>';
         $pos    = strrpos($result, $needle);
         if ($pos !== false) {
-            $result = substr_replace($result, $row . $needle, $pos, strlen($needle));
+            return substr_replace($result, $row . $needle, $pos, strlen($needle));
         }
 
         return $result;

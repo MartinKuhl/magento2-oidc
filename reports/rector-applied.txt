@@ -1,0 +1,564 @@
+
+ [WARNING] The per-version PHP set                                              
+           "/var/www/html/github/magento2-oidc-sso/vendor/rector/rector/src/Set/
+           ValueObject/../../../config/set/php81.php" is deprecated. Use        
+           "withPhpSets()" or "withPhpLevel()" instead, they pick the rules by  
+           your PHP version automatically.                                      
+
+
+ [WARNING] The per-version PHP set                                              
+           "/var/www/html/github/magento2-oidc-sso/vendor/rector/rector/src/Set/
+           ValueObject/../../../config/set/php82.php" is deprecated. Use        
+           "withPhpSets()" or "withPhpLevel()" instead, they pick the rules by  
+           your PHP version automatically.                                      
+
+  0/13 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ [WARNING] The per-version PHP set                                              
+           "/var/www/html/github/magento2-oidc-sso/vendor/rector/rector/src/Set/
+           ValueObject/../../../config/set/php81.php" is deprecated. Use        
+           "withPhpSets()" or "withPhpLevel()" instead, they pick the rules by  
+           your PHP version automatically.                                      
+
+
+ [WARNING] The per-version PHP set                                              
+           "/var/www/html/github/magento2-oidc-sso/vendor/rector/rector/src/Set/
+           ValueObject/../../../config/set/php82.php" is deprecated. Use        
+           "withPhpSets()" or "withPhpLevel()" instead, they pick the rules by  
+           your PHP version automatically.                                      
+
+[1G[2K 13/13 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+13 files with changes
+=====================
+
+1) Controller/Actions/CheckAttributeMappingAction.php:359
+
+    ---------- begin diff ----------
+@@ Line 359 @@
+                 $this->oauthUtility->customlog("Admin callback URL: " . $adminCallbackUrl);
+
+                 return $this->resultRedirectFactory->create()->setUrl($adminCallbackUrl);
+-            } else {
+-                // User tried to login as admin but has no admin account
+-                // Check if auto-create admin is enabled (per-provider first, then global config)
+-                $autoCreateAdmin = $this->providerAutoCreateAdmin
+-                    ?? $this->oauthUtility->getStoreConfig(OAuthConstants::AUTO_CREATE_ADMIN);
+-                $autoCreateMsg = "Auto-create admin setting: ";
+-                $autoCreateMsg .= ($autoCreateAdmin ? 'ENABLED' : 'DISABLED');
+-                $this->oauthUtility->customlog($autoCreateMsg);
++            }
++            // User tried to login as admin but has no admin account
++            // Check if auto-create admin is enabled (per-provider first, then global config)
++            $autoCreateAdmin = $this->providerAutoCreateAdmin
++                ?? $this->oauthUtility->getStoreConfig(OAuthConstants::AUTO_CREATE_ADMIN);
++            $autoCreateMsg = "Auto-create admin setting: ";
++            $autoCreateMsg .= ($autoCreateAdmin ? 'ENABLED' : 'DISABLED');
++            $this->oauthUtility->customlog($autoCreateMsg);
++            if ($autoCreateAdmin) {
++                $this->oauthUtility->customlog("=== Auto-creating admin user for: " . $userEmail . " ===");
+
+-                if ($autoCreateAdmin) {
+-                    $this->oauthUtility->customlog("=== Auto-creating admin user for: " . $userEmail . " ===");
++                // Extract attributes using configured mappings
++                $adminFirstName = $flattenedAttrs[$this->firstName] ?? null;
++                $adminLastName = $flattenedAttrs[$this->lastName] ?? null;
++                $adminUserName = $flattenedAttrs[$this->usernameAttribute] ?? $userEmail;
+
+-                    // Extract attributes using configured mappings
+-                    $adminFirstName = $flattenedAttrs[$this->firstName] ?? null;
+-                    $adminLastName = $flattenedAttrs[$this->lastName] ?? null;
+-                    $adminUserName = $flattenedAttrs[$this->usernameAttribute] ?? $userEmail;
++                $mappedLog = sprintf(
++                    'Mapped attributes - userName: %s, firstName: %s, lastName: %s',
++                    $adminUserName,
++                    $adminFirstName ?? '',
++                    $adminLastName ?? ''
++                );
++                $this->oauthUtility->customlog($mappedLog);
+
+-                    $mappedLog = sprintf(
+-                        'Mapped attributes - userName: %s, firstName: %s, lastName: %s',
+-                        $adminUserName,
+-                        $adminFirstName ?? '',
+-                        $adminLastName ?? ''
+-                    );
+-                    $this->oauthUtility->customlog($mappedLog);
+-
+-                    // Get groups from OIDC response
+-                    $groupAttribute = $this->oauthUtility->getStoreConfig(OAuthConstants::MAP_GROUP);
+-                    $userGroups = [];
+-                    if (!empty($groupAttribute)) {
+-                        $rawGroups = $flattenedAttrs[$groupAttribute] ?? $attrs[$groupAttribute] ?? null;
+-                        $userGroups = $this->oidcAuthenticationService->normalizeGroups($rawGroups);
+-                    }
+-                    $groupsJson = json_encode($userGroups) ?: '[]';
+-                    $this->oauthUtility->customlog("User groups from OIDC: " . $groupsJson);
+-
+-                    // Create the admin user via UserProvisioningService (fires before/after events)
+-                    $adminUser = $this->userProvisioningService->provisionAdmin(
+-                        $userEmail,
+-                        $adminUserName,
+-                        $adminFirstName,
+-                        $adminLastName,
+-                        $userGroups,
+-                        $this->providerId,
+-                        $flattenedAttrs
+-                    );
++                // Get groups from OIDC response
++                $groupAttribute = $this->oauthUtility->getStoreConfig(OAuthConstants::MAP_GROUP);
++                $userGroups = [];
++                if (!empty($groupAttribute)) {
++                    $rawGroups = $flattenedAttrs[$groupAttribute] ?? $attrs[$groupAttribute] ?? null;
++                    $userGroups = $this->oidcAuthenticationService->normalizeGroups($rawGroups);
++                }
++                $groupsJson = json_encode($userGroups) ?: '[]';
++                $this->oauthUtility->customlog("User groups from OIDC: " . $groupsJson);
+
+-                    if ($adminUser && $adminUser->getId()) {
+-                        $this->oauthUtility->customlog("Admin user created successfully. ID: " . $adminUser->getId());
++                // Create the admin user via UserProvisioningService (fires before/after events)
++                $adminUser = $this->userProvisioningService->provisionAdmin(
++                    $userEmail,
++                    $adminUserName,
++                    $adminFirstName,
++                    $adminLastName,
++                    $userGroups,
++                    $this->providerId,
++                    $flattenedAttrs
++                );
+
+-                        // Sync profile and role for the newly created admin (if enabled)
+-                        $this->syncAdminProfileIfEnabled($adminUser, $flattenedAttrs, $attrs);
+-                        $this->syncAdminRoleIfEnabled($adminUser, $flattenedAttrs, $attrs);
++                if ($adminUser instanceof \Magento\User\Model\User && $adminUser->getId()) {
++                    $this->oauthUtility->customlog("Admin user created successfully. ID: " . $adminUser->getId());
+
+-                        // Redirect to admin callback for login
+-                        $nonce = $this->securityHelper->createAdminLoginNonce($userEmail, $this->providerId);
+-                        $this->cookieManager->setPublicCookie(
+-                            'oidc_admin_nonce',
+-                            $nonce,
+-                            $this->cookieMetadataFactory->createPublicCookieMetadata()
+-                                ->setDuration(120)
+-                                ->setPath('/' . $this->backendUrl->getAreaFrontName())
+-                                ->setHttpOnly(true)
+-                                ->setSecure(true)
+-                                ->setSameSite('Lax')
+-                        );
+-                        $adminCallbackUrl = $this->backendUrl->getUrl('m2oidc/actions/oidccallback');
+-                        $this->oauthUtility->customlog("Redirecting to admin callback: " . $adminCallbackUrl);
++                    // Sync profile and role for the newly created admin (if enabled)
++                    $this->syncAdminProfileIfEnabled($adminUser, $flattenedAttrs, $attrs);
++                    $this->syncAdminRoleIfEnabled($adminUser, $flattenedAttrs, $attrs);
+
+-                        return $this->resultRedirectFactory->create()->setUrl($adminCallbackUrl);
+-                    } else {
+-                        $this->oauthUtility->customlog("ERROR: Failed to create admin user for: " . $userEmail);
+-                        $groupList = implode(', ', array_map(fn(string $v): string => $v, $userGroups));
+-                        $errorMessage = OAuthMessages::parse(
+-                            'ADMIN_ROLE_MAPPING_NO_MATCH',
+-                            ['groups' => $groupList !== '' ? $groupList : '(none)']
+-                        );
+-                        $adminLoginUrl = $this->backendUrl->getUrl('admin')
+-                            . '?oidc_error=' . urlencode(base64_encode($errorMessage));
+-                        return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
+-                    }
+-                } else {
+-                    // Auto-create disabled - show error
+-                    $errorMsg = "ERROR: Admin login attempted but no admin account exists for: ";
+-                    $this->oauthUtility->customlog($errorMsg . $userEmail);
+-                    $errorMessage = OAuthMessages::parse(
+-                        'ADMIN_ACCOUNT_NOT_FOUND',
+-                        ['email' => $userEmail]
++                    // Redirect to admin callback for login
++                    $nonce = $this->securityHelper->createAdminLoginNonce($userEmail, $this->providerId);
++                    $this->cookieManager->setPublicCookie(
++                        'oidc_admin_nonce',
++                        $nonce,
++                        $this->cookieMetadataFactory->createPublicCookieMetadata()
++                            ->setDuration(120)
++                            ->setPath('/' . $this->backendUrl->getAreaFrontName())
++                            ->setHttpOnly(true)
++                            ->setSecure(true)
++                            ->setSameSite('Lax')
+                     );
+-                    $adminLoginUrl = $this->backendUrl->getUrl('admin')
+-                        . '?oidc_error=' . urlencode(base64_encode($errorMessage));
+-                    return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
++                    $adminCallbackUrl = $this->backendUrl->getUrl('m2oidc/actions/oidccallback');
++                    $this->oauthUtility->customlog("Redirecting to admin callback: " . $adminCallbackUrl);
++
++                    return $this->resultRedirectFactory->create()->setUrl($adminCallbackUrl);
+                 }
++                $this->oauthUtility->customlog("ERROR: Failed to create admin user for: " . $userEmail);
++                $groupList = implode(', ', array_map(fn(string $v): string => $v, $userGroups));
++                $errorMessage = OAuthMessages::parse(
++                    'ADMIN_ROLE_MAPPING_NO_MATCH',
++                    ['groups' => $groupList !== '' ? $groupList : '(none)']
++                );
++                $adminLoginUrl = $this->backendUrl->getUrl('admin')
++                    . '?oidc_error=' . urlencode(base64_encode($errorMessage));
++                return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
+             }
++            // Auto-create disabled - show error
++            $errorMsg = "ERROR: Admin login attempted but no admin account exists for: ";
++            $this->oauthUtility->customlog($errorMsg . $userEmail);
++            $errorMessage = OAuthMessages::parse(
++                'ADMIN_ACCOUNT_NOT_FOUND',
++                ['email' => $userEmail]
++            );
++            $adminLoginUrl = $this->backendUrl->getUrl('admin')
++                . '?oidc_error=' . urlencode(base64_encode($errorMessage));
++            return $this->resultRedirectFactory->create()->setUrl($adminLoginUrl);
+         }
+
+         // Customer login flow (either explicit customer intent or default)
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveAlwaysElseRector
+ * BinaryOpNullableToInstanceofRector
+
+
+2) Controller/Actions/ReadAuthorizationResponse.php:570
+
+    ---------- begin diff ----------
+@@ Line 570 @@
+                 );
+
+                 return $this->attrMappingAction->handle($mappingContext);
+-            } else {
+-                $this->oauthUtility->customlog("ERROR: Invalid token response - no access_token or id_token");
+-                $encodedError = base64_encode('Invalid response from OAuth provider. Please try again.');
+-                // Test mode: show error on showTestResults instead of admin login
+-                if (strpos((string) $relayState, 'showTestResults') !== false) {
+-                    $safeRelay = $this->securityHelper->validateRedirectUrl(
+-                        (string) $relayState,
+-                        $this->url->getUrl('customer/account/login')
+-                    );
+-                    $errorUrl = rtrim($safeRelay, '/') . '?oidc_error=' . urlencode($encodedError);
+-                    return $this->_redirect($errorUrl);
+-                }
+-                return $this->_redirect($this->resolveErrorLoginUrl($loginType, $encodedError));
++            }
++            $this->oauthUtility->customlog("ERROR: Invalid token response - no access_token or id_token");
++            $encodedError = base64_encode('Invalid response from OAuth provider. Please try again.');
++            // Test mode: show error on showTestResults instead of admin login
++            if (strpos((string) $relayState, 'showTestResults') !== false) {
++                $safeRelay = $this->securityHelper->validateRedirectUrl(
++                    (string) $relayState,
++                    $this->url->getUrl('customer/account/login')
++                );
++                $errorUrl = rtrim($safeRelay, '/') . '?oidc_error=' . urlencode($encodedError);
++                return $this->_redirect($errorUrl);
+             }
++            return $this->_redirect($this->resolveErrorLoginUrl($loginType, $encodedError));
+         }
+         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+         $resultRedirect = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_REDIRECT);
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveAlwaysElseRector
+
+
+3) Controller/Actions/ShowTestResults.php:61
+
+    ---------- begin diff ----------
+@@ Line 61 @@
+     /**
+      * @var string Absolute path to the PHTML template used for rendering test results.
+      */
+-    private string $templatePath = '';
++    private readonly string $templatePath;
+
+     /**
+      * Initialize ShowTestResults action.
+@@ Line 386 @@
+         }
+
+         if ($nestedChunks !== []) {
+-            $keys = array_merge($keys, ...$nestedChunks);
++            return array_merge($keys, ...$nestedChunks);
+         }
+
+         return $keys;
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveDefaultValueFromAssignedPropertyRector
+ * ReturnEarlyIfVariableRector
+ * ReadOnlyPropertyRector
+
+
+4) Helper/OAuth/AuthorizationRequest.php:50
+
+    ---------- begin diff ----------
+@@ Line 50 @@
+     /**
+      * @var string|null PKCE code_challenge (RFC 7636 §4.2) — null when PKCE is disabled (FEAT-01)
+      */
+-    private ?string $codeChallenge = null;
++    private readonly ?string $codeChallenge;
+
+     /**
+      * @var string|null PKCE code_challenge_method ('S256' or 'plain') — null when PKCE is disabled
+      */
+-    private ?string $codeChallengeMethod = null;
++    private readonly ?string $codeChallengeMethod;
+
+     /**
+      * Initialize authorization request parameters.
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveDefaultValueFromAssignedPropertyRector
+ * ReadOnlyPropertyRector
+
+
+5) Helper/TestResults.php:31
+
+    ---------- begin diff ----------
+@@ Line 31 @@
+     public function output(\Exception|null $exception = null, bool $hasException = false, array $data = []): string
+     {
+         $html = '';
+-        if ($hasException && $exception) {
++        if ($hasException && $exception instanceof \Exception) {
+             $errOut = $this->escaper->escapeHtml($exception->getMessage());
+             $html .= "<div class='error'>" . $errOut . "</div>";
+         } else {
+    ----------- end diff -----------
+
+Applied rules:
+ * BinaryOpNullableToInstanceofRector
+
+
+6) Model/Auth/OidcCredentialAdapter.php:27
+
+    ---------- begin diff ----------
+@@ Line 27 @@
+ class OidcCredentialAdapter implements StorageInterface
+ {
+     /** @var UserFactory|null */
+-    private ?UserFactory $userFactory = null;
++    private ?UserFactory $userFactory;
+
+     /** @var ManagerInterface|null */
+-    private ?ManagerInterface $eventManager = null;
++    private ?ManagerInterface $eventManager;
+
+     /** @var OAuthUtility|null */
+-    private ?OAuthUtility $oauthUtility = null;
++    private ?OAuthUtility $oauthUtility;
+
+     /** @var OAuthSecurityHelper|null */
+-    private ?OAuthSecurityHelper $securityHelper = null;
++    private ?OAuthSecurityHelper $securityHelper;
+
+     /** @var \Magento\User\Model\User|null */
+     private ?\Magento\User\Model\User $user = null;
+@@ Line 48 @@
+     private bool $isRestoringDependencies = false;
+
+     /** @var UserResourceModel|null */
+-    private ?UserResourceModel $userResource = null;
++    private ?UserResourceModel $userResource;
+
+     /** @var UserCollectionFactory|null */
+-    private ?UserCollectionFactory $userCollectionFactory = null;
++    private ?UserCollectionFactory $userCollectionFactory;
+
+     /**
+      * Initialize OIDC credential adapter.
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveDefaultValueFromAssignedPropertyRector
+
+
+7) Model/Auth/PasskeyCredentialAdapter.php:28
+
+    ---------- begin diff ----------
+@@ Line 28 @@
+ class PasskeyCredentialAdapter implements StorageInterface
+ {
+     /** @var UserFactory|null */
+-    private ?UserFactory $userFactory = null;
++    private ?UserFactory $userFactory;
+
+     /** @var ManagerInterface|null */
+-    private ?ManagerInterface $eventManager = null;
++    private ?ManagerInterface $eventManager;
+
+     /** @var OAuthUtility|null */
+-    private ?OAuthUtility $oauthUtility = null;
++    private ?OAuthUtility $oauthUtility;
+
+     /** @var PasskeySecurityHelper|null */
+-    private ?PasskeySecurityHelper $securityHelper = null;
++    private ?PasskeySecurityHelper $securityHelper;
+
+     /** @var \Magento\User\Model\User|null */
+     private ?\Magento\User\Model\User $user = null;
+@@ Line 49 @@
+     private bool $isRestoringDependencies = false;
+
+     /** @var UserResourceModel|null */
+-    private ?UserResourceModel $userResource = null;
++    private ?UserResourceModel $userResource;
+
+     /** @var UserCollectionFactory|null */
+-    private ?UserCollectionFactory $userCollectionFactory = null;
++    private ?UserCollectionFactory $userCollectionFactory;
+
+     /**
+      * @param UserFactory           $userFactory
+    ----------- end diff -----------
+
+Applied rules:
+ * RemoveDefaultValueFromAssignedPropertyRector
+
+
+8) Model/Passkey/PasskeyAuthenticationService.php:79
+
+    ---------- begin diff ----------
+@@ Line 79 @@
+         }
+
+         $stored = $this->credentialRepository->findByRawCredentialId($publicKeyCredential->rawId);
+-        if ($stored === null) {
++        if (!$stored instanceof \M2Oidc\OAuth\Model\Passkey\StoredCredential) {
+             throw new \RuntimeException('This passkey is not registered.');
+         }
+    ----------- end diff -----------
+
+Applied rules:
+ * FlipTypeControlToUseExclusiveTypeRector
+
+
+9) Model/Passkey/StoredCredential.php:10
+
+    ---------- begin diff ----------
+@@ Line 10 @@
+  * A single row from m2oidc_passkey_credentials, paired with its deserialized
+  * Webauthn\CredentialRecord.
+  */
+-final class StoredCredential
++final readonly class StoredCredential
+ {
+     public function __construct(
+-        public readonly int $dbId,
+-        public readonly string $userType,
+-        public readonly int $userId,
+-        public readonly CredentialRecord $record,
+-        public readonly ?string $nickname,
+-        public readonly string $createdAt = '',
++        public int $dbId,
++        public string $userType,
++        public int $userId,
++        public CredentialRecord $record,
++        public ?string $nickname,
++        public string $createdAt = '',
+     ) {
+     }
+ }
+    ----------- end diff -----------
+
+Applied rules:
+ * ReadOnlyClassRector
+
+
+10) Model/Passkey/WebauthnCeremonyFactory.php:36
+
+    ---------- begin diff ----------
+@@ Line 36 @@
+
+     public function getSerializer(): SerializerInterface
+     {
+-        if ($this->serializer === null) {
++        if (!$this->serializer instanceof \Symfony\Component\Serializer\SerializerInterface) {
+             $attestationStatementSupportManager = new AttestationStatementSupportManager([
+                 new NoneAttestationStatementSupport(),
+             ]);
+@@ Line 74 @@
+     public function getAuthenticatorSelectionCriteria(): AuthenticatorSelectionCriteria
+     {
+         return AuthenticatorSelectionCriteria::create(
+-            residentKey: AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_REQUIRED,
+-            userVerification: AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED
++            userVerification: AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_PREFERRED,
++            residentKey: AuthenticatorSelectionCriteria::RESIDENT_KEY_REQUIREMENT_REQUIRED
+         );
+     }
+    ----------- end diff -----------
+
+Applied rules:
+ * SortCallLikeNamedArgsRector
+ * FlipTypeControlToUseExclusiveTypeRector
+
+
+11) Model/ResourceModel/OidcProviderRepository.php:67
+
+    ---------- begin diff ----------
+@@ Line 67 @@
+             $data['client_secret'] = $this->decryptSecretWithLogging((string) $data['client_secret'], $appName);
+         }
+         if ($data !== null) {
+-            $data = $this->decryptWebhookUrl($data, $appName);
++            return $this->decryptWebhookUrl($data, $appName);
+         }
+
+         return $data;
+@@ Line 101 @@
+             );
+         }
+         if ($data !== null) {
+-            $data = $this->decryptWebhookUrl($data, 'id=' . $providerId);
++            return $this->decryptWebhookUrl($data, 'id=' . $providerId);
+         }
+
+         return $data;
+    ----------- end diff -----------
+
+Applied rules:
+ * ReturnEarlyIfVariableRector
+
+
+12) Plugin/Customer/Block/OidcInfoPlugin.php:107
+
+    ---------- begin diff ----------
+@@ Line 107 @@
+         $needle = '</tbody>';
+         $pos    = strrpos($result, $needle);
+         if ($pos !== false) {
+-            $result = substr_replace($result, $row . $needle, $pos, strlen($needle));
++            return substr_replace($result, $row . $needle, $pos, strlen($needle));
+         }
+
+         return $result;
+    ----------- end diff -----------
+
+Applied rules:
+ * ReturnEarlyIfVariableRector
+
+
+13) Plugin/User/Block/PasskeyUserInfoPlugin.php:51
+
+    ---------- begin diff ----------
+@@ Line 51 @@
+         if ($fieldset && $userId > 0) {
+             $credentials = $this->credentialRepository->findAllForUser('admin', $userId);
+
+-            if (empty($credentials)) {
++            if ($credentials === []) {
+                 $rows = '<div>' . $this->escaper->escapeHtml((string) __('No passkeys registered.')) . '</div>';
+             } else {
+                 $rowsHtml = '';
+    ----------- end diff -----------
+
+Applied rules:
+ * SimplifyEmptyCheckOnEmptyArrayRector
+
+
+ [OK] 13 files have been changed by Rector                                      
+

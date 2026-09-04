@@ -1,0 +1,1312 @@
+PHPUnit 11.5.56 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.5.10
+Configuration: /var/www/html/github/magento2-oidc-sso/Test/phpunit.xml
+
+EEE............................................................  63 / 628 ( 10%)
+.EEEEEEEEEEEEEEEEEEEEEEEEE..................................... 126 / 628 ( 20%)
+..................................EEEEEEEEEEEEEEEEEEEEEEEEEEEEE 189 / 628 ( 30%)
+................................EEEEEEEEEEEEEEEEEEEEEE......... 252 / 628 ( 40%)
+......................................EEEEEEEEEEEEEEEEEEEEEEEEE 315 / 628 ( 50%)
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE 378 / 628 ( 60%)
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE........... 441 / 628 ( 70%)
+..............................................EEEEEEEEEEEEEEEEE 504 / 628 ( 80%)
+EEEEEE......................................................... 567 / 628 ( 90%)
+............EEEEEEEEEEE...EEEEE..............................   628 / 628 (100%)
+
+Time: 00:00.260, Memory: 22.00 MB
+
+There were 258 errors:
+
+1) M2Oidc\OAuth\Test\Unit\Controller\Actions\CheckAttributeMappingActionIdpBindingTest::testAdminBoundToSameProviderAllowed
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Controller/Actions/CheckAttributeMappingActionIdpBindingTest.php:109
+
+2) M2Oidc\OAuth\Test\Unit\Controller\Actions\CheckAttributeMappingActionIdpBindingTest::testAdminBoundToDifferentProviderRejected
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Controller/Actions/CheckAttributeMappingActionIdpBindingTest.php:109
+
+3) M2Oidc\OAuth\Test\Unit\Controller\Actions\CheckAttributeMappingActionIdpBindingTest::testUnboundAdminFirstLoginCreatesBinding
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Controller/Actions/CheckAttributeMappingActionIdpBindingTest.php:109
+
+4) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testAlwaysIssuesPostRegardlessOfPayloadShape
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+5) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testUsesFixedWebhookTimeoutNotPerProviderTimeout
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+6) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testReturnsFailureWithoutThrowingOnException
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+7) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testReturnsFailureForNonSuccessHttpCode with data set "redirect not followed to success" (301)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+8) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testReturnsFailureForNonSuccessHttpCode with data set "client error" (404)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+9) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testReturnsFailureForNonSuccessHttpCode with data set "server error" (500)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+10) M2Oidc\OAuth\Test\Unit\Helper\CurlSendWebhookNotificationTest::testReturnsSuccessForVariousSuccessHttpCodes
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/CurlSendWebhookNotificationTest.php:40
+
+11) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testValidRs256JwtReturnsPayload
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+12) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testValidJwtWithNullIssuerAndAudienceSkipsThoseChecks
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+13) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testExpiredJwtReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+14) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testNotYetValidJwtReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+15) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testWrongIssuerReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+16) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testMissingIssuerWhenExpectedReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+17) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testWrongAudienceReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+18) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testAudienceAsArrayIsAccepted
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+19) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testInvalidSignatureReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+20) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testBadSignatureWithKnownKidDoesNotEvictCacheOrRefetch
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+21) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testUnknownKidEvictsCacheAndRefetchesViaNetwork
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+22) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testNoKidBadSignatureKeepsEvictAndRefetchBehavior
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+23) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testMissingKidFallsBackToFirstJwksKey
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+24) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testKeyRotationTriggersJwksCacheInvalidationAndRetry
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+25) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testJwkToPemProducesValidPublicKey
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+26) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testMalformedJwtWithWrongPartCountReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+27) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testUnsupportedAlgorithmReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+28) M2Oidc\OAuth\Test\Unit\Helper\JwtVerifierTest::testDecodeWithoutVerificationReturnsPayloadWithoutCheckingSignature
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Helper/JwtVerifierTest.php:86
+
+29) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveReturnsNullForEmptyString
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+30) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveReturnsNullForWhitespaceOnlyString
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+31) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveUppercasesTwoLetterCode
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+32) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveTrimsBeforeCheckingTwoLetterCode
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+33) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMatchesViaFilteredIdOrIso3Query
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+34) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMatchesViaLocaleNameScanWhenFilteredQueryMisses
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+35) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveNameScanIsCaseInsensitive
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+36) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMatchesViaIntlEnglishNameWhenOtherStepsMiss
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+37) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveReturnsNullWhenNoStepMatches
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+38) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveDoesNotFatalWhenCollectionThrows
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+39) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMemoizesResultForSameInputWithinOneRequest
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+40) M2Oidc\OAuth\Test\Unit\Model\Attribute\CountryResolverTest::testResolveMemoizationIsCaseInsensitiveByKey
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CountryResolverTest.php:40
+
+41) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsDobFormattedAsIso
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+42) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsDobFromIsoInput
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+43) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapOmitsDobKeyWhenClaimMissing
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+44) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapOmitsDobKeyWhenClaimNameNotConfigured
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+45) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsMaleGenderId
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+46) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsFemaleGenderId
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+47) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsNotSpecifiedGenderIdForUnknownValue
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+48) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapOmitsGenderKeyWhenClaimMissing
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+49) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsBillingStreet
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+50) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsBillingCity
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+51) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsBillingPostcode
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+52) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapReturnsBillingTelephone
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+53) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapResolvesCountryIsoCodeAsUppercase
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+54) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapResolvesCountryByFullName
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+55) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapOmitsCountryKeyWhenClaimMissing
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+56) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapExtractsDobViaRawAttrsDotPath
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+57) M2Oidc\OAuth\Test\Unit\Model\Attribute\CustomerAttributeMapperTest::testMapOmitsAllKeysWhenNoClaimsPresent
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Directory\Model\ResourceModel\Country\CollectionFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Attribute/CustomerAttributeMapperTest.php:40
+
+58) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testAuthenticateSucceedsWithValidMarker
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+59) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testAuthenticateDispatchesBeforeAndAfterEvents
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+60) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testAuthenticateThrowsForWrongMarker
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+61) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testAuthenticateThrowsForUnknownEmail
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+62) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testAuthenticateThrowsForInactiveUser
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+63) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testAuthenticateThrowsForUserWithNoRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+64) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testLoginRecordsLoginAndReloadsUser
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+65) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testHasAvailableResourcesDefaultsFalse
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+66) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testSetHasAvailableResourcesReturnsSelf
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+67) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testSerializeStoresOnlyScalarUserIdAndResourceFlag
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+68) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testSerializeStoresIntUserIdAfterAuthenticate
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+69) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testUnserializeCallsRestoreDependenciesEagerly
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+70) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testUnserializeRestoresHasAvailableResources
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+71) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testUnserializeLoadsUserByIdWhenUserIdPresent
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+72) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testRestoreDependenciesSkipsWhenUserFactoryAlreadySet
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+73) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testCallProxiesToUserModelAfterAuthenticate
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+74) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testCallThrowsBadMethodCallExceptionWhenUserNotLoaded
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+75) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testGetIsActiveReturnsFalseWhenUserNotLoaded
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+76) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testGetIsActiveReturnsTrueAfterAuthenticate
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+77) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testGetIdReturnsNullBeforeAuthenticate
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+78) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testGetIdReturnsUserIdAfterAuthenticate
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+79) M2Oidc\OAuth\Test\Unit\Model\Auth\OidcCredentialAdapterTest::testGetUserReturnsNullBeforeAuthenticate
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Auth/OidcCredentialAdapterTest.php:52
+
+80) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileDoesNothingWhenUserNotFound
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+81) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesFirstnameWhenChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+82) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+83) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenKeyNotInAttrs
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+84) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesLastnameWhenChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+85) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsLastnameWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+86) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesUsernameWhenAvailable
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+87) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsUsernameWhenTakenByAnotherUser
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+88) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileAllowsUsernameUpdateWhenSameUserOwnsIt
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+89) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsUsernameWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+90) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileUpdatesEmailWhenChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+91) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsEmailWhenEmailKeyIsEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+92) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsEmailWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+93) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+94) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSyncsFirstnameWhenSyncOnSsoIsOne
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+95) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsLastnameWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+96) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsUsernameWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+97) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSkipsEmailWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+98) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileLegacyModeAlwaysSyncsWhenNoNormalizedRow
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+99) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileLegacyModeWithProviderIdZeroNeverCallsMappingRepository
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+100) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileDoesNotSaveWhenNothingChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+101) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileDoesNotSaveWhenAllValuesMatch
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+102) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileExtractsFromRawAttrsWhenNotInFlat
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+103) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileFlatAttrsTakePriorityOverRaw
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+104) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileSavesOnceWhenMultipleFieldsChange
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+105) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncProfileExtractsFirstValueFromArrayAttr
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+106) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleDoesNothingWhenUserNotFound
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+107) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenNoGroupsAndNoDefaultRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+108) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenNoGroupsAndNoRoleMappings
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+109) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignsDefaultRoleWhenNoGroupsInResponse
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+110) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignsFirstMatchingRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+111) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignsSecondMappingWhenFirstGroupDoesNotMatch
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+112) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenNoMappingMatchesAndNoDefaultRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+113) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleUsesDefaultRoleWhenNoMappingMatches
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+114) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenUserAlreadyHasTargetRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+115) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenUserAlreadyHasTargetRoleAsInt
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+116) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleLogsAndSkipsWhenDefaultRoleNotFound
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+117) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleAssignByNameSkipsWhenRoleAlreadyAssigned
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+118) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsWhenGroupAttributeKeyIsEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+119) M2Oidc\OAuth\Test\Unit\Model\Service\AdminProfileSyncServiceTest::testSyncRoleSkipsMalformedMappingRows
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminProfileSyncServiceTest.php:66
+
+120) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorApplyNameFallbacksTest::testCreateAdminUserReturnsNullWhenNoRoleFound
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorApplyNameFallbacksTest.php:43
+
+121) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorApplyNameFallbacksTest::testIsAdminUserReturnsFalseWhenNoUserExists
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorApplyNameFallbacksTest.php:43
+
+122) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testExactGroupMatchReturnsConfiguredRoleId
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+123) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testCaseInsensitiveGroupMatch
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+124) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testFirstMatchingGroupWins
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+125) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testNoGroupMatchFallsBackToDefaultRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+126) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testEmptyGroupsArrayUsesDefaultRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+127) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testDefaultRoleUsedWhenNoMappingsConfigured
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+128) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testNoGroupMatchNoDefaultReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+129) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testEmptyGroupsNoDefaultReturnsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+130) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testNonNumericDefaultRoleIsIgnored
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+131) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testCreateAdminUserAbortsWithoutTouchingDbWhenNoRole
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+132) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testIsAdminUserReturnsTrueWhenUserFoundByEmail
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+133) M2Oidc\OAuth\Test\Unit\Model\Service\AdminUserCreatorRoleMappingTest::testIsAdminUserReturnsFalseWhenNoUserFound
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\User\Model\UserFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/AdminUserCreatorRoleMappingTest.php:53
+
+134) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesFirstnameWhenChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+135) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+136) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenKeyMissingFromAttrs
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+137) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesLastnameWhenChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+138) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsLastnameWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+139) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobForValidFormats with data set "Y-m-d (ISO)" ('1990-01-15', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+140) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobForValidFormats with data set "d/m/Y (EU)" ('15/01/1990', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+141) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobForValidFormats with data set "m/d/Y (US)" ('01/15/1990', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+142) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobForValidFormats with data set "d.m.Y (DE)" ('15.01.1990', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+143) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobForValidFormats with data set "Y/m/d (Alt ISO)" ('1990/01/15', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+144) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesDobViaStrtimeFallback
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+145) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsDobWhenStringIsInvalid
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+146) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsDobWhenAlreadyFormatted
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+147) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "male (string)" ('male', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+148) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "Male (capitalized)" ('Male', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+149) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "m (short)" ('m', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+150) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "M (uppercase)" ('M', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+151) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "1 (numeric male)" ('1', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+152) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "mann (German)" ('mann', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+153) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "männlich (German)" ('männlich', 1)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+154) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "female (string)" ('female', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+155) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "Female" ('Female', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+156) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "f (short)" ('f', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+157) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "F (uppercase)" ('F', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+158) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "2 (numeric female)" ('2', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+159) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "frau (German)" ('frau', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+160) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileMapsGenderStringToId with data set "weiblich (German)" ('weiblich', 2)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+161) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderWhenStringUnrecognized
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+162) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderForUnspecifiedValues with data set "other" ('other')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+163) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderForUnspecifiedValues with data set "diverse" ('diverse')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+164) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderForUnspecifiedValues with data set "numeric-3" ('3')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+165) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderWhenAlreadyMatches
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+166) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileUpdatesEmailWhenChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+167) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsEmailWhenUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+168) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsFirstnameWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+169) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSyncsFirstnameWhenSyncOnSsoIsOne
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+170) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsLastnameWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+171) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsDobWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+172) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsGenderWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+173) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileSkipsEmailWhenSyncOnSsoIsZero
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+174) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileLegacyModeDoesNotCallMappingRepository
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+175) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileLegacyModeSyncsWhenNoNormalizedRow
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+176) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileDoesNotSaveWhenNothingChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+177) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncProfileExtractsFromRawWhenNotInFlat
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+178) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSkipsWhenStreetMissing
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+179) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSkipsWhenCityMissing
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+180) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSkipsWhenCountryMissing
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+181) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSkipsWhenCountryNotResolvable
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+182) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressResolvesIso2CountryCode
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+183) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressCreatesNewAddressWhenNoneExists
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+184) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressNewAddressSetsDefaultBillingFlag
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+185) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressUpdatesExistingAddressWhenStreetChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+186) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressUpdatesExistingAddressWhenCityChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+187) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressUpdatesExistingAddressWhenCountryChanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+188) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressDoesNotSaveWhenExistingAddressIsUnchanged
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+189) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressUpdatesPhoneWhenProvided
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+190) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSkipsPhoneWhenNotProvided
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+191) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressSetsRegionWhenStateProvided
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+192) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerProfileSyncServiceTest::testSyncAddressCreatesNewAddressWhenGetByIdThrows
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerProfileSyncServiceTest.php:69
+
+193) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testAddressCreatedWhenStreetPresent
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+194) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testAddressNotCreatedWhenStreetCityAndCountryAllEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+195) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testAddressCreatedWithCountryFromRawAttrs
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+196) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testTwoLetterCountryCodePassedThroughUppercased
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+197) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFullCountryNameResolvedToId
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+198) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs with data set "male" ('male')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+199) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs with data set "Male" ('Male')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+200) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs with data set "M" ('m')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+201) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs with data set #1 ('1')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+202) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs with data set "mann" ('mann')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+203) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsMaleForVariousInputs with data set "männlich" ('männlich')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+204) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs with data set "female" ('female')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+205) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs with data set "Female" ('Female')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+206) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs with data set "f" ('f')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+207) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs with data set #2 ('2')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+208) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs with data set "frau" ('frau')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+209) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsFemaleForVariousInputs with data set "weiblich" ('weiblich')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+210) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsNullForUnknownValue
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+211) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testMapGenderReturnsNullForEmptyString
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+212) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFormatDateOfBirthParsesCorrectly with data set "ISO date" ('1990-01-15', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+213) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFormatDateOfBirthParsesCorrectly with data set "US format" ('01/15/1990', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+214) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFormatDateOfBirthParsesCorrectly with data set "Long format" ('January 15, 1990', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+215) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFormatDateOfBirthParsesCorrectly with data set "European format" ('15.01.1990', '1990-01-15')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+216) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testFormatDateOfBirthReturnsNullForInvalidInput
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+217) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testGenderSetOnCustomerWhenAttributePresent
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+218) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testDobSetOnCustomerWhenAttributePresent
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+219) M2Oidc\OAuth\Test\Unit\Model\Service\CustomerUserCreatorAddressTest::testEmptyFirstNameFallsBackToEmailPrefix
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Customer\Api\Data\AddressInterfaceFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/CustomerUserCreatorAddressTest.php:67
+
+220) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testInvalidPostLogoutUrlOverrideFallsBack with data set "plain text" ('not a url')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+221) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testInvalidPostLogoutUrlOverrideFallsBack with data set "javascript scheme" ('javascript:alert(1)')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+222) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testInvalidPostLogoutUrlOverrideFallsBack with data set "relative path" ('/customer/account/login')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+223) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testInvalidPostLogoutUrlOverrideFallsBack with data set "missing scheme" ('store.example.com/loggedout')
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+224) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testValidPostLogoutUrlOverrideIsUsedVerbatim
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+225) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testNullProviderUsesFallback
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+226) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testProviderWithoutOverrideKeyUsesFallback
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+227) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testAutheliaForwardAuthDetection with data set "authelia /logout" ('https://auth.example.com/logout', true)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+228) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testAutheliaForwardAuthDetection with data set "authelia /logout trailing /" ('https://auth.example.com/logout/', true)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+229) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testAutheliaForwardAuthDetection with data set "oauth2 proxy logout" ('https://idp.example.com/oauth2/logout', false)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+230) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testAutheliaForwardAuthDetection with data set "keycloak oidc logout" ('https://idp.example.com/realm...logout', false)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+231) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testAutheliaForwardAuthDetection with data set "standard endsession" ('https://idp.example.com/conne...ession', false)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+232) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testAutheliaForwardAuthDetection with data set "no path" ('https://idp.example.com', false)
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+233) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testBuildLogoutUrlStandardOidcShape
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+234) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testBuildLogoutUrlStandardOmitsEmptyIdTokenAndInvalidRedirect
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+235) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testBuildLogoutUrlStandardUsesAmpersandWhenEndpointHasQuery
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+236) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testBuildLogoutUrlAutheliaShape
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+237) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testBuildLogoutUrlAutheliaWithoutRedirectReturnsBareEndpoint
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+238) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testRevokeTokenSendsPostToRevocationEndpoint
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+239) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testRevokeTokenSkippedWhenProviderIsNull
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+240) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testRevokeTokenSkippedWhenRevocationEndpointIsEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+241) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testRevokeTokenSkippedWhenAccessTokenIsEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+242) M2Oidc\OAuth\Test\Unit\Model\Service\RpInitiatedLogoutServiceTest::testRevokeTokenFailureIsNonFatal
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Model/Service/RpInitiatedLogoutServiceTest.php:47
+
+243) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testNoOpWhenCustomerSessionHasNoIdToken
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+244) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testNoOpWhenProviderNotFound
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+245) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testSetsLogoutGuardCookieBeforeRedirect
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+246) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testBuildsCorrectEndSessionUrl
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+247) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testAutheliaDetectionUsesRdParam
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+248) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testTokenRevocationIsCalledWhenAccessTokenAndEndpointPresent
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+249) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testTokenRevocationSkippedWhenEndpointIsEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+250) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testTokenRevocationSkippedWhenAccessTokenIsEmpty
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+251) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testLogoutGuardCookieIsSetWithCorrectDuration
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+252) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testNoRedirectWhenEndSessionEndpointIsEmptyAndNoStoreFallback
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+253) M2Oidc\OAuth\Test\Unit\Observer\OAuthLogoutObserverTest::testStandardOidcLogoutUrlContainsCustomerStatePrefix
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Observer/OAuthLogoutObserverTest.php:75
+
+254) M2Oidc\OAuth\Test\Unit\Plugin\Auth\OidcLogoutPluginTest::testProceedCalledBeforeReadingSession
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Plugin/Auth/OidcLogoutPluginTest.php:82
+
+255) M2Oidc\OAuth\Test\Unit\Plugin\Auth\OidcLogoutPluginTest::testOidcLogoutCookieIsDeleted
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Plugin/Auth/OidcLogoutPluginTest.php:82
+
+256) M2Oidc\OAuth\Test\Unit\Plugin\Auth\OidcLogoutPluginTest::testLogoutGuardCookieIsSet
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Plugin/Auth/OidcLogoutPluginTest.php:82
+
+257) M2Oidc\OAuth\Test\Unit\Plugin\Auth\OidcLogoutPluginTest::testRedirectToEndSessionEndpoint
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Plugin/Auth/OidcLogoutPluginTest.php:82
+
+258) M2Oidc\OAuth\Test\Unit\Plugin\Auth\OidcLogoutPluginTest::testTokenRevocationIsCalled
+PHPUnit\Framework\MockObject\Generator\UnknownTypeException: Class or interface "Magento\Framework\HTTP\Adapter\CurlFactory" does not exist
+
+/var/www/html/github/magento2-oidc-sso/Test/Unit/Plugin/Auth/OidcLogoutPluginTest.php:82
+
+ERRORS!
+Tests: 628, Assertions: 872, Errors: 258, PHPUnit Deprecations: 69.

@@ -30,12 +30,12 @@ $enableDebugLog = $block->isDebugLogEnable() ? 'checked' : '';
                        <?= $escaper->escapeHtmlAttr($enableDebugLog) ?>
                        value="true">
                 Enable Debug Log
-                <input type="button"
-                       class="btn-round"
-                       name="enable_debug_log"
-                       onclick="document.getElementById('enable_debug_log').submit();"
-                       value="Submit"
-                       style="width:110px; margin-left:30px">
+                <div class="actions">
+                    <button type="button" class="action-primary"
+                            onclick="document.getElementById('enable_debug_log').submit();">
+                        <?= $escaper->escapeHtml(__('Submit')) ?>
+                    </button>
+                </div>
             </form>
 
             <!-- Download/Clear Logs Form -->
@@ -45,18 +45,13 @@ $enableDebugLog = $block->isDebugLogEnable() ? 'checked' : '';
                 <p style="margin-top:20px; margin-left:10px">
                     The error logs will be cleared automatically on a weekly basis.
                 </p>
-                <div style="text-align:left">
-                    <br>
-                    <input type="submit"
-                           class="btn-round"
-                           name="download_logs"
-                           value="Download Logs"
-                           style="width:150px; margin-left:10px">
-                    <input type="submit"
-                           class="btn-round"
-                           name="clear_logs"
-                           value="Clear Logs"
-                           style="width:150px; margin-left:10px">
+                <div class="actions">
+                    <button type="submit" class="action-primary" name="download_logs">
+                        <?= $escaper->escapeHtml(__('Download Logs')) ?>
+                    </button>
+                    <button type="submit" class="action-primary" name="clear_logs">
+                        <?= $escaper->escapeHtml(__('Clear Logs')) ?>
+                    </button>
                 </div>
             </form>
 
@@ -83,11 +78,12 @@ $enableDebugLog = $block->isDebugLogEnable() ? 'checked' : '';
                     <p style="color: #666; font-size: 0.9em; margin: 5px 0;">
                         Downloads all provider configurations as a JSON file.
                     </p>
-                    <input type="button"
-                           class="btn-round"
-                           value="Export"
-                           onclick="document.getElementById('export_oidc_config').submit();"
-                           style="width: 150px;">
+                    <div class="actions">
+                        <button type="button" class="action-primary"
+                                onclick="document.getElementById('export_oidc_config').submit();">
+                            <?= $escaper->escapeHtml(__('Export')) ?>
+                        </button>
+                    </div>
                 </div>
             </form>
 
@@ -107,11 +103,12 @@ $enableDebugLog = $block->isDebugLogEnable() ? 'checked' : '';
                            required
                            style="margin-bottom: 10px;">
                     <br>
-                    <input type="button"
-                           class="btn-round"
-                           value="Import"
-                           onclick="document.getElementById('import_oidc_config').submit();"
-                           style="width: 150px;">
+                    <div class="actions">
+                        <button type="button" class="action-primary"
+                                onclick="document.getElementById('import_oidc_config').submit();">
+                            <?= $escaper->escapeHtml(__('Import')) ?>
+                        </button>
+                    </div>
                 </div>
             </form>
 

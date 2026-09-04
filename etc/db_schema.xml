@@ -224,4 +224,35 @@
          <column name="provider_id"/>
       </index>
    </table>
+   <table name="m2oidc_passkey_credentials" resource="default" engine="innodb"
+          comment="Registered WebAuthn passkey credentials for admin and customer users">
+      <column xsi:type="int" name="credential_id" padding="10" unsigned="true" nullable="false"
+              identity="true" comment="ID"/>
+      <column xsi:type="varchar" name="user_type" nullable="false" length="10"
+              comment="User type: customer or admin"/>
+      <column xsi:type="int" name="user_id" padding="10" unsigned="true" nullable="false"
+              comment="Magento user ID (customer entity_id or admin user_id)"/>
+      <column xsi:type="varchar" name="public_key_credential_id" nullable="false" length="255"
+              comment="Base64url-encoded WebAuthn credential ID, as reported by the authenticator"/>
+      <column xsi:type="text" name="credential_record" nullable="false"
+              comment="Serialized Webauthn\CredentialRecord (public key, counter, trust path, aaguid)"/>
+      <column xsi:type="varchar" name="nickname" nullable="true" length="191"
+              comment="User-assigned label, e.g. MacBook Touch ID"/>
+      <column xsi:type="varchar" name="transports" nullable="true" length="255"
+              comment="Denormalized comma-separated transports for display (internal, hybrid, usb, ...)"/>
+      <column xsi:type="timestamp" name="created_at" nullable="false"
+              default="CURRENT_TIMESTAMP" comment="Timestamp when the credential was registered"/>
+      <column xsi:type="timestamp" name="last_used_at" nullable="true"
+              comment="Timestamp when the credential last completed a login"/>
+      <constraint xsi:type="primary" referenceId="PRIMARY">
+         <column name="credential_id"/>
+      </constraint>
+      <constraint xsi:type="unique" referenceId="M2OIDC_PASSKEY_CREDENTIALS_PUBLIC_KEY_CREDENTIAL_ID">
+         <column name="public_key_credential_id"/>
+      </constraint>
+      <index referenceId="M2OIDC_PASSKEY_CREDENTIALS_USER_TYPE_USER_ID" indexType="btree">
+         <column name="user_type"/>
+         <column name="user_id"/>
+      </index>
+   </table>
 </schema>
