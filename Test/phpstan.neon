@@ -6,6 +6,17 @@ parameters:
         min: 80200  # PHP 8.2
         max: 80500  # PHP 8.5
     level: 6
+    # bitexpert/phpstan-magento's FactoryAutoloader caches each generated factory
+    # stub's *source* under PHPStan\Cache\Cache and then does
+    # require_once($cache->load(...)) expecting a file path back — but
+    # Cache::load()/save() only ever round-trip the raw value, not a path. Under
+    # PHPStan 2.2's parallel workers this occasionally surfaces as
+    # "Failed opening required '<?php ...'" (the raw generated source getting
+    # passed to require_once as if it were a filename) for any *Factory class
+    # that isn't a real file — i.e. every Magento-generated factory, including
+    # our own. Forcing single-process analysis avoids the race.
+    parallel:
+        maximumNumberOfProcesses: 1
     paths:
         - ..
     excludePaths:
