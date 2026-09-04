@@ -9,6 +9,7 @@ use M2Oidc\OAuth\Model\Passkey\WebauthnCeremonyFactory;
 use M2Oidc\OAuth\Model\PasskeyCredential as PasskeyCredentialModel;
 use M2Oidc\OAuth\Model\PasskeyCredentialFactory;
 use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredential\CollectionFactory as PasskeyCredentialCollectionFactory;
+use M2Oidc\OAuth\Model\Service\PasskeySessionService;
 use ParagonIE\ConstantTime\Base64UrlSafe;
 use Webauthn\CredentialRecord;
 use Webauthn\PublicKeyCredentialDescriptor;
@@ -30,12 +31,14 @@ class PasskeyCredentialRepository
      * @param PasskeyCredentialFactory $modelFactory
      * @param PasskeyCredentialCollectionFactory $collectionFactory
      * @param WebauthnCeremonyFactory $ceremonyFactory
+     * @param PasskeySessionService $passkeySessionService
      */
     public function __construct(
         private readonly PasskeyCredential $resource,
         private readonly PasskeyCredentialFactory $modelFactory,
         private readonly PasskeyCredentialCollectionFactory $collectionFactory,
-        private readonly WebauthnCeremonyFactory $ceremonyFactory
+        private readonly WebauthnCeremonyFactory $ceremonyFactory,
+        private readonly PasskeySessionService $passkeySessionService
     ) {
     }
 
@@ -146,6 +149,7 @@ class PasskeyCredentialRepository
     public function deleteAllForUser(string $userType, int $userId): void
     {
         $this->resource->deleteAllForUser($userType, $userId);
+        $this->passkeySessionService->logoutUser($userType, $userId);
     }
 
     /**
@@ -157,7 +161,11 @@ class PasskeyCredentialRepository
      */
     public function deleteOwnedCredential(int $credentialId, string $userType, int $userId): bool
     {
-        return $this->resource->deleteOwnedCredential($credentialId, $userType, $userId);
+        $deleted = $this->resource->deleteOwnedCredential($credentialId, $userType, $userId);
+        if ($deleted) {
+            $this->passkeySessionService->logoutUser($userType, $userId);
+        }
+        return $deleted;
     }
 
     /**
@@ -172,7 +180,10 @@ class PasskeyCredentialRepository
         $model = $this->modelFactory->create();
         $this->resource->load($model, $credentialId);
         if ($model->getId()) {
+            $userType = (string) $model->getData('user_type');
+            $userId = (int) $model->getData('user_id');
             $this->resource->delete($model);
+            $this->passkeySessionService->logoutUser($userType, $userId);
         }
     }
 

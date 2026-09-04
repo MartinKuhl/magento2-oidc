@@ -18,6 +18,7 @@ use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Helper\PasskeySecurityHelper;
 use M2Oidc\OAuth\Model\Passkey\PasskeyAuthenticationService;
 use M2Oidc\OAuth\Model\Security\OidcRateLimiter;
+use M2Oidc\OAuth\Model\Service\PasskeySessionService;
 
 /**
  * Anonymous endpoint: verifies the browser's WebAuthn assertion and bridges
@@ -40,6 +41,7 @@ class LoginVerify implements ActionInterface, HttpPostActionInterface
      * @param CookieManagerInterface        $cookieManager
      * @param CookieMetadataFactory         $cookieMetadataFactory
      * @param ScopeConfigInterface          $scopeConfig
+     * @param PasskeySessionService         $passkeySessionService
      */
     public function __construct(
         private readonly RequestInterface $request,
@@ -53,7 +55,8 @@ class LoginVerify implements ActionInterface, HttpPostActionInterface
         private readonly OAuthUtility $oauthUtility,
         private readonly CookieManagerInterface $cookieManager,
         private readonly CookieMetadataFactory $cookieMetadataFactory,
-        private readonly ScopeConfigInterface $scopeConfig
+        private readonly ScopeConfigInterface $scopeConfig,
+        private readonly PasskeySessionService $passkeySessionService
     ) {
     }
 
@@ -113,6 +116,11 @@ class LoginVerify implements ActionInterface, HttpPostActionInterface
         /** @psalm-suppress UndefinedInterfaceMethod */
         // @phpstan-ignore-next-line
         $this->auth->getAuthStorage()->setData('is_passkey_authenticated', true);
+
+        // Register this session so a later passkey deletion can force-logout it
+        // (only takes effect when "Auto-Logout on Passkey Deletion" is enabled).
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
+        $this->passkeySessionService->registerSession('admin', $stored->userId, (string) session_id());
 
         // Persistent cookie counterpart to the session flag above — read by
         // OidcIdentityVerificationPlugin / OidcIdentityFieldPlugin, which run

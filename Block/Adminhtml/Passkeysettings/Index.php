@@ -42,6 +42,14 @@ class Index extends Template
     }
 
     /**
+     * Whether an active OIDC/passkey session is force-logged-out on passkey delete.
+     */
+    public function isAutoLogoutOnDeleteEnabled(): bool
+    {
+        return $this->passkeyConfig->isAutoLogoutOnDeleteEnabled();
+    }
+
+    /**
      * Get the configured (or default) Relying Party name.
      */
     public function getRpName(): string

@@ -25,6 +25,8 @@ class PasskeyConfig
 
     private const XML_PATH_RP_ID = 'm2oidc_passkey/general/rp_id';
 
+    private const XML_PATH_AUTO_LOGOUT_ON_DELETE = 'm2oidc_passkey/general/auto_logout_on_delete';
+
     /**
      * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
@@ -49,6 +51,17 @@ class PasskeyConfig
     public function isEnabledForCustomer(): bool
     {
         return (bool) $this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED_CUSTOMER, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * Whether an active OIDC/passkey session is force-logged-out on passkey delete.
+     */
+    public function isAutoLogoutOnDeleteEnabled(): bool
+    {
+        return (bool) $this->scopeConfig->isSetFlag(
+            self::XML_PATH_AUTO_LOGOUT_ON_DELETE,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

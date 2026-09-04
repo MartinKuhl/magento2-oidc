@@ -24,6 +24,7 @@ class Save extends Action implements HttpPostActionInterface
         'enabled_customer' => 'm2oidc_passkey/general/enabled_customer',
         'rp_name' => 'm2oidc_passkey/general/rp_name',
         'rp_id' => 'm2oidc_passkey/general/rp_id',
+        'auto_logout_on_delete' => 'm2oidc_passkey/general/auto_logout_on_delete',
     ];
 
     /**
@@ -51,6 +52,10 @@ class Save extends Action implements HttpPostActionInterface
         $this->configWriter->save(self::PATHS['enabled_customer'], $request->getParam('enabled_customer') ? '1' : '0');
         $this->configWriter->save(self::PATHS['rp_name'], trim((string) $request->getParam('rp_name', '')));
         $this->configWriter->save(self::PATHS['rp_id'], trim((string) $request->getParam('rp_id', '')));
+        $this->configWriter->save(
+            self::PATHS['auto_logout_on_delete'],
+            $request->getParam('auto_logout_on_delete') ? '1' : '0'
+        );
 
         $this->cacheTypeList->cleanType('config');
 

@@ -16,6 +16,11 @@
                 <input type="checkbox" name="enabled_admin" value="1" class="admin__control-checkbox"
                     id="enabled_admin" <?= $block->isEnabledForAdmin() ? 'checked="checked"' : '' ?> />
                 <label for="enabled_admin"></label>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Allow admin users to log in with a registered passkey (WebAuthn) instead of a password.'
+                    )) ?>
+                </div>
             </div>
         </div>
         <div class="admin__field field">
@@ -26,6 +31,28 @@
                 <input type="checkbox" name="enabled_customer" value="1" class="admin__control-checkbox"
                     id="enabled_customer" <?= $block->isEnabledForCustomer() ? 'checked="checked"' : '' ?> />
                 <label for="enabled_customer"></label>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Allow customers to log in with a registered passkey (WebAuthn) instead of a password.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label">
+                <?= $escaper->escapeHtml(__('Auto-Logout on Passkey Deletion')) ?>
+            </label>
+            <div class="admin__field-control">
+                <input type="checkbox" name="auto_logout_on_delete" value="1" class="admin__control-checkbox"
+                    id="auto_logout_on_delete"
+                    <?= $block->isAutoLogoutOnDeleteEnabled() ? 'checked="checked"' : '' ?> />
+                <label for="auto_logout_on_delete"></label>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Immediately end a user\'s active session when one of their passkeys is deleted. '
+                        . 'Applies only to sessions established via SSO or Passkey login.'
+                    )) ?>
+                </div>
             </div>
         </div>
         <div class="admin__field field">
@@ -38,6 +65,12 @@
                     placeholder="<?= $escaper->escapeHtmlAttr(
                         (string) __('Shown in the browser/OS passkey prompt. Defaults to the store name.')
                     ) ?>" />
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Display name shown by the browser/OS passkey prompt (e.g. "Use a passkey for '
+                        . 'My Store?"). Leave blank to use the store\'s frontend name.'
+                    )) ?>
+                </div>
             </div>
         </div>
         <div class="admin__field field">
@@ -51,6 +84,13 @@
                         'Defaults to the store base URL\'s domain. '
                         . 'A single RP ID means passkeys are not portable across different store domains.'
                     )) ?>" />
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'The registrable domain (e.g. "example.com") passkeys are bound to. Leave blank to use '
+                        . 'the store base URL\'s domain. Changing this invalidates existing passkeys, since a '
+                        . 'passkey registered under one domain will not authenticate on a different one.'
+                    )) ?>
+                </div>
             </div>
         </div>
     </fieldset>

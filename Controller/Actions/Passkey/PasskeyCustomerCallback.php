@@ -25,6 +25,7 @@ use M2Oidc\OAuth\Controller\Actions\BaseAction;
 use M2Oidc\OAuth\Helper\OAuthSecurityHelper;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Helper\PasskeySecurityHelper;
+use M2Oidc\OAuth\Model\Service\PasskeySessionService;
 
 /**
  * @psalm-suppress ImplicitToStringCast Magento's __() returns Phrase with __toString()
@@ -42,6 +43,7 @@ class PasskeyCustomerCallback extends BaseAction
      * @param PasskeySecurityHelper       $securityHelper
      * @param CustomerRepositoryInterface $customerRepository
      * @param OAuthSecurityHelper         $oauthSecurityHelper
+     * @param PasskeySessionService       $passkeySessionService
      */
     public function __construct(
         Context $context,
@@ -53,7 +55,8 @@ class PasskeyCustomerCallback extends BaseAction
         private readonly CookieMetadataFactory $cookieMetadataFactory,
         private readonly PasskeySecurityHelper $securityHelper,
         private readonly CustomerRepositoryInterface $customerRepository,
-        private readonly OAuthSecurityHelper $oauthSecurityHelper
+        private readonly OAuthSecurityHelper $oauthSecurityHelper,
+        private readonly PasskeySessionService $passkeySessionService
     ) {
         parent::__construct($context, $oauthUtility);
     }
@@ -116,6 +119,14 @@ class PasskeyCustomerCallback extends BaseAction
         // NOTE: Do NOT call regenerateId() here — setCustomerAsLoggedIn() already
         // regenerates the session internally; calling it again causes a session ID
         // mismatch between server and browser (same caveat as CustomerOidcCallback).
+
+        // Register this session so a later passkey deletion can force-logout it
+        // (only takes effect when "Auto-Logout on Passkey Deletion" is enabled).
+        $this->passkeySessionService->registerSession(
+            'customer',
+            (int) $customerModel->getId(),
+            $this->customerSession->getSessionId()
+        );
 
         $this->oauthUtility->customlog(
             "PasskeyCustomerCallback: Login " . ($this->customerSession->isLoggedIn() ? "successful" : "FAILED")
