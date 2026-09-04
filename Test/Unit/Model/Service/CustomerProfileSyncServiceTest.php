@@ -11,10 +11,10 @@ use Magento\Customer\Api\Data\AddressInterfaceFactory;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Api\Data\RegionInterface;
 use Magento\Customer\Api\Data\RegionInterfaceFactory;
-use Magento\Directory\Model\Country;
 use Magento\Directory\Model\ResourceModel\Country\Collection as CountryCollection;
 use Magento\Directory\Model\ResourceModel\Country\CollectionFactory as CountryCollectionFactory;
 use M2Oidc\OAuth\Helper\OAuthUtility;
+use M2Oidc\OAuth\Test\Unit\Fixtures\CountryWithId;
 use M2Oidc\OAuth\Model\Attribute\CountryResolver;
 use M2Oidc\OAuth\Model\Attribute\GenderMapper;
 use M2Oidc\OAuth\Model\Provider\MappingRepository;
@@ -117,12 +117,14 @@ class CustomerProfileSyncServiceTest extends TestCase
     /**
      * Build a fluent CountryCollection mock that returns $countryId from getFirstItem().
      * Pass null to simulate "not found".
+     * getCountryId() is declared on the CountryWithId test double since it is
+     * only reachable via Country's magic __call() on the real class.
      */
     private function makeCountryCollectionMock(?string $countryId): CountryCollection&MockObject
     {
-        $country = $this->getMockBuilder(Country::class)
+        $country = $this->getMockBuilder(CountryWithId::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getCountryId'])
+            ->onlyMethods(['getCountryId'])
             ->getMock();
         $country->method('getCountryId')->willReturn($countryId);
 

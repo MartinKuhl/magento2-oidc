@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 
 <!-- This file defines our Events -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <!-- This event is invoked before every controller is processed -->
     <event name="controller_action_predispatch">
         <observer name="m2oidc_test_config_request" instance="M2Oidc\OAuth\Observer\TestConfigRequestObserver" />
@@ -13,7 +14,8 @@
     </event>
 
     <event name="customer_logout">
-        <observer name="m2oidc_customer_set_logout_flag" instance="M2Oidc\OAuth\Observer\CustomerSetLogoutFlagObserver"/>
+        <observer name="m2oidc_customer_set_logout_flag"
+                  instance="M2Oidc\OAuth\Observer\CustomerSetLogoutFlagObserver"/>
     </event>
 
 </config>

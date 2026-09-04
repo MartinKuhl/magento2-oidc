@@ -11,6 +11,7 @@ First production release.
 ### Added
 
 - OIDC/OAuth 2.0 SSO for both Magento admin and customer login, with native integration into Magento's authentication system (no password bypass hacks — standard auth events fire correctly).
+- **Passkey (WebAuthn/FIDO2) login** for both admin and customer users, independent of any external IdP: self-service registration and passwordless sign-in via `web-auth/webauthn-lib`, bridged into Magento's native `Auth::login()` the same way OIDC is (a single-use ephemeral token, never a password). Customer login is usernameless/discoverable; admin login is email-scoped. Discoverable (resident-key) credentials only, ES256/RS256, `attestation=none`. Admins manage a global enable/disable toggle and Relying Party name/ID under **M2 OIDC > Passkey Settings**, including a cross-user "Registered Passkeys" grid for lockout recovery; end users manage their own passkeys from My Account (customers) or their user profile (admins). Credentials are automatically removed when the owning customer or admin account is deleted.
 - Multi-provider support: configure any number of OIDC/OAuth providers, each with its own client credentials, endpoints, attribute mappings, and role/group mappings.
 - PKCE (S256/plain), CSRF state tokens, replay-protected nonces, and JWT signature/issuer/audience verification via JWKS.
 - RP-Initiated Logout, Back-Channel Logout, and Front-Channel Logout, with Authelia forward-auth compatibility.
@@ -32,3 +33,4 @@ First production release.
 - SSRF protection on every admin-configured outbound URL (discovery, endpoints, webhook alerting) — loopback and RFC-1918 private ranges are rejected.
 - Lockout-prevention guard: an OIDC-only login restriction can't be enabled for a provider until at least one user has actually authenticated through it.
 - Admin login nonces are bound to the originating OIDC provider, so a nonce minted under one provider's context cannot be redeemed under another.
+- Passkey login uses its own ephemeral bridging token format (`PKEY_...`), structurally parallel to but distinct from the OIDC ephemeral token (`OIDC_...`), so the two authentication methods can never be confused for one another by the login-restriction plugins. WebAuthn challenges are one-time-use, cache-backed (not session/DB), and time-boxed to 5 minutes.

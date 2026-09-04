@@ -10,6 +10,7 @@ use Magento\User\Model\ResourceModel\User\Collection as UserCollection;
 use Magento\User\Model\ResourceModel\User\CollectionFactory as UserCollectionFactory;
 use Magento\User\Model\User;
 use Magento\User\Model\UserFactory;
+use M2Oidc\OAuth\Test\Unit\Fixtures\UserWithRoleId;
 use M2Oidc\OAuth\Helper\OAuthConstants;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Model\Attribute\AttributeMapperInterface;
@@ -85,14 +86,15 @@ class AdminUserCreatorRoleMappingTest extends TestCase
 
     /**
      * Build a mock User model that reports a given ID after save().
+     * setRoleId() is declared on the UserWithRoleId test double since it is
+     * only reachable via User's magic __call() on the real class.
      */
     private function makeUserMock(int $id = 1): User&MockObject
     {
-        $user = $this->getMockBuilder(User::class)
+        $user = $this->getMockBuilder(UserWithRoleId::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getId', 'setUsername', 'setFirstname', 'setLastname', 'setEmail',
-                           'setPassword', 'setIsActive'])
-            ->addMethods(['setRoleId'])
+                           'setPassword', 'setIsActive', 'setRoleId'])
             ->getMock();
         $user->method('getId')->willReturn($id);
         $user->method('setUsername')->willReturnSelf();

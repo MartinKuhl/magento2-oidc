@@ -49,3 +49,32 @@
     text-decoration: none;
     background-color: #113fc0;
 }
+
+/* Neutral variant for the passkey login button — matches the admin login
+   page's "Login with Passkey" button, which uses Magento admin's native
+   .action-secondary color scheme (@color-brownie / @color-very-dark-gray-black2),
+   rather than the colored per-provider OIDC buttons above it. */
+.sso-button.sso-button--neutral {
+    background-color: #514943;
+    color: #ffffff;
+    border: 1px solid #514943;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.sso-button.sso-button--neutral:hover {
+    color: #ffffff;
+    background-color: #35302c;
+    border-color: #35302c;
+}
+
+/* Magento sample-data's "Try Demo Customer Access" CMS block (login-data)
+   ships with no width rule of its own, so it stretches full-width on the
+   same broken login-page layout our own SSO/passkey elements sit in.
+   Scoped to the login page only, so unrelated .message.info notices
+   elsewhere on the storefront are unaffected. */
+.customer-account-login .message.info {
+    max-width: 470px;
+    width: 100%;
+    box-sizing: border-box;
+}

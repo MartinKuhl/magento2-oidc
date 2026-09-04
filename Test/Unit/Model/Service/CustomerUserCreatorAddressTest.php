@@ -23,6 +23,7 @@ use M2Oidc\OAuth\Model\Provider\MappingRepository;
 use M2Oidc\OAuth\Model\ResourceModel\UserProvider as UserProviderResource;
 use M2Oidc\OAuth\Model\Service\CustomerUserCreator;
 use M2Oidc\OAuth\Model\Service\GroupMappingResolver;
+use M2Oidc\OAuth\Test\Unit\Fixtures\CustomerWithSetters;
 use M2Oidc\OAuth\Model\Service\OidcAuthenticationService;
 use M2Oidc\OAuth\Model\Service\RandomPasswordGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -117,16 +118,17 @@ class CustomerUserCreatorAddressTest extends TestCase
 
     /**
      * Build a minimal Customer model mock.
+     * The setters are declared on the CustomerWithSetters test double since
+     * they are only reachable via Customer's magic __call() on the real class.
      */
     private function makeCustomerModelMock(): Customer&MockObject
     {
         $customerData = $this->createMock(CustomerInterface::class);
         $customerData->method('getId')->willReturn(101);
 
-        $model = $this->getMockBuilder(Customer::class)
+        $model = $this->getMockBuilder(CustomerWithSetters::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getDataModel'])
-            ->addMethods(['setWebsiteId', 'setEmail', 'setFirstname', 'setLastname',
+            ->onlyMethods(['getDataModel', 'setWebsiteId', 'setEmail', 'setFirstname', 'setLastname',
                           'setDob', 'setGender', 'setGroupId'])
             ->getMock();
         $model->method('setWebsiteId')->willReturnSelf();

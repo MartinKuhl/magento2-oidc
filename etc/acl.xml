@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
     <!-- Defines the Access Control for the Settings and Modules -->
     <acl>
         <resources>
@@ -18,6 +19,8 @@
                         <resource id="M2Oidc_OAuth::attr_settings" title="Attribute Mapping Settings" sortOrder="4"/>
                         <!-- OIDC Session Activity ACL definition -->
                         <resource id="M2Oidc_OAuth::oidc_sessions" title="OIDC Session Activity" sortOrder="5"/>
+                        <!-- Passkey Settings ACL definition -->
+                        <resource id="M2Oidc_OAuth::passkey_settings" title="Passkey Settings" sortOrder="6"/>
                     </resource>
                 </resource>
             </resource>

@@ -49,6 +49,7 @@ Modern e-commerce platforms require secure, centralized authentication. This mod
 - ✅ **Per-Provider Attribute Mapper Overrides**: Third-party modules can inject custom `AttributeMapperInterface` implementations per OIDC provider via DI (`MapperPool`)
 - ✅ **Sliding-Window Rate Limiter**: Redis deployments can switch to the `OidcSlidingWindowRateLimiter` virtual type for burst-tolerant sliding-window rate limiting
 - ✅ **Atomic Token Operations**: `AtomicCacheInterface` eliminates the TOCTOU race condition in one-time token consumption (nonces, state tokens, PKCE verifiers) — Redis deployments use Lua `GETDEL`
+- ✅ **Passkey (WebAuthn/FIDO2) Login**: Passwordless sign-in for both admin and customer users, independent of any external IdP — self-service registration and login backed by `web-auth/webauthn-lib`, bridged into Magento's native authentication the same way OIDC is
 
 ### Supported Identity Providers
 
@@ -248,6 +249,20 @@ Map billing and shipping addresses (30+ fields total):
 - **Show Customer SSO Link**: Display "Login with SSO" button on customer login page
 - **Show Admin SSO Link**: Display "Login with SSO" button on admin login page
 
+### Passkey Settings
+
+Passkeys (WebAuthn/FIDO2) are a passwordless login method independent of any external IdP — a device's fingerprint reader, face recognition, screen lock, or a security key stands in for a password. Configure them at **M2 OIDC > Passkey Settings**:
+
+- **Enable Passkey Login for Admin**: Shows a "Login with Passkey" button on the admin login page and lets admins register their own passkeys from their user profile
+- **Enable Passkey Login for Customers**: Shows a "Login with Passkey" button on the customer login page and adds a **My Account > Passkeys** self-service page
+- **Relying Party Name**: The name shown by the browser/OS passkey prompt (defaults to the store name)
+- **Relying Party ID (domain) Override**: The registrable domain passkeys are bound to (defaults to the store base URL's host). A single RP ID ties passkeys to one domain — see the multi-store note below
+- **Registered Passkeys**: A grid listing every passkey registered across both admin and customer accounts, with a Delete action — intended for lockout recovery when a user loses their device, not day-to-day management (users manage their own passkeys from their profile / My Account page)
+
+**Multi-store domains**: a passkey registered under one domain will not authenticate on a different domain. Multi-store installs using different domains per store view must either share one primary domain for passkey login or accept that passkeys don't carry across them.
+
+**Requirements**: HTTPS (WebAuthn requires a secure context; `localhost` is exempted for local development) and a browser with WebAuthn support (current Chrome, Edge, Safari, Firefox). The "Login with Passkey" button stays hidden automatically in unsupported browsers.
+
 #### OIDC-Only Mode (Advanced)
 
 - **Disable Non-OIDC Admin Logins**: Force all admins to use OIDC authentication
@@ -296,6 +311,22 @@ Map billing and shipping addresses (30+ fields total):
    - CAPTCHA automatically bypassed (user already authenticated at IdP)
    - All standard Magento authentication events fire correctly
 9. **Admin session established**, redirected to admin dashboard
+
+### Passwordless Login (Passkeys)
+
+Passkeys are configured and enabled independently of OIDC — no external IdP required.
+
+**Customer flow:**
+1. A logged-in customer opens **My Account > Passkeys** and clicks **Register a New Passkey**
+2. The browser prompts for the device's fingerprint, face recognition, screen lock, or a security key; the customer names the passkey (e.g. "My Phone")
+3. On a later visit, the customer clicks **Login with Passkey** on the login page — no email/username needed (usernameless/discoverable login); the browser resolves the matching passkey and the customer is signed in
+
+**Admin flow:**
+1. An already-authenticated admin registers a passkey from their user profile page
+2. On a later visit, the admin enters their email and clicks **Login with Passkey** on the admin login page; login is scoped to that admin's own registered passkeys
+3. All standard Magento admin auth events fire, exactly as with OIDC login — CAPTCHA, password re-verification, password expiration, and forced password-change prompts are all bypassed for passkey logins the same way they are for OIDC
+
+**Lockout recovery**: an administrator with access to **M2 OIDC > Passkey Settings** can delete any user's passkey (e.g. after a lost device) from the Registered Passkeys grid, without needing database access.
 
 ### Custom SSO Button in Your Theme
 
@@ -474,6 +505,33 @@ $customerLoginUrl = $oauthHelper->getSPInitiatedUrl();
 
 ---
 
+### Issue 8: "Login with Passkey" Button Doesn't Appear
+
+**Symptom**: The Passkey login button is missing from the admin or customer login page even though it's enabled.
+
+**Cause**: Either the corresponding toggle is off, or the browser doesn't support WebAuthn (the button hides itself via feature detection).
+
+**Solution**:
+1. Verify **Enable Passkey Login for Admin** / **Enable Passkey Login for Customers** is checked at **M2 OIDC > Passkey Settings**
+2. Confirm the site is served over HTTPS — WebAuthn requires a secure context (`localhost` is exempted for local development)
+3. Test in a current version of Chrome, Edge, Safari, or Firefox; older browsers without `PublicKeyCredential` support will never show the button
+4. If a customer or admin registered a passkey on a different domain (e.g. staging vs. production), it will not appear as usable here — see Issue 9
+
+---
+
+### Issue 9: Passkey Registered But Login Fails ("This passkey is not registered")
+
+**Symptom**: A user registered a passkey successfully but can't log in with it later, or the browser doesn't offer it as an option.
+
+**Cause**: Passkeys are bound to a single Relying Party ID (domain). If the **Relying Party ID (domain) Override** was changed after registration, or the site is reached via a different domain (e.g. `www.` vs. bare domain, or a staging URL), previously registered passkeys will not validate.
+
+**Solution**:
+1. Keep the **Relying Party ID** stable — set it explicitly at **M2 OIDC > Passkey Settings** rather than relying on the auto-detected store base URL if the site is reachable under multiple hostnames
+2. Have the user re-register a passkey under the current domain
+3. For multi-store installs with different domains per store view, either standardize on one domain for passkey login or accept that passkeys don't carry across store domains
+
+---
+
 ### Where to Get Help
 
 1. **Check logs**:
@@ -601,6 +659,16 @@ When multiple OIDC providers are configured, each Magento account is permanently
 - **Why this matters**: without binding, the effective security level of an account is the lowest common denominator of all IdPs. Revoking a user in one IdP would leave them able to log in via another.
 - **Manual override**: an admin can change a user's binding by updating the `provider_id` column in `m2oidc_oauth_user_provider` directly.
 
+### Passkey (WebAuthn) Security
+
+- **Public-key cryptography, not shared secrets**: the server only ever stores a public key and a signature counter — there is no password or shared secret to leak, and credentials are phishing-resistant by design (bound to the origin, so a look-alike domain cannot obtain a valid assertion)
+- **Discoverable credentials only**: registration requires a resident/discoverable key (`residentKey=required`), enabling usernameless customer login and allowing the server to resolve the account from the credential the browser presents rather than trusting client-supplied identity up front
+- **Attestation not verified**: attestation conveyance is `none` — the module only needs the public key, not a hardware provenance/trust chain; this is a deliberate trade-off for broad authenticator compatibility, not a gap in the login itself
+- **Single Relying Party ID per install**: passkeys are cryptographically bound to one domain (the RP ID) and cannot be used across different domains — see [Configuration Guide > Passkey Settings](#passkey-settings)
+- **Ephemeral bridging tokens**: like OIDC, a successful passkey assertion is bridged into native Magento authentication via a single-use, cache-backed token (5-minute TTL, `PKEY_`-prefixed) — never a real password — so `Auth::login()`, all its events, and CAPTCHA/password-flow bypasses behave identically to the OIDC path, with a distinct token format so the two methods can never be confused for one another
+- **Rate limiting**: passkey login and assertion-option endpoints share the same IP-based rate limiter as the OIDC callback (10 attempts / 60s)
+- **Automatic cleanup**: all of a user's registered passkeys are deleted when their Magento account (admin or customer) is deleted
+
 ### IdP Security is Your Security
 
 Module inherits IdP's security policies:
@@ -622,6 +690,12 @@ Module inherits IdP's security policies:
 
 - Access tokens are automatically refreshed before expiry on every controller dispatch (frontend: `TokenAutoRefreshObserver`; adminhtml: `AdminTokenAutoRefreshObserver`)
 - Refresh happens 60 seconds before expiry using the stored refresh token
+
+### Passkeys Are Single-Domain and Unattested
+
+- A passkey is bound to one Relying Party ID (domain) and cannot be used to log in on a different domain — see [Configuration Guide > Passkey Settings](#passkey-settings)
+- Attestation is not verified (conveyance `none`), so the module cannot distinguish which make/model of authenticator registered a credential — only that a valid public key was presented
+- There is no admin-configurable challenge timeout, attestation policy, or per-endpoint rate-limit tuning for passkeys; login/registration endpoints reuse the same fixed-window rate limiter as OIDC
 
 ---
 

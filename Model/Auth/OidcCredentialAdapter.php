@@ -44,9 +44,6 @@ class OidcCredentialAdapter implements StorageInterface
     /** @var bool */
     private bool $hasAvailableResources = false;
 
-    /** @var bool Set to true while restoreDependencies() runs to suppress __call() exceptions */
-    private bool $isRestoringDependencies = false;
-
     /** @var UserResourceModel|null */
     private ?UserResourceModel $userResource = null;
 
@@ -355,9 +352,7 @@ class OidcCredentialAdapter implements StorageInterface
     public function __unserialize(array $data): void
     {
         $this->hasAvailableResources = (bool) $data['hasAvailableResources'];
-        $this->isRestoringDependencies = true;
         $this->restoreDependencies();
-        $this->isRestoringDependencies = false;
 
         $userId = isset($data['userId']) ? $data['userId'] : null;
         if ($userId !== null
@@ -373,26 +368,24 @@ class OidcCredentialAdapter implements StorageInterface
     }
 
     /**
-     * Magic method to proxy unknown method calls to the User object
+     * Magic method to proxy unknown method calls to the User object.
+     *
+     * Returns null instead of throwing when $user isn't loaded: Magento core
+     * calls proxied getters unconditionally on every dispatch — e.g.
+     * Auth\Session::refreshAcl() -> getReloadAclFlag(), or
+     * Locale\Manager::getUserInterfaceLocale() during session deserialization
+     * — even after it has already determined the session isn't logged in.
+     * Throwing here would turn a normal "not logged in" case into a fatal
+     * error on every request once $user is unset.
      *
      * @param  string  $method Method name to proxy
      * @param  mixed[] $args   Method arguments
-     * @throws \BadMethodCallException
      */
     public function __call(string $method, array $args): mixed
     {
         /** @psalm-suppress DocblockTypeContradiction */
         if (!$this->user instanceof \Magento\User\Model\User) {
-            if ($this->isRestoringDependencies) {
-                // During session deserialization, DI construction may call back through
-                // the auth session before $this->user is loaded. Return null so callers
-                // like Locale\Manager::getUserInterfaceLocale() fall back to system defaults.
-                return null;
-            }
-            throw new \BadMethodCallException(sprintf(
-                'OidcCredentialAdapter: Cannot proxy %s() — user not loaded. Call authenticate() first.',
-                $method
-            ));
+            return null;
         }
         // Proxy method call to user object
         // Don't check method_exists() because User model has magic methods (__call)

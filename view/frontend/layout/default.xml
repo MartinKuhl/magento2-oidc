@@ -1,8 +1,11 @@
 <?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
           <referenceContainer name="head.additional">
-            <block class="M2Oidc\OAuth\Block\OAuth" name="m2oidc.oauth.sso.data" template="M2Oidc_OAuth::authentication_popup_data.phtml"/>
+            <block class="M2Oidc\OAuth\Block\OAuth"
+                   name="m2oidc.oauth.sso.data"
+                   template="M2Oidc_OAuth::authentication_popup_data.phtml"/>
         </referenceContainer>
         <referenceBlock name="authentication-popup">
             <arguments>
@@ -18,7 +21,9 @@
             </arguments>
         </referenceBlock>
         <referenceContainer name="footer">
-    <block class="M2Oidc\OAuth\Block\OAuth" name="m2oidc.oauth.customer.invalidate" template="M2Oidc_OAuth::invalidate.phtml" />
+    <block class="M2Oidc\OAuth\Block\OAuth"
+           name="m2oidc.oauth.customer.invalidate"
+           template="M2Oidc_OAuth::invalidate.phtml" />
         </referenceContainer>
     </body>
 </page>

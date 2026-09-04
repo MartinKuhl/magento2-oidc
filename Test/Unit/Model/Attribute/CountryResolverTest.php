@@ -9,6 +9,7 @@ use Magento\Directory\Model\ResourceModel\Country\Collection as CountryCollectio
 use Magento\Directory\Model\ResourceModel\Country\CollectionFactory as CountryCollectionFactory;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Model\Attribute\CountryResolver;
+use M2Oidc\OAuth\Test\Unit\Fixtures\CountryWithId;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -59,9 +60,11 @@ class CountryResolverTest extends TestCase
         array $iterationItems,
         array $activeCodes
     ): CountryCollection&MockObject {
-        $filteredItem = $this->getMockBuilder(Country::class)
+        // getCountryId() is declared on the CountryWithId test double since it is
+        // only reachable via Country's magic __call() on the real class.
+        $filteredItem = $this->getMockBuilder(CountryWithId::class)
             ->disableOriginalConstructor()
-            ->addMethods(['getCountryId'])
+            ->onlyMethods(['getCountryId'])
             ->getMock();
         $filteredItem->method('getCountryId')->willReturn($filteredMatchId);
 

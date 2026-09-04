@@ -2,18 +2,6 @@
     "name": "martinkuhl/magento2-oidc-sso",
     "description": "Magento 2 OIDC - SSO extension support login into Magento using any OAuth or OpenID Connect provider",
     "type": "magento2-module",
-    "version": "1.0.0",
-    "license": [
-        "MIT"
-    ],
-    "autoload": {
-        "files": [
-            "registration.php"
-        ],
-        "psr-4": {
-            "M2Oidc\\OAuth\\": ""
-        }
-    },
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "magento/framework": "*",
@@ -28,6 +16,37 @@
         "magento/module-integration": "*",
         "magento/module-cron": "*",
         "magento/module-ui": "*",
-        "magento/module-graph-ql": "*"
+        "magento/module-graph-ql": "*",
+        "web-auth/webauthn-lib": "^5.3"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "*",
+        "bitexpert/phpstan-magento": "*",
+        "vimeo/psalm": "*",
+        "phpunit/phpunit": "^11.5",
+        "rector/rector": "^2.0",
+        "magento/magento-coding-standard": "^39.0 || ^40.0"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://mirror.mage-os.org/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "M2Oidc\\OAuth\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "magento/composer-dependency-version-audit-plugin": true
+        }
     }
 }

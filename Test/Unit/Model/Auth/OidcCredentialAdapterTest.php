@@ -355,13 +355,13 @@ class OidcCredentialAdapterTest extends TestCase
         $this->assertSame('admin', $username);
     }
 
-    public function testCallThrowsBadMethodCallExceptionWhenUserNotLoaded(): void
+    public function testCallReturnsNullWhenUserNotLoaded(): void
     {
-        $this->expectException(\BadMethodCallException::class);
-        $this->expectExceptionMessageMatches('/authenticate/i');
-
-        // No authenticate() called → user is null → __call() must throw
-        $this->adapter->__call('getSomeMethod', []);
+        // No authenticate() called → user is null → __call() degrades gracefully to
+        // null instead of throwing, so core code that proxies getters unconditionally
+        // (e.g. Auth\Session::refreshAcl()) doesn't fatal on a not-logged-in session.
+        $result = $this->adapter->__call('getSomeMethod', []);
+        $this->assertNull($result);
     }
 
     // -------------------------------------------------------------------------

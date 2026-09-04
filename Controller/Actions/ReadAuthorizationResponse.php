@@ -570,20 +570,19 @@ class ReadAuthorizationResponse extends BaseAction
                 );
 
                 return $this->attrMappingAction->handle($mappingContext);
-            } else {
-                $this->oauthUtility->customlog("ERROR: Invalid token response - no access_token or id_token");
-                $encodedError = base64_encode('Invalid response from OAuth provider. Please try again.');
-                // Test mode: show error on showTestResults instead of admin login
-                if (strpos((string) $relayState, 'showTestResults') !== false) {
-                    $safeRelay = $this->securityHelper->validateRedirectUrl(
-                        (string) $relayState,
-                        $this->url->getUrl('customer/account/login')
-                    );
-                    $errorUrl = rtrim($safeRelay, '/') . '?oidc_error=' . urlencode($encodedError);
-                    return $this->_redirect($errorUrl);
-                }
-                return $this->_redirect($this->resolveErrorLoginUrl($loginType, $encodedError));
             }
+            $this->oauthUtility->customlog("ERROR: Invalid token response - no access_token or id_token");
+            $encodedError = base64_encode('Invalid response from OAuth provider. Please try again.');
+            // Test mode: show error on showTestResults instead of admin login
+            if (strpos((string) $relayState, 'showTestResults') !== false) {
+                $safeRelay = $this->securityHelper->validateRedirectUrl(
+                    (string) $relayState,
+                    $this->url->getUrl('customer/account/login')
+                );
+                $errorUrl = rtrim($safeRelay, '/') . '?oidc_error=' . urlencode($encodedError);
+                return $this->_redirect($errorUrl);
+            }
+            return $this->_redirect($this->resolveErrorLoginUrl($loginType, $encodedError));
         }
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_REDIRECT);

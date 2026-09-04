@@ -48,4 +48,17 @@ return RectorConfig::configure()
         // inherited from Magento Framework base classes (AbstractHelper, Action, etc.)
         // and are not dynamic. Rector cannot resolve cross-package inheritance.
         \Rector\CodeQuality\Rector\Class_\CompleteDynamicPropertiesRector::class,
+        // OidcCredentialAdapter / PasskeyCredentialAdapter implement __serialize()/
+        // __unserialize() because they're stored in the PHP session; __unserialize()
+        // is reached via PHP's native unserialize(), which bypasses __construct()
+        // entirely. Rector only sees the constructor always assigning these nullable
+        // properties and proposes dropping their `= null` default — but on a truly
+        // unserialized object, restoreDependencies() reads $this->userFactory (etc.)
+        // before anything ever assigns it, and a typed property with no default
+        // throws "must not be accessed before initialization" instead of falling
+        // through to the ObjectManager fallback. Keep the `= null` defaults.
+        \Rector\DeadCode\Rector\Property\RemoveDefaultValueFromAssignedPropertyRector::class => [
+            __DIR__ . '/../Model/Auth/OidcCredentialAdapter.php',
+            __DIR__ . '/../Model/Auth/PasskeyCredentialAdapter.php',
+        ],
     ]);

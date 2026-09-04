@@ -61,7 +61,7 @@ class ShowTestResults extends Action
     /**
      * @var string Absolute path to the PHTML template used for rendering test results.
      */
-    private string $templatePath = '';
+    private readonly string $templatePath;
 
     /**
      * Initialize ShowTestResults action.
@@ -386,7 +386,7 @@ class ShowTestResults extends Action
         }
 
         if ($nestedChunks !== []) {
-            $keys = array_merge($keys, ...$nestedChunks);
+            return array_merge($keys, ...$nestedChunks);
         }
 
         return $keys;

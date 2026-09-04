@@ -67,7 +67,7 @@ class OidcProviderRepository
             $data['client_secret'] = $this->decryptSecretWithLogging((string) $data['client_secret'], $appName);
         }
         if ($data !== null) {
-            $data = $this->decryptWebhookUrl($data, $appName);
+            return $this->decryptWebhookUrl($data, $appName);
         }
 
         return $data;
@@ -101,7 +101,7 @@ class OidcProviderRepository
             );
         }
         if ($data !== null) {
-            $data = $this->decryptWebhookUrl($data, 'id=' . $providerId);
+            return $this->decryptWebhookUrl($data, 'id=' . $providerId);
         }
 
         return $data;

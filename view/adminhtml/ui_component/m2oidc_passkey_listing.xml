@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    UI Grid component for the "Registered Passkeys" list on the Passkey
+    Settings page (admin-wide, all users). Mirrors m2oidc_session_listing.xml.
+    Data source: m2oidc_passkey_credentials table, via PasskeyCredentialDataProvider.
+    Route: m2oidc/passkeysettings/index
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                m2oidc_passkey_listing.m2oidc_passkey_listing_data_source
+            </item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>m2oidc_passkey_columns</spinner>
+        <deps>
+            <dep>m2oidc_passkey_listing.m2oidc_passkey_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="m2oidc_passkey_listing_data_source"
+                component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">credential_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>M2Oidc_OAuth::passkey_settings</aclResource>
+        <dataProvider class="M2Oidc\OAuth\Ui\Component\DataProvider\PasskeyCredentialDataProvider"
+                      name="m2oidc_passkey_listing_data_source">
+            <settings>
+                <requestFieldName>credential_id</requestFieldName>
+                <primaryFieldName>credential_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <columns name="m2oidc_passkey_columns">
+
+        <column name="credential_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+
+        <column name="user_type">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">User Type</label>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+
+        <column name="user_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">User ID</label>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+
+        <column name="nickname">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Nickname</label>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+
+        <column name="created_at"
+                class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <label translate="true">Registered</label>
+                <dataType>date</dataType>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+
+        <column name="last_used_at"
+                class="Magento\Ui\Component\Listing\Columns\Date"
+                component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <label translate="true">Last Used</label>
+                <dataType>date</dataType>
+                <sortable>true</sortable>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions"
+                       class="M2Oidc\OAuth\Ui\Component\Listing\Column\PasskeyActions">
+            <settings>
+                <indexField>credential_id</indexField>
+                <label translate="true">Actions</label>
+                <sortable>false</sortable>
+            </settings>
+        </actionsColumn>
+
+    </columns>
+
+</listing>
