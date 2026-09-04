@@ -10,7 +10,8 @@ if (!$block->isEnabledForCustomer()) {
     <button type="button" id="mo-passkey-customer-login-btn" class="sso-button sso-button--neutral">
         <span><?= $escaper->escapeHtml(__('Login with Passkey')) ?></span>
     </button>
-    <div id="mo-passkey-customer-error" class="message message-error error" style="display:none;margin-top:8px;"></div>
+    <div id="mo-passkey-customer-error" class="message message-error error"
+        style="display:none;margin-top:8px;max-width:470px;width:100%;box-sizing:border-box;text-align:center;"></div>
 </div>
 <script>
     (function () {

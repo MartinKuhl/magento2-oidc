@@ -19,7 +19,7 @@
         <directory name="../Logger" />
         <!-- Magento-Core NICHT scannen -->
         <ignoreFiles>
-            <directory name="../vendor" />
+            <directory name="../../../vendor" />
         </ignoreFiles>
     </projectFiles>
 
