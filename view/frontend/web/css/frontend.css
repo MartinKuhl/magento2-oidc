@@ -67,3 +67,14 @@
     background-color: #35302c;
     border-color: #35302c;
 }
+
+/* Magento sample-data's "Try Demo Customer Access" CMS block (login-data)
+   ships with no width rule of its own, so it stretches full-width on the
+   same broken login-page layout our own SSO/passkey elements sit in.
+   Scoped to the login page only, so unrelated .message.info notices
+   elsewhere on the storefront are unaffected. */
+.customer-account-login .message.info {
+    max-width: 470px;
+    width: 100%;
+    box-sizing: border-box;
+}
