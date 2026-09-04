@@ -18,6 +18,13 @@ use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredentialRepository;
  */
 class Delete extends BaseAction implements HttpPostActionInterface
 {
+    /**
+     * @param Context                      $context
+     * @param OAuthUtility                 $oauthUtility
+     * @param JsonFactory                  $jsonFactory
+     * @param CustomerSession              $customerSession
+     * @param PasskeyCredentialRepository  $credentialRepository
+     */
     public function __construct(
         Context $context,
         OAuthUtility $oauthUtility,
@@ -28,6 +35,9 @@ class Delete extends BaseAction implements HttpPostActionInterface
         parent::__construct($context, $oauthUtility);
     }
 
+    /**
+     * Delete the requesting customer's own passkey by credential ID.
+     */
     #[\Override]
     public function execute()
     {
@@ -48,7 +58,9 @@ class Delete extends BaseAction implements HttpPostActionInterface
             return $json->setData(['error' => (string) __('Passkey not found.')]);
         }
 
-        $this->oauthUtility->customlog('Passkey customer Delete: credential #' . $credentialId . ' removed by customer #' . $customerId);
+        $this->oauthUtility->customlog(
+            'Passkey customer Delete: credential #' . $credentialId . ' removed by customer #' . $customerId
+        );
 
         return $json->setData(['success' => true]);
     }

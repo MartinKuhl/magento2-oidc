@@ -19,6 +19,10 @@ class Index extends Action implements HttpGetActionInterface
     /** @var string */
     public const ADMIN_RESOURCE = 'M2Oidc_OAuth::passkey_settings';
 
+    /**
+     * @param Context     $context
+     * @param PageFactory $resultPageFactory
+     */
     public function __construct(
         Context $context,
         private readonly PageFactory $resultPageFactory
@@ -26,6 +30,9 @@ class Index extends Action implements HttpGetActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Render the Passkey Settings admin page.
+     */
     #[\Override]
     public function execute()
     {

@@ -22,6 +22,12 @@ class RegistrationVerify extends Action implements HttpPostActionInterface
 
     private const MAX_NICKNAME_LENGTH = 191;
 
+    /**
+     * @param Context                     $context
+     * @param JsonFactory                 $jsonFactory
+     * @param PasskeyRegistrationService  $registrationService
+     * @param OAuthUtility                $oauthUtility
+     */
     public function __construct(
         Context $context,
         private readonly JsonFactory $jsonFactory,
@@ -31,6 +37,9 @@ class RegistrationVerify extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Verify the browser's attestation and persist the new passkey for the authenticated admin.
+     */
     #[\Override]
     public function execute()
     {

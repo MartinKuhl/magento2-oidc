@@ -63,6 +63,14 @@ parameters:
             message: '#Class M2Oidc\\OAuth\\Model\\Cache\\RedisConnectionFactory does not have a constructor and must be instantiated without any parameters\.#'
             identifier: new.noConstructor
             reportUnmatched: false
+        # Same FactoryAutoloader problem for WebauthnCeremonyFactory: it is a factory
+        # for webauthn-lib ceremony objects (serializer, RP entity, ceremony step
+        # managers), not a Magento DI factory, but its name matches #Factory$# so the
+        # generated create()-only stub shadows the real class's actual methods.
+        -
+            message: '#Call to an undefined method M2Oidc\\OAuth\\Model\\Passkey\\WebauthnCeremonyFactory::\w+\(\)\.#'
+            identifier: method.notFound
+            reportUnmatched: false
         # Cm_Cache_Backend_Redis (colinmollenhour/cache-backend-redis) is an intentionally
         # optional runtime dependency for SlidingWindowStrategy's Redis-only fast path —
         # guarded by instanceof + try/catch with graceful degradation, not required by

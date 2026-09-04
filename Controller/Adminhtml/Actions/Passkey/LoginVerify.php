@@ -27,6 +27,20 @@ use M2Oidc\OAuth\Model\Security\OidcRateLimiter;
  */
 class LoginVerify implements ActionInterface, HttpPostActionInterface
 {
+    /**
+     * @param RequestInterface              $request
+     * @param JsonFactory                   $jsonFactory
+     * @param PasskeyAuthenticationService  $authenticationService
+     * @param PasskeySecurityHelper         $securityHelper
+     * @param UserCollectionFactory         $userCollectionFactory
+     * @param Auth                          $auth
+     * @param BackendUrlInterface           $backendUrl
+     * @param OidcRateLimiter               $rateLimiter
+     * @param OAuthUtility                  $oauthUtility
+     * @param CookieManagerInterface        $cookieManager
+     * @param CookieMetadataFactory         $cookieMetadataFactory
+     * @param ScopeConfigInterface          $scopeConfig
+     */
     public function __construct(
         private readonly RequestInterface $request,
         private readonly JsonFactory $jsonFactory,
@@ -43,6 +57,9 @@ class LoginVerify implements ActionInterface, HttpPostActionInterface
     ) {
     }
 
+    /**
+     * Verify the browser's WebAuthn assertion and bridge into native Magento admin auth.
+     */
     #[\Override]
     public function execute()
     {

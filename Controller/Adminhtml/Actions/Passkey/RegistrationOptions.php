@@ -20,6 +20,12 @@ class RegistrationOptions extends Action implements HttpPostActionInterface
     /** @var string */
     public const ADMIN_RESOURCE = 'Magento_Backend::admin';
 
+    /**
+     * @param Context                     $context
+     * @param JsonFactory                 $jsonFactory
+     * @param PasskeyRegistrationService  $registrationService
+     * @param OAuthUtility                $oauthUtility
+     */
     public function __construct(
         Context $context,
         private readonly JsonFactory $jsonFactory,
@@ -29,6 +35,9 @@ class RegistrationOptions extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Build WebAuthn attestation (creation) options for the authenticated admin.
+     */
     #[\Override]
     public function execute()
     {

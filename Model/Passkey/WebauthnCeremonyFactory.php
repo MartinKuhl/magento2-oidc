@@ -27,13 +27,20 @@ use Webauthn\PublicKeyCredentialRpEntity;
  */
 class WebauthnCeremonyFactory
 {
+    /** @var SerializerInterface|null */
     private ?SerializerInterface $serializer = null;
 
+    /**
+     * @param PasskeyConfig $passkeyConfig
+     */
     public function __construct(
         private readonly PasskeyConfig $passkeyConfig
     ) {
     }
 
+    /**
+     * Get the memoized webauthn-lib serializer, configured for 'none' attestation only.
+     */
     public function getSerializer(): SerializerInterface
     {
         if (!$this->serializer instanceof \Symfony\Component\Serializer\SerializerInterface) {
@@ -45,17 +52,25 @@ class WebauthnCeremonyFactory
         return $this->serializer;
     }
 
+    /**
+     * Get the Relying Party entity (name + ID) for WebAuthn ceremonies.
+     */
     public function getRpEntity(): PublicKeyCredentialRpEntity
     {
         return PublicKeyCredentialRpEntity::create($this->passkeyConfig->getRpName(), $this->passkeyConfig->getRpId());
     }
 
+    /**
+     * Get the Relying Party ID (registrable domain) for WebAuthn ceremonies.
+     */
     public function getRpId(): string
     {
         return $this->passkeyConfig->getRpId();
     }
 
     /**
+     * Get the allowed public-key algorithms for credential creation.
+     *
      * @return PublicKeyCredentialParameters[]
      */
     public function getPublicKeyCredentialParameters(): array
@@ -79,16 +94,25 @@ class WebauthnCeremonyFactory
         );
     }
 
+    /**
+     * Get the ceremony step manager for credential creation (registration).
+     */
     public function getCreationCeremonyStepManager(): CeremonyStepManager
     {
         return $this->buildFactory()->creationCeremony();
     }
 
+    /**
+     * Get the ceremony step manager for credential requests (login).
+     */
     public function getRequestCeremonyStepManager(): CeremonyStepManager
     {
         return $this->buildFactory()->requestCeremony();
     }
 
+    /**
+     * Build a ceremony step manager factory scoped to the configured origin.
+     */
     private function buildFactory(): CeremonyStepManagerFactory
     {
         $factory = new CeremonyStepManagerFactory();

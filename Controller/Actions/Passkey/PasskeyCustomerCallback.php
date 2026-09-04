@@ -31,6 +31,18 @@ use M2Oidc\OAuth\Helper\PasskeySecurityHelper;
  */
 class PasskeyCustomerCallback extends BaseAction
 {
+    /**
+     * @param Context                     $context
+     * @param OAuthUtility                $oauthUtility
+     * @param CustomerFactory             $customerFactory
+     * @param CustomerSession             $customerSession
+     * @param StoreManagerInterface       $storeManager
+     * @param CookieManagerInterface      $cookieManager
+     * @param CookieMetadataFactory       $cookieMetadataFactory
+     * @param PasskeySecurityHelper       $securityHelper
+     * @param CustomerRepositoryInterface $customerRepository
+     * @param OAuthSecurityHelper         $oauthSecurityHelper
+     */
     public function __construct(
         Context $context,
         OAuthUtility $oauthUtility,
@@ -46,6 +58,9 @@ class PasskeyCustomerCallback extends BaseAction
         parent::__construct($context, $oauthUtility);
     }
 
+    /**
+     * Redeem the passkey login nonce in a clean HTTP context and establish the customer session.
+     */
     #[\Override]
     public function execute(): Redirect
     {
@@ -92,7 +107,9 @@ class PasskeyCustomerCallback extends BaseAction
                 "PasskeyCustomerCallback: Blocked cross-website login. Customer website: "
                 . $customerModel->getWebsiteId() . ", Current store website: " . $websiteId
             );
-            return $this->redirectToLoginWithError('Authentication failed: This account is not registered on this website.');
+            return $this->redirectToLoginWithError(
+                'Authentication failed: This account is not registered on this website.'
+            );
         }
 
         $this->customerSession->setCustomerAsLoggedIn($customerModel);
@@ -117,6 +134,11 @@ class PasskeyCustomerCallback extends BaseAction
         return $this->resultRedirectFactory->create()->setUrl($safeRedirect);
     }
 
+    /**
+     * Redirect to the customer login page with a Base64-encoded error message.
+     *
+     * @param string $message
+     */
     private function redirectToLoginWithError(string $message): Redirect
     {
         $encodedError = base64_encode($message);

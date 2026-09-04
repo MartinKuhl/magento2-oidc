@@ -23,6 +23,12 @@ class Delete extends Action implements HttpPostActionInterface
     /** @var string */
     public const ADMIN_RESOURCE = 'Magento_Backend::admin';
 
+    /**
+     * @param Context                     $context
+     * @param JsonFactory                 $jsonFactory
+     * @param PasskeyCredentialRepository $credentialRepository
+     * @param OAuthUtility                $oauthUtility
+     */
     public function __construct(
         Context $context,
         private readonly JsonFactory $jsonFactory,
@@ -32,6 +38,9 @@ class Delete extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Delete the authenticated admin's own passkey by credential ID.
+     */
     #[\Override]
     public function execute()
     {
@@ -47,12 +56,15 @@ class Delete extends Action implements HttpPostActionInterface
             return $json->setData(['error' => (string) __('Invalid credential.')]);
         }
 
-        $deleted = $this->credentialRepository->deleteOwnedCredential($credentialId, 'admin', (int) $adminUser->getId());
+        $adminId = (int) $adminUser->getId();
+        $deleted = $this->credentialRepository->deleteOwnedCredential($credentialId, 'admin', $adminId);
         if (!$deleted) {
             return $json->setData(['error' => (string) __('Passkey not found.')]);
         }
 
-        $this->oauthUtility->customlog('Passkey admin Delete: credential #' . $credentialId . ' removed by admin #' . $adminUser->getId());
+        $this->oauthUtility->customlog(
+            'Passkey admin Delete: credential #' . $credentialId . ' removed by admin #' . $adminId
+        );
 
         return $json->setData(['success' => true]);
     }

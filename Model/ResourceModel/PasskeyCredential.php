@@ -43,7 +43,7 @@ class PasskeyCredential extends AbstractDb
     /**
      * Update the persisted counter and last_used_at after a successful authentication.
      *
-     * @param int    $credentialId    m2oidc_passkey_credentials.credential_id
+     * @param int $credentialId m2oidc_passkey_credentials.credential_id
      * @param string $credentialRecord Newly serialized Webauthn\CredentialRecord (updated counter/backup flags)
      */
     public function updateAfterAuthentication(int $credentialId, string $credentialRecord): void

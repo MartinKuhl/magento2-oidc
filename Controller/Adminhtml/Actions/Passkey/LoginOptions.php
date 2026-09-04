@@ -25,6 +25,15 @@ use M2Oidc\OAuth\Model\Security\OidcRateLimiter;
  */
 class LoginOptions implements ActionInterface, HttpPostActionInterface
 {
+    /**
+     * @param RequestInterface              $request
+     * @param JsonFactory                   $jsonFactory
+     * @param PasskeyAuthenticationService  $authenticationService
+     * @param PasskeyCredentialRepository   $credentialRepository
+     * @param UserCollectionFactory         $userCollectionFactory
+     * @param OidcRateLimiter               $rateLimiter
+     * @param OAuthUtility                  $oauthUtility
+     */
     public function __construct(
         private readonly RequestInterface $request,
         private readonly JsonFactory $jsonFactory,
@@ -36,6 +45,9 @@ class LoginOptions implements ActionInterface, HttpPostActionInterface
     ) {
     }
 
+    /**
+     * Build WebAuthn assertion options for admin login, scoped to the typed email when it matches an admin.
+     */
     #[\Override]
     public function execute()
     {
@@ -69,6 +81,11 @@ class LoginOptions implements ActionInterface, HttpPostActionInterface
         ]);
     }
 
+    /**
+     * Resolve an admin user ID by email, or null if no matching admin exists.
+     *
+     * @param string $email
+     */
     private function findAdminIdByEmail(string $email): ?int
     {
         $collection = $this->userCollectionFactory->create()->addFieldToFilter('email', $email);

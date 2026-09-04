@@ -19,6 +19,13 @@ use M2Oidc\OAuth\Model\Security\OidcRateLimiter;
  */
 class LoginOptions extends BaseAction implements HttpPostActionInterface
 {
+    /**
+     * @param Context                      $context
+     * @param OAuthUtility                 $oauthUtility
+     * @param JsonFactory                  $jsonFactory
+     * @param PasskeyAuthenticationService $authenticationService
+     * @param OidcRateLimiter              $rateLimiter
+     */
     public function __construct(
         Context $context,
         OAuthUtility $oauthUtility,
@@ -29,6 +36,9 @@ class LoginOptions extends BaseAction implements HttpPostActionInterface
         parent::__construct($context, $oauthUtility);
     }
 
+    /**
+     * Build usernameless WebAuthn assertion options for customer login.
+     */
     #[\Override]
     public function execute()
     {

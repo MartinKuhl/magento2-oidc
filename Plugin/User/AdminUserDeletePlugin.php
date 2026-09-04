@@ -31,8 +31,7 @@ class AdminUserDeletePlugin
     }
 
     /**
-     * After Magento deletes the admin_user row, remove the OIDC mapping row
-     * and any passkey credentials.
+     * Remove the deleted admin's OIDC mapping row and passkey credentials.
      *
      * @param  User $subject
      * @param  User $result

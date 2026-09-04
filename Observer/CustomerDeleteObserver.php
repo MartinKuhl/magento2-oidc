@@ -28,8 +28,7 @@ class CustomerDeleteObserver implements ObserverInterface
     }
 
     /**
-     * Delete the m2oidc_oauth_user_provider row and passkey credentials for
-     * the deleted customer.
+     * Delete the customer's OIDC mapping row and passkey credentials.
      *
      * @param Observer $observer
      */

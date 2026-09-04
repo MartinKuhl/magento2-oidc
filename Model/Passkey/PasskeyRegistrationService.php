@@ -21,6 +21,11 @@ use Webauthn\PublicKeyCredentialUserEntity;
  */
 class PasskeyRegistrationService
 {
+    /**
+     * @param WebauthnCeremonyFactory $ceremonyFactory
+     * @param PasskeyCredentialRepository $credentialRepository
+     * @param PasskeySecurityHelper $securityHelper
+     */
     public function __construct(
         private readonly WebauthnCeremonyFactory $ceremonyFactory,
         private readonly PasskeyCredentialRepository $credentialRepository,
@@ -29,6 +34,12 @@ class PasskeyRegistrationService
     }
 
     /**
+     * Build WebAuthn attestation (creation) options for a registration attempt.
+     *
+     * @param string $userType
+     * @param int $userId
+     * @param string $email
+     * @param string $displayName
      * @return array{optionsJson: string, nonce: string}
      */
     public function buildCreationOptions(string $userType, int $userId, string $email, string $displayName): array
@@ -55,6 +66,11 @@ class PasskeyRegistrationService
     /**
      * Verify the browser's attestation response and persist the new credential.
      *
+     * @param string $nonce
+     * @param string $credentialJson
+     * @param string $userType
+     * @param int $userId
+     * @param string|null $nickname
      * @throws \RuntimeException on an expired/consumed challenge or a failed verification
      */
     public function verifyAndPersist(

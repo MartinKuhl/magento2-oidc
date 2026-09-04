@@ -38,8 +38,8 @@ class OAuthUtility extends Data
     /** @var \Magento\Customer\Model\Session */
     protected \Magento\Customer\Model\Session $customerSession;
 
-    /** @var \Magento\Backend\Model\Auth\Session\Proxy */
-    protected \Magento\Backend\Model\Auth\Session\Proxy $authSession;
+    /** @var \Magento\Backend\Model\Auth\Session */
+    protected \Magento\Backend\Model\Auth\Session $authSession;
 
     /** @var \Magento\Framework\App\Cache\TypeListInterface */
     protected \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList;
@@ -84,7 +84,7 @@ class OAuthUtility extends Data
      * @param Url $frontendUrl
      * @param \Magento\Backend\Model\Session $adminSession
      * @param Session $customerSession
-     * @param \Magento\Backend\Model\Auth\Session\Proxy $authSession
+     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $reinitableConfig
      * @param TypeListInterface $cacheTypeList
      * @param Pool $cacheFrontendPool
@@ -115,7 +115,7 @@ class OAuthUtility extends Data
         Url $frontendUrl,
         \Magento\Backend\Model\Session $adminSession,
         Session $customerSession,
-        \Magento\Backend\Model\Auth\Session\Proxy $authSession,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\App\Config\ReinitableConfigInterface $reinitableConfig,
         TypeListInterface $cacheTypeList,
         Pool $cacheFrontendPool,

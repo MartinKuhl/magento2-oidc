@@ -25,6 +25,12 @@ use Webauthn\PublicKeyCredentialDescriptor;
  */
 class PasskeyCredentialRepository
 {
+    /**
+     * @param PasskeyCredential $resource
+     * @param PasskeyCredentialFactory $modelFactory
+     * @param PasskeyCredentialCollectionFactory $collectionFactory
+     * @param WebauthnCeremonyFactory $ceremonyFactory
+     */
     public function __construct(
         private readonly PasskeyCredential $resource,
         private readonly PasskeyCredentialFactory $modelFactory,
@@ -35,6 +41,11 @@ class PasskeyCredentialRepository
 
     /**
      * Persist a newly-verified credential (registration flow).
+     *
+     * @param CredentialRecord $record
+     * @param string $userType
+     * @param int $userId
+     * @param string|null $nickname
      */
     public function saveNewCredential(
         CredentialRecord $record,
@@ -59,6 +70,8 @@ class PasskeyCredentialRepository
      * Look up a stored credential by the raw (binary) credential ID reported
      * by the authenticator — used during login to resolve which credential
      * (and therefore which user) the browser's assertion belongs to.
+     *
+     * @param string $rawCredentialId
      */
     public function findByRawCredentialId(string $rawCredentialId): ?StoredCredential
     {
@@ -74,6 +87,8 @@ class PasskeyCredentialRepository
      * used to build excludeCredentials at registration and to power the
      * self-service "manage passkeys" list.
      *
+     * @param string $userType
+     * @param int $userId
      * @return StoredCredential[]
      */
     public function findAllForUser(string $userType, int $userId): array
@@ -95,6 +110,8 @@ class PasskeyCredentialRepository
      * email-first login, which — unlike the customer's usernameless flow —
      * knows the account before the ceremony starts).
      *
+     * @param string $userType
+     * @param int $userId
      * @return PublicKeyCredentialDescriptor[]
      */
     public function getDescriptorsForUser(string $userType, int $userId): array
@@ -108,6 +125,9 @@ class PasskeyCredentialRepository
 
     /**
      * Persist the updated counter/backup flags after a successful authentication.
+     *
+     * @param StoredCredential $stored
+     * @param CredentialRecord $updatedRecord
      */
     public function updateAfterAuthentication(StoredCredential $stored, CredentialRecord $updatedRecord): void
     {
@@ -119,6 +139,9 @@ class PasskeyCredentialRepository
 
     /**
      * Delete every credential belonging to a user — called on account deletion.
+     *
+     * @param string $userType
+     * @param int $userId
      */
     public function deleteAllForUser(string $userType, int $userId): void
     {
@@ -127,6 +150,10 @@ class PasskeyCredentialRepository
 
     /**
      * Self-service delete: only succeeds if the credential belongs to $userType/$userId.
+     *
+     * @param int $credentialId
+     * @param string $userType
+     * @param int $userId
      */
     public function deleteOwnedCredential(int $credentialId, string $userType, int $userId): bool
     {
@@ -137,6 +164,8 @@ class PasskeyCredentialRepository
      * Support/lockout-recovery delete: removes any credential by its row ID,
      * regardless of owner. Gated by the M2Oidc_OAuth::passkey_settings ACL
      * resource at the controller level.
+     *
+     * @param int $credentialId
      */
     public function deleteById(int $credentialId): void
     {
@@ -148,7 +177,9 @@ class PasskeyCredentialRepository
     }
 
     /**
-     * @param array<string, mixed> $row
+     * Map a raw database row to a StoredCredential DTO.
+     *
+     * @param mixed[] $row
      */
     private function rowToStoredCredential(array $row): StoredCredential
     {

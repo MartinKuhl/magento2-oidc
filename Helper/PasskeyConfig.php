@@ -25,17 +25,27 @@ class PasskeyConfig
 
     private const XML_PATH_RP_ID = 'm2oidc_passkey/general/rp_id';
 
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig,
         private readonly StoreManagerInterface $storeManager
     ) {
     }
 
+    /**
+     * Whether passkey login is enabled for admin users.
+     */
     public function isEnabledForAdmin(): bool
     {
         return (bool) $this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED_ADMIN, ScopeInterface::SCOPE_STORE);
     }
 
+    /**
+     * Whether passkey login is enabled for customers.
+     */
     public function isEnabledForCustomer(): bool
     {
         return (bool) $this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED_CUSTOMER, ScopeInterface::SCOPE_STORE);
@@ -72,6 +82,7 @@ class PasskeyConfig
         /** @var \Magento\Store\Model\Store $store */
         $store = $this->storeManager->getStore();
         $baseUrl = (string) $store->getBaseUrl();
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
         $host = parse_url($baseUrl, PHP_URL_HOST);
         return is_string($host) ? $host : '';
     }
@@ -84,6 +95,7 @@ class PasskeyConfig
         /** @var \Magento\Store\Model\Store $store */
         $store = $this->storeManager->getStore();
         $baseUrl = (string) $store->getBaseUrl();
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
         $parts = parse_url($baseUrl);
         if (!is_array($parts) || !isset($parts['scheme'], $parts['host'])) {
             return rtrim($baseUrl, '/');

@@ -25,6 +25,10 @@ class Delete extends Action implements HttpPostActionInterface
     /** @var string */
     public const ADMIN_RESOURCE = 'M2Oidc_OAuth::passkey_settings';
 
+    /**
+     * @param Context                     $context
+     * @param PasskeyCredentialRepository $credentialRepository
+     */
     public function __construct(
         Context $context,
         private readonly PasskeyCredentialRepository $credentialRepository
@@ -32,6 +36,9 @@ class Delete extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Delete any registered passkey by credential ID (lockout-recovery, ACL-gated).
+     */
     #[\Override]
     public function execute(): Redirect
     {

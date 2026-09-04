@@ -23,12 +23,13 @@
                 </thead>
                 <tbody>
                     <?php foreach ($credentials as $stored): ?>
+                        <?php
+                        $passkeyName = $stored->nickname !== null && $stored->nickname !== ''
+                            ? $stored->nickname
+                            : (string) __('Unnamed passkey');
+                        ?>
                         <tr class="m2oidc-passkey-row">
-                            <td><?= $escaper->escapeHtml(
-                                $stored->nickname !== null && $stored->nickname !== ''
-                                    ? $stored->nickname
-                                    : (string) __('Unnamed passkey')
-                            ) ?></td>
+                            <td><?= $escaper->escapeHtml($passkeyName) ?></td>
                             <td><?= $escaper->escapeHtml($stored->createdAt) ?></td>
                             <td>
                                 <button type="button" class="action secondary m2oidc-passkey-delete-btn"
@@ -130,7 +131,8 @@
                             }
                             var options = PublicKeyCredential.parseCreationOptionsFromJSON(data.options);
                             return navigator.credentials.create({ publicKey: options }).then(function (credential) {
-                                var namePrompt = '<?= $escaper->escapeJs(__('Name this passkey (e.g. "My Phone"):')) ?>';
+                                var namePrompt =
+                                    '<?= $escaper->escapeJs(__('Name this passkey (e.g. "My Phone"):')) ?>';
                                 var nickname = window.prompt(namePrompt, '') || '';
                                 var verifyBody = new FormData();
                                 verifyBody.append('form_key', formKey);

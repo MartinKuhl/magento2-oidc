@@ -34,6 +34,9 @@ class PasskeySecurityHelper
 
     private const CUSTOMER_NONCE_TTL = 300;
 
+    /**
+     * @param AtomicCacheInterface $atomicCache
+     */
     public function __construct(
         private readonly AtomicCacheInterface $atomicCache
     ) {
@@ -46,6 +49,8 @@ class PasskeySecurityHelper
      * same user carries the same user.id, as the spec recommends, without a
      * separate column to track it. Not derived from email/PII.
      *
+     * @param string $userType
+     * @param int $userId
      * @return string Raw 32 bytes (not base64url-encoded)
      */
     public function deriveUserHandle(string $userType, int $userId): string
@@ -54,9 +59,12 @@ class PasskeySecurityHelper
     }
 
     /**
-     * Store a serialized PublicKeyCredentialCreationOptions/RequestOptions JSON
-     * blob under a fresh one-time nonce, to be redeemed when the browser posts
-     * its response back.
+     * Store a WebAuthn challenge under a fresh one-time nonce.
+     *
+     * Stores a serialized PublicKeyCredentialCreationOptions/RequestOptions JSON
+     * blob, to be redeemed when the browser posts its response back.
+     *
+     * @param string $serializedOptionsJson
      */
     public function createChallengeNonce(string $serializedOptionsJson): string
     {
@@ -67,8 +75,12 @@ class PasskeySecurityHelper
     }
 
     /**
-     * Redeem (validate and consume) a challenge nonce. Returns the serialized
-     * options JSON, or null if the nonce is invalid, expired, or already used.
+     * Redeem (validate and consume) a challenge nonce.
+     *
+     * Returns the serialized options JSON, or null if the nonce is invalid,
+     * expired, or already used.
+     *
+     * @param string $nonce
      */
     public function redeemChallengeNonce(string $nonce): ?string
     {
@@ -80,9 +92,12 @@ class PasskeySecurityHelper
     }
 
     /**
-     * Mint a single-use ephemeral token binding an email to a verified passkey
-     * assertion, for PasskeyCredentialAdapter::authenticate() to consume via
+     * Mint a single-use ephemeral token binding an email to a verified passkey assertion.
+     *
+     * For PasskeyCredentialAdapter::authenticate() to consume via
      * Auth::login($email, $token) — mirrors OAuthSecurityHelper::createOidcAuthToken().
+     *
+     * @param string $email
      */
     public function createPasskeyAuthToken(string $email): string
     {
@@ -96,8 +111,11 @@ class PasskeySecurityHelper
     }
 
     /**
-     * Non-consuming format check used by plugins to detect a passkey login
-     * attempt without touching the cache.
+     * Non-consuming format check for a passkey login attempt.
+     *
+     * Used by plugins to detect a passkey login attempt without touching the cache.
+     *
+     * @param string $password
      */
     public function isPasskeyAuthToken(string $password): bool
     {
@@ -110,6 +128,9 @@ class PasskeySecurityHelper
 
     /**
      * Validate a passkey auth token against the given email and consume it (one-time use).
+     *
+     * @param string $email
+     * @param string $token
      */
     public function validateAndConsumePasskeyAuthToken(string $email, string $token): bool
     {
@@ -123,9 +144,13 @@ class PasskeySecurityHelper
     }
 
     /**
-     * Create the one-time nonce used to hand a verified customer passkey
-     * login off to PasskeyCustomerCallback in a clean HTTP context — mirrors
-     * OAuthSecurityHelper::createCustomerLoginNonce().
+     * Create the customer passkey login handoff nonce for PasskeyCustomerCallback.
+     *
+     * Hands a verified customer passkey login off to PasskeyCustomerCallback in a
+     * clean HTTP context. Mirrors OAuthSecurityHelper::createCustomerLoginNonce().
+     *
+     * @param string $email
+     * @param string $relayState
      */
     public function createCustomerPasskeyLoginNonce(string $email, string $relayState): string
     {
@@ -137,6 +162,9 @@ class PasskeySecurityHelper
     }
 
     /**
+     * Redeem (validate and consume) a customer passkey login nonce.
+     *
+     * @param string $nonce
      * @return array{email: string, relayState: string}|null
      */
     public function redeemCustomerPasskeyLoginNonce(string $nonce): ?array

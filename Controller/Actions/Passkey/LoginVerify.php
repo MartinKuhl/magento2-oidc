@@ -26,6 +26,17 @@ use M2Oidc\OAuth\Model\Security\OidcRateLimiter;
  */
 class LoginVerify extends BaseAction implements HttpPostActionInterface
 {
+    /**
+     * @param Context                      $context
+     * @param OAuthUtility                 $oauthUtility
+     * @param JsonFactory                  $jsonFactory
+     * @param PasskeyAuthenticationService $authenticationService
+     * @param PasskeySecurityHelper        $securityHelper
+     * @param CustomerRepositoryInterface  $customerRepository
+     * @param CookieManagerInterface       $cookieManager
+     * @param CookieMetadataFactory        $cookieMetadataFactory
+     * @param OidcRateLimiter              $rateLimiter
+     */
     public function __construct(
         Context $context,
         OAuthUtility $oauthUtility,
@@ -40,6 +51,9 @@ class LoginVerify extends BaseAction implements HttpPostActionInterface
         parent::__construct($context, $oauthUtility);
     }
 
+    /**
+     * Verify the browser's WebAuthn assertion and hand the login off to PasskeyCustomerCallback.
+     */
     #[\Override]
     public function execute()
     {
@@ -60,7 +74,9 @@ class LoginVerify extends BaseAction implements HttpPostActionInterface
         try {
             $stored = $this->authenticationService->verifyAssertion($nonce, $credentialJson);
         } catch (\Throwable $e) {
-            $this->oauthUtility->customlog('Passkey customer LoginVerify: verification failed — ' . $e->getMessage());
+            $this->oauthUtility->customlog(
+                'Passkey customer LoginVerify: verification failed — ' . $e->getMessage()
+            );
             return $json->setData(['error' => (string) __('Passkey verification failed. Please try again.')]);
         }
 
@@ -75,7 +91,9 @@ class LoginVerify extends BaseAction implements HttpPostActionInterface
             $email = null;
         }
         if ($email === null || $email === '') {
-            $this->oauthUtility->customlog('Passkey customer LoginVerify: customer not found for id ' . $stored->userId);
+            $this->oauthUtility->customlog(
+                'Passkey customer LoginVerify: customer not found for id ' . $stored->userId
+            );
             return $json->setData(['error' => (string) __('Customer account not found.')]);
         }
 
@@ -93,7 +111,9 @@ class LoginVerify extends BaseAction implements HttpPostActionInterface
                 ->setSameSite('Lax');
             $this->cookieManager->setPublicCookie('m2passkey_customer_nonce', $loginNonce, $cookieMetadata);
         } catch (\Exception $e) {
-            $this->oauthUtility->customlog('Passkey customer LoginVerify: error setting nonce cookie: ' . $e->getMessage());
+            $this->oauthUtility->customlog(
+                'Passkey customer LoginVerify: error setting nonce cookie: ' . $e->getMessage()
+            );
             return $json->setData(['error' => (string) __('Authentication failed. Please try again.')]);
         }
 

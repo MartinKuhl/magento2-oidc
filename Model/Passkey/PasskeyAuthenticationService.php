@@ -28,6 +28,11 @@ use Webauthn\PublicKeyCredentialRequestOptions;
  */
 class PasskeyAuthenticationService
 {
+    /**
+     * @param WebauthnCeremonyFactory $ceremonyFactory
+     * @param PasskeyCredentialRepository $credentialRepository
+     * @param PasskeySecurityHelper $securityHelper
+     */
     public function __construct(
         private readonly WebauthnCeremonyFactory $ceremonyFactory,
         private readonly PasskeyCredentialRepository $credentialRepository,
@@ -36,6 +41,8 @@ class PasskeyAuthenticationService
     }
 
     /**
+     * Build WebAuthn assertion (request) options for a login attempt.
+     *
      * @param PublicKeyCredentialDescriptor[] $allowCredentials Empty for usernameless/discoverable login
      * @return array{optionsJson: string, nonce: string}
      */
@@ -59,6 +66,8 @@ class PasskeyAuthenticationService
      * and return the owning StoredCredential so the caller can bridge into
      * native Magento auth for the right user_type/user_id.
      *
+     * @param string $nonce
+     * @param string $credentialJson
      * @throws \RuntimeException on an expired challenge, unknown credential, or failed verification
      */
     public function verifyAssertion(string $nonce, string $credentialJson): StoredCredential

@@ -23,6 +23,13 @@ use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredentialRepository;
  */
 class PasskeyUserInfoPlugin
 {
+    /**
+     * @param PasskeyCredentialRepository $credentialRepository
+     * @param Registry $registry
+     * @param Escaper $escaper
+     * @param BackendUrl $backendUrl
+     * @param BackendAuthSession $authSession
+     */
     public function __construct(
         private readonly PasskeyCredentialRepository $credentialRepository,
         private readonly Registry $registry,
@@ -32,6 +39,12 @@ class PasskeyUserInfoPlugin
     ) {
     }
 
+    /**
+     * Inject the passkey registration/management UI into the admin user form.
+     *
+     * @param Generic $subject
+     * @param Closure $proceed
+     */
     public function aroundGetFormHtml(Generic $subject, Closure $proceed): string
     {
         $form = $subject->getForm();
@@ -59,10 +72,13 @@ class PasskeyUserInfoPlugin
                     $label = $stored->nickname !== null && $stored->nickname !== ''
                         ? $stored->nickname
                         : (string) __('Unnamed passkey');
+                    $confirmMessage = (string) __(
+                        'Remove this passkey? You will need to register it again to use it for login.'
+                    );
                     $deleteConfig = $this->escaper->escapeHtmlAttr((string) json_encode([
                         'deleteUrl' => $this->backendUrl->getUrl('m2oidc/actions_passkey/delete'),
                         'credentialId' => $stored->dbId,
-                        'confirmMessage' => (string) __('Remove this passkey? You will need to register it again to use it for login.'),
+                        'confirmMessage' => $confirmMessage,
                     ]));
                     $rowsHtml .= '<tr class="m2oidc-passkey-row">'
                         . '<td>' . $this->escaper->escapeHtml($label) . '</td>'
@@ -92,7 +108,8 @@ class PasskeyUserInfoPlugin
                 . ' data-m2oidc-passkey-register-config="' . $registerConfig . '">'
                 . $this->escaper->escapeHtmlAttr((string) __('Register a New Passkey'))
                 . '</button>'
-                . '<div id="m2oidc-passkey-register-error" class="message message-error error" style="display:none;margin-top:8px;"></div>';
+                . '<div id="m2oidc-passkey-register-error" class="message message-error error"'
+                . ' style="display:none;margin-top:8px;"></div>';
 
             $anchorFieldId = $fieldset->getElement('expiration') ? 'expiration' : 'interface_locale';
             $fieldset->addField(

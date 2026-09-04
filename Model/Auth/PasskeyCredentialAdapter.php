@@ -97,6 +97,8 @@ class PasskeyCredentialAdapter implements StorageInterface
     }
 
     /**
+     * Write a message to the OIDC/passkey debug log.
+     *
      * @param  string $message
      */
     protected function log(string $message): void
@@ -189,6 +191,8 @@ class PasskeyCredentialAdapter implements StorageInterface
     }
 
     /**
+     * Authenticate and record the login for a passkey-verified admin user.
+     *
      * @param  string $username
      * @param  string $password
      * @throws AuthenticationException
@@ -214,6 +218,9 @@ class PasskeyCredentialAdapter implements StorageInterface
         return $this;
     }
 
+    /**
+     * Reload the underlying user model from the database.
+     */
     #[\Override]
     public function reload(): static
     {
@@ -222,7 +229,9 @@ class PasskeyCredentialAdapter implements StorageInterface
         if (!$this->userFactory instanceof \Magento\User\Model\UserFactory
             || !$this->userResource instanceof \Magento\User\Model\ResourceModel\User
         ) {
-            throw new \RuntimeException('PasskeyCredentialAdapter: userFactory or userResource dependency not available');
+            throw new \RuntimeException(
+                'PasskeyCredentialAdapter: userFactory or userResource dependency not available'
+            );
         }
 
         /** @psalm-suppress DocblockTypeContradiction */
@@ -239,6 +248,9 @@ class PasskeyCredentialAdapter implements StorageInterface
         return $this;
     }
 
+    /**
+     * Whether ACL resources have been resolved for this session.
+     */
     #[\Override]
     public function hasAvailableResources(): bool
     {
@@ -246,6 +258,8 @@ class PasskeyCredentialAdapter implements StorageInterface
     }
 
     /**
+     * Set whether ACL resources have been resolved for this session.
+     *
      * @param  bool $hasResources
      */
     #[\Override]
@@ -255,17 +269,26 @@ class PasskeyCredentialAdapter implements StorageInterface
         return $this;
     }
 
+    /**
+     * Get the underlying admin user model.
+     */
     public function getUser(): ?\Magento\User\Model\User
     {
         return $this->user;
     }
 
+    /**
+     * Get the underlying admin user's ID.
+     */
     public function getId(): ?int
     {
         $id = $this->user?->getId();
         return $id !== null ? (int) $id : null;
     }
 
+    /**
+     * Whether the underlying admin user is active.
+     */
     public function getIsActive(): bool
     {
         if (!$this->user instanceof \Magento\User\Model\User) {
@@ -275,6 +298,8 @@ class PasskeyCredentialAdapter implements StorageInterface
     }
 
     /**
+     * Serialize the minimal state needed to restore this adapter.
+     *
      * @return array{userId: int|null, hasAvailableResources: bool}
      */
     public function __serialize(): array
@@ -287,6 +312,8 @@ class PasskeyCredentialAdapter implements StorageInterface
     }
 
     /**
+     * Restore this adapter's state and eagerly reload dependencies/user from the database.
+     *
      * @param mixed[] $data Serialized state array with userId and hasAvailableResources
      */
     public function __unserialize(array $data): void

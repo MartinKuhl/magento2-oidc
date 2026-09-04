@@ -17,6 +17,10 @@ use Magento\Framework\View\Result\PageFactory;
  */
 class Index extends Action implements AccountInterface, HttpGetActionInterface
 {
+    /**
+     * @param Context     $context
+     * @param PageFactory $resultPageFactory
+     */
     public function __construct(
         Context $context,
         private readonly PageFactory $resultPageFactory
@@ -24,6 +28,9 @@ class Index extends Action implements AccountInterface, HttpGetActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Render the customer "My Account > Passkeys" management page.
+     */
     #[\Override]
     public function execute()
     {

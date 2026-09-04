@@ -18,8 +18,12 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 class PasskeyCredentialDataProvider extends AbstractDataProvider
 {
     /**
-     * @param array<string, mixed> $meta
-     * @param array<string, mixed> $data
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param mixed[] $meta
+     * @param mixed[] $data
      */
     public function __construct(
         string $name,

@@ -20,6 +20,13 @@ class RegistrationVerify extends BaseAction implements HttpPostActionInterface
 {
     private const MAX_NICKNAME_LENGTH = 191;
 
+    /**
+     * @param Context                     $context
+     * @param OAuthUtility                $oauthUtility
+     * @param JsonFactory                 $jsonFactory
+     * @param CustomerSession             $customerSession
+     * @param PasskeyRegistrationService  $registrationService
+     */
     public function __construct(
         Context $context,
         OAuthUtility $oauthUtility,
@@ -30,6 +37,9 @@ class RegistrationVerify extends BaseAction implements HttpPostActionInterface
         parent::__construct($context, $oauthUtility);
     }
 
+    /**
+     * Verify the browser's attestation and persist the new passkey for the logged-in customer.
+     */
     #[\Override]
     public function execute()
     {

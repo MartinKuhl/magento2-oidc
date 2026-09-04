@@ -16,7 +16,11 @@ use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredentialRepository;
 class ManagePasskeys extends Template
 {
     /**
-     * @param array<string, mixed> $data
+     * @param Template\Context $context
+     * @param CustomerSession $customerSession
+     * @param PasskeyCredentialRepository $credentialRepository
+     * @param FormKey $formKey
+     * @param mixed[] $data
      */
     public function __construct(
         Template\Context $context,
@@ -29,6 +33,8 @@ class ManagePasskeys extends Template
     }
 
     /**
+     * Get the logged-in customer's registered passkeys.
+     *
      * @return StoredCredential[]
      */
     public function getCredentials(): array
@@ -40,21 +46,33 @@ class ManagePasskeys extends Template
         return $this->credentialRepository->findAllForUser('customer', $customerId);
     }
 
+    /**
+     * Get the current form key for CSRF-protected AJAX requests.
+     */
     public function getFormKey(): string
     {
         return $this->formKey->getFormKey();
     }
 
+    /**
+     * Get the URL for building WebAuthn attestation (creation) options.
+     */
     public function getRegistrationOptionsUrl(): string
     {
         return $this->getUrl('m2oidc/actions_passkey/registrationoptions');
     }
 
+    /**
+     * Get the URL for verifying a WebAuthn attestation and persisting the credential.
+     */
     public function getRegistrationVerifyUrl(): string
     {
         return $this->getUrl('m2oidc/actions_passkey/registrationverify');
     }
 
+    /**
+     * Get the URL for self-service passkey deletion.
+     */
     public function getDeleteUrl(): string
     {
         return $this->getUrl('m2oidc/actions_passkey/delete');

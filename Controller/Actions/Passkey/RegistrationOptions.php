@@ -18,6 +18,13 @@ use M2Oidc\OAuth\Model\Passkey\PasskeyRegistrationService;
  */
 class RegistrationOptions extends BaseAction implements HttpPostActionInterface
 {
+    /**
+     * @param Context                     $context
+     * @param OAuthUtility                $oauthUtility
+     * @param JsonFactory                 $jsonFactory
+     * @param CustomerSession             $customerSession
+     * @param PasskeyRegistrationService  $registrationService
+     */
     public function __construct(
         Context $context,
         OAuthUtility $oauthUtility,
@@ -28,6 +35,9 @@ class RegistrationOptions extends BaseAction implements HttpPostActionInterface
         parent::__construct($context, $oauthUtility);
     }
 
+    /**
+     * Build WebAuthn attestation (creation) options for the logged-in customer.
+     */
     #[\Override]
     public function execute()
     {
@@ -37,13 +47,14 @@ class RegistrationOptions extends BaseAction implements HttpPostActionInterface
             return $json->setData(['error' => (string) __('Not authenticated.')]);
         }
         $customer = $this->customerSession->getCustomer();
+        $displayName = trim((string) $customer->getFirstname() . ' ' . (string) $customer->getLastname());
 
         try {
             $result = $this->registrationService->buildCreationOptions(
                 'customer',
                 (int) $customer->getId(),
                 (string) $customer->getEmail(),
-                trim((string) $customer->getFirstname() . ' ' . (string) $customer->getLastname()) ?: (string) $customer->getEmail()
+                $displayName !== '' ? $displayName : (string) $customer->getEmail()
             );
         } catch (\Throwable $e) {
             $this->oauthUtility->customlog('Passkey customer RegistrationOptions: ' . $e->getMessage());

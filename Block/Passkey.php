@@ -17,7 +17,10 @@ use M2Oidc\OAuth\Helper\PasskeyConfig;
 class Passkey extends Template
 {
     /**
-     * @param array<string, mixed> $data
+     * @param Template\Context $context
+     * @param PasskeyConfig $passkeyConfig
+     * @param FormKey $formKey
+     * @param mixed[] $data
      */
     public function __construct(
         Template\Context $context,
@@ -28,26 +31,41 @@ class Passkey extends Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * Whether passkey login is enabled for admin users.
+     */
     public function isEnabledForAdmin(): bool
     {
         return $this->passkeyConfig->isEnabledForAdmin();
     }
 
+    /**
+     * Whether passkey login is enabled for customers.
+     */
     public function isEnabledForCustomer(): bool
     {
         return $this->passkeyConfig->isEnabledForCustomer();
     }
 
+    /**
+     * Get the URL for building WebAuthn assertion (request) options.
+     */
     public function getLoginOptionsUrl(): string
     {
         return $this->getUrl('m2oidc/actions_passkey/loginoptions');
     }
 
+    /**
+     * Get the URL for verifying a WebAuthn assertion.
+     */
     public function getLoginVerifyUrl(): string
     {
         return $this->getUrl('m2oidc/actions_passkey/loginverify');
     }
 
+    /**
+     * Get the current form key for CSRF-protected AJAX requests.
+     */
     public function getFormKey(): string
     {
         return $this->formKey->getFormKey();

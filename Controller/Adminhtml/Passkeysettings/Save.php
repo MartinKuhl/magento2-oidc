@@ -26,6 +26,11 @@ class Save extends Action implements HttpPostActionInterface
         'rp_id' => 'm2oidc_passkey/general/rp_id',
     ];
 
+    /**
+     * @param Context             $context
+     * @param WriterInterface     $configWriter
+     * @param TypeListInterface   $cacheTypeList
+     */
     public function __construct(
         Context $context,
         private readonly WriterInterface $configWriter,
@@ -34,6 +39,9 @@ class Save extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * Save the global Passkey Settings toggles and RP configuration.
+     */
     #[\Override]
     public function execute()
     {
