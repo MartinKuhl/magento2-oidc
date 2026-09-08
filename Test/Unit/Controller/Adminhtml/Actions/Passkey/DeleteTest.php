@@ -11,7 +11,9 @@ use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\User\Model\User;
 use M2Oidc\OAuth\Controller\Adminhtml\Actions\Passkey\Delete;
+use M2Oidc\OAuth\Helper\AdminAuthHelper;
 use M2Oidc\OAuth\Helper\OAuthUtility;
+use M2Oidc\OAuth\Model\Auth\PasskeyCredentialAdapter;
 use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredentialRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -25,6 +27,17 @@ use PHPUnit\Framework\TestCase;
  * tell from the logs alone why a "Remove" click never persisted a deletion
  * (see Test/Unit/Model/Service/PasskeySessionServiceTest.php and the fix
  * plan for the "not logged out" / "still in Registered Passkeys" bug report).
+ *
+ * Also regression-covers the real root cause found via live log evidence:
+ * Auth::getUser() returns a PasskeyCredentialAdapter (not a plain
+ * \Magento\User\Model\User) whenever the current session was established via
+ * Passkey login, since PasskeyCredentialPlugin swaps it in as the credential
+ * storage during Auth::login(). The self-service Delete action must resolve
+ * that adapter back to the real User model (via AdminAuthHelper) instead of
+ * rejecting it outright — the original `instanceof \Magento\User\Model\User`
+ * check on Auth::getUser() incorrectly treated every Passkey-authenticated
+ * admin as "not authenticated", silently failing every delete attempt from
+ * a passkey-login session (while working fine from a password-login one).
  *
  * @covers \M2Oidc\OAuth\Controller\Adminhtml\Actions\Passkey\Delete
  */
@@ -82,7 +95,8 @@ class DeleteTest extends TestCase
             $this->context,
             $this->jsonFactory,
             $this->credentialRepository,
-            $this->oauthUtility
+            $this->oauthUtility,
+            new AdminAuthHelper()
         );
     }
 
@@ -162,6 +176,33 @@ class DeleteTest extends TestCase
                 $this->stringContains('#11'),
                 $this->stringContains('removed by admin #7')
             ));
+
+        $this->controller->execute();
+
+        $this->assertSame(['success' => true], $this->lastJsonData);
+    }
+
+    /**
+     * Regression test for the "not authenticated" / "not logged out" bug:
+     * a Passkey-authenticated session's Auth::getUser() returns a
+     * PasskeyCredentialAdapter, not a plain \Magento\User\Model\User — the
+     * delete must still succeed by resolving the adapter's real underlying user.
+     */
+    public function testSucceedsWhenAuthUserIsPasskeyCredentialAdapter(): void
+    {
+        $realUser = $this->createMock(User::class);
+        $realUser->method('getId')->willReturn(7);
+
+        $adapter = $this->createMock(PasskeyCredentialAdapter::class);
+        $adapter->method('getUser')->willReturn($realUser);
+
+        $this->auth->method('getUser')->willReturn($adapter);
+        $this->request->method('getParam')->with('credential_id', 0)->willReturn(11);
+
+        $this->credentialRepository->expects($this->once())
+            ->method('deleteOwnedCredential')
+            ->with(11, 'admin', 7)
+            ->willReturn(true);
 
         $this->controller->execute();
 

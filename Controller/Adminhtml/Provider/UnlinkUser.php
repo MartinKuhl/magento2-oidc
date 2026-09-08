@@ -9,6 +9,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
+use M2Oidc\OAuth\Helper\AdminAuthHelper;
 use M2Oidc\OAuth\Logger\OidcLogger;
 use M2Oidc\OAuth\Model\ResourceModel\UserProvider as UserProviderResource;
 
@@ -42,12 +43,14 @@ class UnlinkUser extends Action implements HttpPostActionInterface
      * @param JsonFactory          $jsonFactory
      * @param UserProviderResource $userProviderResource
      * @param OidcLogger           $logger
+     * @param AdminAuthHelper      $adminAuthHelper
      */
     public function __construct(
         Context $context,
         private readonly JsonFactory $jsonFactory,
         private readonly UserProviderResource $userProviderResource,
-        private readonly OidcLogger $logger
+        private readonly OidcLogger $logger,
+        private readonly AdminAuthHelper $adminAuthHelper
     ) {
         parent::__construct($context);
     }
@@ -72,7 +75,7 @@ class UnlinkUser extends Action implements HttpPostActionInterface
 
         try {
             $this->userProviderResource->deleteMapping($userType, $userId);
-            $adminUser     = $this->_auth->getUser();
+            $adminUser     = $this->adminAuthHelper->resolveAdminUser($this->_auth->getUser());
             $adminUserName = $adminUser instanceof \Magento\User\Model\User
                 ? $adminUser->getUserName()
                 : '';

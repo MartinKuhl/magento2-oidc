@@ -8,6 +8,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
+use M2Oidc\OAuth\Helper\AdminAuthHelper;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Model\ResourceModel\PasskeyCredentialRepository;
 
@@ -28,12 +29,14 @@ class Delete extends Action implements HttpPostActionInterface
      * @param JsonFactory                 $jsonFactory
      * @param PasskeyCredentialRepository $credentialRepository
      * @param OAuthUtility                $oauthUtility
+     * @param AdminAuthHelper             $adminAuthHelper
      */
     public function __construct(
         Context $context,
         private readonly JsonFactory $jsonFactory,
         private readonly PasskeyCredentialRepository $credentialRepository,
-        private readonly OAuthUtility $oauthUtility
+        private readonly OAuthUtility $oauthUtility,
+        private readonly AdminAuthHelper $adminAuthHelper
     ) {
         parent::__construct($context);
     }
@@ -46,14 +49,14 @@ class Delete extends Action implements HttpPostActionInterface
     {
         $json = $this->jsonFactory->create();
 
-        $adminUser = $this->_auth->getUser();
+        $adminUser = $this->adminAuthHelper->resolveAdminUser($this->_auth->getUser());
         if (!$adminUser instanceof \Magento\User\Model\User || !$adminUser->getId()) {
             $this->oauthUtility->customlog(
                 'Passkey admin Delete: rejected — not authenticated. '
                 // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
                 . 'session_id=' . (string) session_id()
                 . ' isLoggedIn=' . var_export($this->_auth->isLoggedIn(), true)
-                . ' getUser=' . get_debug_type($adminUser)
+                . ' getUser=' . get_debug_type($this->_auth->getUser())
             );
             return $json->setData(['error' => (string) __('Not authenticated.')]);
         }
