@@ -48,17 +48,32 @@ class Delete extends Action implements HttpPostActionInterface
 
         $adminUser = $this->_auth->getUser();
         if (!$adminUser instanceof \Magento\User\Model\User || !$adminUser->getId()) {
+            $this->oauthUtility->customlog(
+                'Passkey admin Delete: rejected — not authenticated. '
+                // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
+                . 'session_id=' . (string) session_id()
+                . ' isLoggedIn=' . var_export($this->_auth->isLoggedIn(), true)
+                . ' getUser=' . get_debug_type($adminUser)
+            );
             return $json->setData(['error' => (string) __('Not authenticated.')]);
         }
 
         $credentialId = (int) $this->getRequest()->getParam('credential_id', 0);
         if ($credentialId <= 0) {
+            $this->oauthUtility->customlog(
+                'Passkey admin Delete: rejected — invalid credential_id param for admin #'
+                . $adminUser->getId()
+            );
             return $json->setData(['error' => (string) __('Invalid credential.')]);
         }
 
         $adminId = (int) $adminUser->getId();
         $deleted = $this->credentialRepository->deleteOwnedCredential($credentialId, 'admin', $adminId);
         if (!$deleted) {
+            $this->oauthUtility->customlog(
+                'Passkey admin Delete: credential #' . $credentialId
+                . ' not found/not owned by admin #' . $adminId
+            );
             return $json->setData(['error' => (string) __('Passkey not found.')]);
         }
 

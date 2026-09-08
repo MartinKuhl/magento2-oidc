@@ -120,7 +120,13 @@ class LoginVerify implements ActionInterface, HttpPostActionInterface
         // Register this session so a later passkey deletion can force-logout it
         // (only takes effect when "Auto-Logout on Passkey Deletion" is enabled).
         // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
-        $this->passkeySessionService->registerSession('admin', $stored->userId, (string) session_id());
+        $registeredSessionId = (string) session_id();
+        $this->passkeySessionService->registerSession('admin', $stored->userId, $registeredSessionId);
+        $this->oauthUtility->customlog(
+            'Passkey admin LoginVerify: registered session_id=' . $registeredSessionId
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction.Discouraged
+            . ' headers_sent=' . var_export(headers_sent(), true)
+        );
 
         // Persistent cookie counterpart to the session flag above — read by
         // OidcIdentityVerificationPlugin / OidcIdentityFieldPlugin, which run

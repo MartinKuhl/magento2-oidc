@@ -8,6 +8,8 @@
                   instance="M2Oidc\OAuth\Observer\TestConfigRequestObserver" />
         <observer name="m2oidc_admin_token_auto_refresh"
                   instance="M2Oidc\OAuth\Observer\AdminTokenAutoRefreshObserver" />
+        <observer name="m2oidc_passkey_session_refresh"
+                  instance="M2Oidc\OAuth\Observer\PasskeySessionRefreshObserver" />
     </event>
 
     <!-- auto-redirect on admin login page -->
