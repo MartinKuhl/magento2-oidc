@@ -293,14 +293,6 @@
                 sortOrder="20"/>
     </type>
 
-    <!-- OIDC Identity Field Plugin Configuration -->
-    <type name="M2Oidc\OAuth\Plugin\User\Block\OidcIdentityFieldPlugin">
-        <arguments>
-            <argument name="cookieManager" xsi:type="object">Magento\Framework\Stdlib\CookieManagerInterface</argument>
-            <argument name="oauthUtility" xsi:type="object">M2Oidc\OAuth\Helper\OAuthUtility</argument>
-        </arguments>
-    </type>
-
     <!-- Plugin to remove required validation from identity field for OIDC users (User Edit) -->
     <type name="Magento\User\Block\User\Edit\Tab\Main">
         <plugin name="oidc_identity_field_user"
