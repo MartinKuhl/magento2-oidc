@@ -33,3 +33,182 @@
     color: #fff;
     filter: grayscale(0%) ;
 }
+
+/*
+ * Shared status badges used across the OIDC grid columns (Manage Providers,
+ * Session Activity) — one consistent color/weight per semantic state instead
+ * of each column hardcoding its own inline style.
+ */
+.m2oidc-badge {
+    display: inline-block;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.m2oidc-badge--success {
+    color: #2e7d32;
+}
+
+.m2oidc-badge--warning {
+    color: #8a6d3b;
+}
+
+.m2oidc-badge--neutral {
+    color: #999;
+    font-weight: normal;
+}
+
+.m2oidc-badge--danger {
+    color: #c0392b;
+}
+
+/* ==========================================================================
+   OIDC settings pages — self-contained field-row layout & checkbox styling.
+
+   Magento's core .admin__field / .admin__field-label / .admin__field-control
+   classes are laid out by a LESS grid mixin that is only activated by the
+   full Magento\Backend\Block\Widget\Form rendering pipeline (plus the
+   positioning context it sets up for .admin__control-checkbox's hide-native/
+   draw-on-label-pseudo trick). These OIDC pages render plain .phtml markup
+   outside that pipeline, so reusing the same class names alone produced a
+   garbled layout and fully invisible checkboxes. Rather than depend on that
+   undocumented mechanism, everything below is an explicit, self-contained
+   layout scoped to .m2oidc-settings-page, so every OIDC admin page keeps the
+   same look regardless of how it's rendered.
+   ========================================================================== */
+
+.m2oidc-settings-page .admin__fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.m2oidc-settings-page .admin__field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.m2oidc-settings-page .admin__field:last-child {
+    border-bottom: 0;
+}
+
+.m2oidc-settings-page .admin__field-label {
+    flex: 0 0 220px !important;
+    max-width: 220px;
+    margin-left: 30px !important;
+    padding-left: 0 !important;
+    padding-right: 20px;
+    font-weight: 600;
+    color: #303030;
+    line-height: 32px;
+    text-align: left !important;
+    white-space: normal !important;
+}
+
+.m2oidc-settings-page .admin__field-control {
+    flex: 1 1 auto;
+    min-width: 240px;
+}
+
+.m2oidc-settings-page .admin__field-note {
+    display: block;
+    margin-top: 8px;
+    color: #6d6d6d;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+}
+
+/* Section intro note (the paragraph right under a section heading, before
+   its fieldset) needs its own breathing room before the first field row —
+   it isn't a per-field note, so the row padding above doesn't apply to it. */
+.m2oidc-settings-page .admin__fieldset-wrapper-title + .admin__field-note {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+/* Checkbox ("choice") fields: checkbox + its own label sit inline, instead
+   of the label occupying the usual label column. */
+.m2oidc-settings-page .admin__field.choice {
+    align-items: center;
+}
+
+.m2oidc-settings-page .admin__field.choice > .admin__control-checkbox {
+    flex: 0 0 auto;
+    position: static;
+    opacity: 1;
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+    width: 18px;
+    height: 18px;
+    margin: 0 8px 0 30px;
+    accent-color: #eb5202;
+    cursor: pointer;
+}
+
+/* Neutralise core's hide-native/draw-on-label-pseudo checkbox skin so it
+   never doubles up with the plain native checkbox above. */
+.m2oidc-settings-page .admin__control-checkbox + label::before {
+    content: none;
+    display: none;
+}
+
+.m2oidc-settings-page .admin__field.choice > .admin__field-label {
+    flex: 1 1 0 !important;
+    max-width: none;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0;
+    font-weight: normal;
+    line-height: 18px;
+    text-align: left !important;
+    white-space: normal !important;
+    cursor: pointer;
+}
+
+.m2oidc-settings-page .admin__field.choice > .admin__field-note {
+    flex: 1 1 100%;
+    margin-left: 56px;
+}
+
+.m2oidc-settings-page .admin__control-text,
+.m2oidc-settings-page .admin__control-select,
+.m2oidc-settings-page .admin__control-textarea {
+    width: 100%;
+    max-width: 480px;
+}
+
+.m2oidc-settings-page .admin__fieldset-wrapper-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+/* Sign In Settings: a lone checkbox fieldset directly followed by its own
+   Submit button doesn't need the usual generous row-to-actions gap. The
+   field itself still carries the standard 18px top/bottom row padding, so
+   trim its bottom side too when it's the only field in the fieldset. */
+.m2oidc-settings-page .admin__fieldset + .actions {
+    margin-top: 0;
+}
+
+.m2oidc-settings-page .admin__fieldset > .admin__field:only-child {
+    padding-bottom: 2px;
+}
+
+/* Sign In Settings: give a note that introduces a button row (e.g. "The
+   error logs will be cleared automatically...") more room before the
+   buttons below it. */
+.m2oidc-settings-page .admin__field-note + .actions {
+    margin-top: 16px;
+}
+
+/* Sign In Settings: space the file picker away from the note above it and
+   the Import button below it. */
+.m2oidc-settings-page input[type="file"] {
+    display: block;
+    margin: 14px 0 16px;
+}

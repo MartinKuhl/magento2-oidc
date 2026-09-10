@@ -85,18 +85,21 @@ class HealthCheckAlert
      */
     public function execute(): void
     {
-        $this->oidcLogger->customlog('HealthCheckAlert: Starting scheduled reachability check');
-
         $collection = $this->collectionFactory->create();
         $collection->addFieldToFilter('is_active', ['eq' => 1]);
         $collection->addFieldToFilter('health_alert_failure_threshold', ['gt' => 0]);
         $collection->addFieldToFilter('health_alert_webhook_url', ['notnull' => true]);
         $collection->addFieldToFilter('health_alert_webhook_url', ['neq' => '']);
 
+        $providers = iterator_to_array($collection);
+        if ($providers === []) {
+            return;
+        }
+
         $checked = 0;
         $alerted = 0;
 
-        foreach ($collection as $provider) {
+        foreach ($providers as $provider) {
             $data       = $provider->getData();
             $providerId = (int) ($data['id'] ?? 0);
             $appName    = (string) ($data['app_name'] ?? "provider #{$providerId}");

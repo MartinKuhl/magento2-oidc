@@ -323,7 +323,7 @@ class JwtVerifier
             return null;
         }
 
-        $data = json_decode((string) $response, true);
+        $data = json_decode($response, true);
         if (!isset($data['keys']) || !is_array($data['keys'])) {
             $this->oauthUtility->customlog("JwtVerifier: Invalid JWKS format from: " . $jwksUrl);
             return null;

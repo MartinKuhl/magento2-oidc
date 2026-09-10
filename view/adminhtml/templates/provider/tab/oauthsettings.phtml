@@ -18,465 +18,405 @@ $inBody         = (bool)(int) $val('values_in_body', 0);
 $isPublicClient = (bool)(int) $val('public_client', 0);
 $notifyOnRecovery = (int) $val('health_alert_notify_on_recovery', 1) === 1;
 ?>
+<div class="m2oidc-settings-page">
 <div class="admin__fieldset-wrapper">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('OAuth / OIDC Configuration')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Provide a Discovery URL to auto-discover endpoints, or enter them manually below.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('OAuth / OIDC Configuration')) ?></strong>
     </div>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Provide a Discovery URL to auto-discover endpoints, or enter them manually below.')
+        ) ?>
+    </p>
 
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px;">
-                    <label for="clientID">
-                        <strong>
-                            <?= $escaper->escapeHtml(__('Client ID')) ?>
-                            <span style="color:red">*</span>
-                        </strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="clientID"
-                           name="clientID"
-                           required
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('clientID')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('Unique identifier for your OAuth application registered with the identity provider.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="public_client">
-                        <strong><?= $escaper->escapeHtml(__('Public Client')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="hidden" name="public_client" value="0">
-                    <input type="checkbox"
-                           id="public_client"
-                           name="public_client"
-                           class="admin__control-checkbox"
-                           value="1"
-                           <?= $isPublicClient ? 'checked="checked"' : '' ?>>
-                    <label class="admin__control-checkbox-label" for="public_client">
-                        <?= $escaper->escapeHtml(__('This provider uses a public client (no client secret)')) ?>
-                    </label>
-                    <small class="admin__field-note">
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field required">
+            <label class="admin__field-label" for="clientID">
+                <span><?= $escaper->escapeHtml(__('Client ID')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="clientID"
+                       name="clientID"
+                       required
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('clientID')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('Unique identifier for your OAuth application registered with the identity provider.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field choice">
+            <input type="hidden" name="public_client" value="0">
+            <input type="checkbox"
+                   id="public_client"
+                   name="public_client"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $isPublicClient ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="public_client">
+                <span><?= $escaper->escapeHtml(__('This provider uses a public client (no client secret)')) ?></span>
+            </label>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'Enable for identity providers that do not issue a client secret '
+                    . '(e.g. Zitadel public app, Authelia with public: true). '
+                    . 'PKCE is strongly recommended for public clients.'
+                )) ?>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="client_secret">
+                <span><?= $escaper->escapeHtml(__('Client Secret')) ?></span>
+                <?php $reqMarkStyle = ($isEditMode || $isPublicClient) ? ';display:none' : ''; ?>
+                <span id="client_secret_required_mark"
+                      class="required"
+                      style="color:#e02b27<?= $escaper->escapeHtmlAttr($reqMarkStyle) ?>">*</span>
+            </label>
+            <div class="admin__field-control">
+                <input type="password"
+                       id="client_secret"
+                       name="client_secret"
+                       class="admin__control-text"
+                       autocomplete="new-password"
+                       value="">
+                <div class="admin__field-note">
+                    <?php if ($isEditMode): ?>
+                        <?= $escaper->escapeHtml(__('Leave blank to keep the existing secret.')) ?>
+                    <?php else: ?>
                         <?= $escaper->escapeHtml(__(
-                            'Enable for identity providers that do not issue a client secret '
-                            . '(e.g. Zitadel public app, Authelia with public: true). '
-                            . 'PKCE is strongly recommended for public clients.'
+                            'Required for confidential clients. '
+                            . 'Leave blank when "Public Client" is enabled above.'
                         )) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="client_secret">
-                        <strong>
-                            <?= $escaper->escapeHtml(__('Client Secret')) ?>
-                            <?php $reqMarkStyle = ($isEditMode || $isPublicClient) ? ';display:none' : ''; ?>
-                            <span id="client_secret_required_mark"
-                                  style="color:red<?= $escaper->escapeHtmlAttr($reqMarkStyle) ?>">*</span>
-                        </strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="password"
-                           id="client_secret"
-                           name="client_secret"
-                           class="admin__control-text"
-                           autocomplete="new-password"
-                           value=""
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?php if ($isEditMode): ?>
-                            <?= $escaper->escapeHtml(__('Leave blank to keep the existing secret.')) ?>
-                        <?php else: ?>
-                            <?= $escaper->escapeHtml(__(
-                                'Required for confidential clients. '
-                                . 'Leave blank when "Public Client" is enabled above.'
-                            )) ?>
-                        <?php endif; ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="scope">
-                        <strong><?= $escaper->escapeHtml(__('Scope')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="scope"
-                           name="scope"
-                           class="admin__control-text"
-                           placeholder="openid profile email"
-                           value="<?= $escaper->escapeHtmlAttr($val('scope', 'openid profile email')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('Space-separated scopes to request. Must include "openid" for OIDC.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="grant_type">
-                        <strong><?= $escaper->escapeHtml(__('Grant Type')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <select id="grant_type" name="grant_type" class="admin__control-select" style="width:100%;">
-                        <option value="authorization_code" selected="selected">
-                            <?= $escaper->escapeHtml(__('Authorization Code')) ?>
-                        </option>
-                    </select>
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__(
-                            'Only Authorization Code is supported. '
-                            . 'To use PKCE, configure the "PKCE Method" field below.'
-                        )) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr id="send_credentials_row"<?= $isPublicClient ? ' style="opacity:0.4;pointer-events:none;"' : '' ?>>
-                <td>
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Send Credentials')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <div>
-                        <input type="checkbox"
-                               id="values_in_header"
-                               name="values_in_header"
-                               class="admin__control-checkbox"
-                               value="1"
-                               <?= ($inHeader && !$isPublicClient) ? 'checked="checked"' : '' ?>>
-                        <label class="admin__control-checkbox-label" for="values_in_header">
-                            <?= $escaper->escapeHtml(__('In Authorization Header')) ?>
-                        </label>
-                    </div>
-                    <div style="margin-top:6px;">
-                        <input type="checkbox"
-                               id="values_in_body"
-                               name="values_in_body"
-                               class="admin__control-checkbox"
-                               value="1"
-                               <?= ($inBody && !$isPublicClient) ? 'checked="checked"' : '' ?>>
-                        <label class="admin__control-checkbox-label" for="values_in_body">
-                            <?= $escaper->escapeHtml(__('In Request Body')) ?>
-                        </label>
-                    </div>
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__(
-                            'How client credentials (client_id + client_secret) are sent to the token endpoint. '
-                            . 'Not applicable for public clients — leave both unchecked'
-                            . ' when "Public Client" is enabled.'
-                        )) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="well_known_config_url">
-                        <strong><?= $escaper->escapeHtml(__('Discovery URL')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="well_known_config_url"
-                           name="well_known_config_url"
-                           class="admin__control-text"
-                           placeholder="https://your-idp/.well-known/openid-configuration"
-                           value="<?= $escaper->escapeHtmlAttr($val('well_known_config_url')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Optional — overrides manual endpoint fields on save.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="authorize_endpoint">
-                        <strong><?= $escaper->escapeHtml(__('Authorization Endpoint')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="authorize_endpoint"
-                           name="authorize_endpoint"
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('authorize_endpoint')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('URL where users are redirected to authenticate. Auto-filled from Discovery URL.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="access_token_endpoint">
-                        <strong><?= $escaper->escapeHtml(__('Access Token Endpoint')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="access_token_endpoint"
-                           name="access_token_endpoint"
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('access_token_endpoint')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('URL to exchange an authorization code for tokens. Auto-filled from Discovery URL.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="user_info_endpoint">
-                        <strong><?= $escaper->escapeHtml(__('UserInfo Endpoint')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="user_info_endpoint"
-                           name="user_info_endpoint"
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('user_info_endpoint')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('URL to fetch user profile claims from the identity provider. Auto-filled.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="jwks_endpoint">
-                        <strong><?= $escaper->escapeHtml(__('JWKS Endpoint')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="jwks_endpoint"
-                           name="jwks_endpoint"
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('jwks_endpoint')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('URL for public keys used to verify token signatures. Auto-filled from Discovery URL.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="endsession_endpoint">
-                        <strong><?= $escaper->escapeHtml(__('End Session Endpoint')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="endsession_endpoint"
-                           name="endsession_endpoint"
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('endsession_endpoint')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('URL to trigger single logout from the identity provider. Auto-filled.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="issuer">
-                        <strong><?= $escaper->escapeHtml(__('Issuer')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="issuer"
-                           name="issuer"
-                           class="admin__control-text"
-                           value="<?= $escaper->escapeHtmlAttr($val('issuer')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('Expected "iss" claim in tokens, used for validation. Auto-filled from Discovery URL.')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="pkce_flow">
-                        <strong><?= $escaper->escapeHtml(__('PKCE Method')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <?php $pkceFlow = (string) $val('pkce_flow', ''); ?>
-                    <select id="pkce_flow" name="pkce_flow" class="admin__control-select" style="width:100%;">
-                        <option value=""
-                            <?= $pkceFlow === '' ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('Disabled')) ?>
-                        </option>
-                        <option value="S256"
-                            <?= $pkceFlow === 'S256' ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('S256 (recommended)')) ?>
-                        </option>
-                        <option value="plain"
-                            <?= $pkceFlow === 'plain' ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('Plain (legacy)')) ?>
-                        </option>
-                    </select>
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__(
-                            'PKCE (Proof Key for Code Exchange) adds an extra security layer'
-                            . ' to the authorization code flow.'
-                            . ' S256 is recommended; plain is only for legacy IdPs that do not support S256.'
-                        )) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="http_timeout">
-                        <strong><?= $escaper->escapeHtml(__('HTTP Timeout (seconds)')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="number"
-                           id="http_timeout"
-                           name="http_timeout"
-                           class="admin__control-text"
-                           min="5"
-                           max="300"
-                           value="<?= $escaper->escapeHtmlAttr($val('http_timeout', '30')) ?>"
-                           style="width:100px;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__(
-                            'Maximum seconds to wait for a response from the IdP token endpoint and JWKS endpoint.'
-                            . ' Default: 30. Min: 5, Max: 300.'
-                            . ' Reduce for faster failure detection on slow or unreachable providers.'
-                        )) ?>
-                    </small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="scope">
+                <span><?= $escaper->escapeHtml(__('Scope')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="scope"
+                       name="scope"
+                       class="admin__control-text"
+                       placeholder="openid profile email"
+                       value="<?= $escaper->escapeHtmlAttr($val('scope', 'openid profile email')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('Space-separated scopes to request. Must include "openid" for OIDC.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="grant_type">
+                <span><?= $escaper->escapeHtml(__('Grant Type')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <select id="grant_type" name="grant_type" class="admin__control-select">
+                    <option value="authorization_code" selected="selected">
+                        <?= $escaper->escapeHtml(__('Authorization Code')) ?>
+                    </option>
+                </select>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Only Authorization Code is supported. '
+                        . 'To use PKCE, configure the "PKCE Method" field below.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+
+        <div id="send_credentials_row"<?= $isPublicClient ? ' style="opacity:0.4;pointer-events:none;"' : '' ?>>
+            <div class="admin__field field choice">
+                <input type="checkbox"
+                       id="values_in_header"
+                       name="values_in_header"
+                       class="admin__control-checkbox"
+                       value="1"
+                       <?= ($inHeader && !$isPublicClient) ? 'checked="checked"' : '' ?>>
+                <label class="admin__field-label" for="values_in_header">
+                    <span><?= $escaper->escapeHtml(__('Send Credentials In Authorization Header')) ?></span>
+                </label>
+            </div>
+            <div class="admin__field field choice">
+                <input type="checkbox"
+                       id="values_in_body"
+                       name="values_in_body"
+                       class="admin__control-checkbox"
+                       value="1"
+                       <?= ($inBody && !$isPublicClient) ? 'checked="checked"' : '' ?>>
+                <label class="admin__field-label" for="values_in_body">
+                    <span><?= $escaper->escapeHtml(__('Send Credentials In Request Body')) ?></span>
+                </label>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'How client credentials (client_id + client_secret) are sent to the token endpoint. '
+                        . 'Not applicable for public clients — leave both unchecked'
+                        . ' when "Public Client" is enabled.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="well_known_config_url">
+                <span><?= $escaper->escapeHtml(__('Discovery URL')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="well_known_config_url"
+                       name="well_known_config_url"
+                       class="admin__control-text"
+                       placeholder="https://your-idp/.well-known/openid-configuration"
+                       value="<?= $escaper->escapeHtmlAttr($val('well_known_config_url')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Optional — overrides manual endpoint fields on save.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="authorize_endpoint">
+                <span><?= $escaper->escapeHtml(__('Authorization Endpoint')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="authorize_endpoint"
+                       name="authorize_endpoint"
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('authorize_endpoint')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('URL where users are redirected to authenticate. Auto-filled from Discovery URL.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="access_token_endpoint">
+                <span><?= $escaper->escapeHtml(__('Access Token Endpoint')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="access_token_endpoint"
+                       name="access_token_endpoint"
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('access_token_endpoint')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('URL to exchange an authorization code for tokens. Auto-filled from Discovery URL.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="user_info_endpoint">
+                <span><?= $escaper->escapeHtml(__('UserInfo Endpoint')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="user_info_endpoint"
+                       name="user_info_endpoint"
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('user_info_endpoint')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('URL to fetch user profile claims from the identity provider. Auto-filled.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="jwks_endpoint">
+                <span><?= $escaper->escapeHtml(__('JWKS Endpoint')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="jwks_endpoint"
+                       name="jwks_endpoint"
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('jwks_endpoint')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('URL for public keys used to verify token signatures. Auto-filled from Discovery URL.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="endsession_endpoint">
+                <span><?= $escaper->escapeHtml(__('End Session Endpoint')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="endsession_endpoint"
+                       name="endsession_endpoint"
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('endsession_endpoint')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('URL to trigger single logout from the identity provider. Auto-filled.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="issuer">
+                <span><?= $escaper->escapeHtml(__('Issuer')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="issuer"
+                       name="issuer"
+                       class="admin__control-text"
+                       value="<?= $escaper->escapeHtmlAttr($val('issuer')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('Expected "iss" claim in tokens, used for validation. Auto-filled from Discovery URL.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <?php $pkceFlow = (string) $val('pkce_flow', ''); ?>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="pkce_flow">
+                <span><?= $escaper->escapeHtml(__('PKCE Method')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <select id="pkce_flow" name="pkce_flow" class="admin__control-select">
+                    <option value="" <?= $pkceFlow === '' ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('Disabled')) ?>
+                    </option>
+                    <option value="S256" <?= $pkceFlow === 'S256' ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('S256 (recommended)')) ?>
+                    </option>
+                    <option value="plain" <?= $pkceFlow === 'plain' ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('Plain (legacy)')) ?>
+                    </option>
+                </select>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'PKCE (Proof Key for Code Exchange) adds an extra security layer'
+                        . ' to the authorization code flow.'
+                        . ' S256 is recommended; plain is only for legacy IdPs that do not support S256.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="http_timeout">
+                <span><?= $escaper->escapeHtml(__('HTTP Timeout (seconds)')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="number"
+                       id="http_timeout"
+                       name="http_timeout"
+                       class="admin__control-text"
+                       min="5"
+                       max="300"
+                       value="<?= $escaper->escapeHtmlAttr($val('http_timeout', '30')) ?>"
+                       style="width:100px;">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Maximum seconds to wait for a response from the IdP token endpoint and JWKS endpoint.'
+                        . ' Default: 30. Min: 5, Max: 300.'
+                        . ' Reduce for faster failure detection on slow or unreachable providers.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
-<!-- ── Health-Check Alerting ─────────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Health-Check Alerting')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(__(
-                'Optionally notify an external webhook (Slack, PagerDuty, or any HTTP endpoint) after '
-                . 'consecutive IdP reachability-check failures. Checked every 5 minutes.'
-            )) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Health-Check Alerting')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td>
-                    <label for="health_alert_webhook_url">
-                        <strong><?= $escaper->escapeHtml(__('Alert Webhook URL')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="password"
-                           id="health_alert_webhook_url"
-                           name="health_alert_webhook_url"
-                           class="admin__control-text"
-                           autocomplete="new-password"
-                           value=""
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?php if ($isEditMode): ?>
-                            <?= $escaper->escapeHtml(__('Leave blank to keep the existing webhook URL.')) ?>
-                        <?php else: ?>
-                            <?= $escaper->escapeHtml(__(
-                                'Must be a public HTTPS URL. Leave blank to disable alerting for this provider.'
-                            )) ?>
-                        <?php endif; ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="health_alert_failure_threshold">
-                        <strong><?= $escaper->escapeHtml(__('Failure Threshold')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="number"
-                           id="health_alert_failure_threshold"
-                           name="health_alert_failure_threshold"
-                           class="admin__control-text"
-                           min="0"
-                           max="20"
-                           value="<?= $escaper->escapeHtmlAttr($val('health_alert_failure_threshold', '0')) ?>"
-                           style="width:100px;">
-                    <small class="admin__field-note">
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(__(
+            'Optionally notify an external webhook (Slack, PagerDuty, or any HTTP endpoint) after '
+            . 'consecutive IdP reachability-check failures. Checked every 5 minutes.'
+        )) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="health_alert_webhook_url">
+                <span><?= $escaper->escapeHtml(__('Alert Webhook URL')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="password"
+                       id="health_alert_webhook_url"
+                       name="health_alert_webhook_url"
+                       class="admin__control-text"
+                       autocomplete="new-password"
+                       value="">
+                <div class="admin__field-note">
+                    <?php if ($isEditMode): ?>
+                        <?= $escaper->escapeHtml(__('Leave blank to keep the existing webhook URL.')) ?>
+                    <?php else: ?>
                         <?= $escaper->escapeHtml(__(
-                            'Number of consecutive failed reachability checks (every 5 minutes) before the '
-                            . 'webhook fires. 0 disables alerting for this provider (default).'
+                            'Must be a public HTTPS URL. Leave blank to disable alerting for this provider.'
                         )) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="health_alert_notify_on_recovery">
-                        <strong><?= $escaper->escapeHtml(__('Notify on Recovery')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px;">
-                        <input type="hidden" name="health_alert_notify_on_recovery" value="0">
-                        <input type="checkbox"
-                               id="health_alert_notify_on_recovery"
-                               name="health_alert_notify_on_recovery"
-                               value="1"
-                               <?= $notifyOnRecovery ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__(
-                            'Also send a one-time recovery notification when the provider becomes reachable again'
-                        )) ?>
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="health_alert_failure_threshold">
+                <span><?= $escaper->escapeHtml(__('Failure Threshold')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="number"
+                       id="health_alert_failure_threshold"
+                       name="health_alert_failure_threshold"
+                       class="admin__control-text"
+                       min="0"
+                       max="20"
+                       value="<?= $escaper->escapeHtmlAttr($val('health_alert_failure_threshold', '0')) ?>"
+                       style="width:100px;">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Number of consecutive failed reachability checks (every 5 minutes) before the '
+                        . 'webhook fires. 0 disables alerting for this provider (default).'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field choice">
+            <input type="hidden" name="health_alert_notify_on_recovery" value="0">
+            <input type="checkbox"
+                   id="health_alert_notify_on_recovery"
+                   name="health_alert_notify_on_recovery"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $notifyOnRecovery ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="health_alert_notify_on_recovery">
+                <span><?= $escaper->escapeHtml(__(
+                    'Also send a one-time recovery notification when the provider becomes reachable again'
+                )) ?></span>
+            </label>
+        </div>
+    </fieldset>
+</div>
 </div>
 
 <script>

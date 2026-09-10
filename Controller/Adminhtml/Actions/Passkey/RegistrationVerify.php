@@ -8,6 +8,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
+use M2Oidc\OAuth\Helper\AdminAuthHelper;
 use M2Oidc\OAuth\Helper\OAuthUtility;
 use M2Oidc\OAuth\Model\Passkey\PasskeyRegistrationService;
 
@@ -27,12 +28,14 @@ class RegistrationVerify extends Action implements HttpPostActionInterface
      * @param JsonFactory                 $jsonFactory
      * @param PasskeyRegistrationService  $registrationService
      * @param OAuthUtility                $oauthUtility
+     * @param AdminAuthHelper             $adminAuthHelper
      */
     public function __construct(
         Context $context,
         private readonly JsonFactory $jsonFactory,
         private readonly PasskeyRegistrationService $registrationService,
-        private readonly OAuthUtility $oauthUtility
+        private readonly OAuthUtility $oauthUtility,
+        private readonly AdminAuthHelper $adminAuthHelper
     ) {
         parent::__construct($context);
     }
@@ -45,7 +48,7 @@ class RegistrationVerify extends Action implements HttpPostActionInterface
     {
         $json = $this->jsonFactory->create();
 
-        $adminUser = $this->_auth->getUser();
+        $adminUser = $this->adminAuthHelper->resolveAdminUser($this->_auth->getUser());
         if (!$adminUser instanceof \Magento\User\Model\User || !$adminUser->getId()) {
             return $json->setData(['error' => (string) __('Not authenticated.')]);
         }

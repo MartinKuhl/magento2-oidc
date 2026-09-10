@@ -30,6 +30,30 @@ parameters:
             - psalm-stubs.stub
             - rector.php
             - phpstan-stubs.stub
+            # bitexpert/phpstan-magento's ExtensionAutoloader/ExtensionInterfaceAutoloader
+            # are registered globally via spl_autoload_register and pattern-match ANY class
+            # ending in "Extension"/"ExtensionInterface" — not just Magento's own
+            # extension-attribute classes — assuming Magento's generated-extension-attribute
+            # naming convention applies. webauthn-lib's real class
+            # Webauthn\AuthenticationExtensions\AuthenticationExtension (used internally by
+            # PublicKeyCredentialRequestOptions, which this file calls) coincidentally
+            # matches. Reflecting it makes ExtensionAutoloader derive a bogus
+            # "...ExtensionInterface" name and reflect THAT without an existence guard,
+            # which in turn trips ExtensionInterfaceAutoloader, which derives a second bogus
+            # "...AuthenticationInterface" name, finds it genuinely doesn't exist, and
+            # throws — aborting the whole PHPStan run as an uncatchable "Internal error"
+            # (confirmed via a minimal repro calling only
+            # Webauthn\PublicKeyCredentialRequestOptions::create(); reproduces even in
+            # isolation, with no OIDC/passkey code involved). Not fixable from this repo:
+            # both autoloaders' existence checks go through their own raw
+            # Composer\Autoload\ClassLoader instance (DataProvider\ClassLoaderProvider), not
+            # PHPStan's reflection provider, so nothing declared via stubFiles/scanFiles is
+            # visible to them — and this is an uncaught "Internal error", which bypasses
+            # ignoreErrors entirely (confirmed empirically, not just per docs). Excluding
+            # only this one file from analysis (it remains scannable, so callers of its
+            # public API are still type-checked correctly) is the only within-repo
+            # mitigation; every other Passkey file keeps full PHPStan coverage.
+            - ../Model/Passkey/PasskeyAuthenticationService.php
     scanFiles:
         - psalm-stubs.stub
     stubFiles:
@@ -80,6 +104,31 @@ parameters:
         # generated create()-only stub shadows the real class's actual methods.
         -
             message: '#Call to an undefined method M2Oidc\\OAuth\\Model\\Passkey\\WebauthnCeremonyFactory::\w+\(\)\.#'
+            identifier: method.notFound
+            reportUnmatched: false
+        # The same FactoryAutoloader mismatch, one level deeper: WebauthnCeremonyFactory
+        # itself instantiates two REAL webauthn-lib classes whose names also happen to
+        # end in "Factory" — Webauthn\Denormalizer\WebauthnSerializerFactory and
+        # Webauthn\CeremonyStep\CeremonyStepManagerFactory — so bitexpert's
+        # FactoryAutoloader shadows their real constructors/methods with its generated
+        # create()-only stub the same way. Unlike the Magento-native classes above, a
+        # phpstan-stubs.stub override doesn't work here: PHPStan's own stub-file
+        # validation pass rejects it as a "class.notFound (non-ignorable)" error, because
+        # the very same Extension(Interface)Autoloader misfire that
+        # Model/Passkey/PasskeyAuthenticationService.php is excluded from above also
+        # trips during that stricter validation for these two classes' real parameter/
+        # return types (AttestationStatementSupportManager, SerializerInterface,
+        # CeremonyStepManager). ignoreErrors is the only working suppression here.
+        -
+            message: '#Class Webauthn\\Denormalizer\\WebauthnSerializerFactory does not have a constructor and must be instantiated without any parameters\.#'
+            identifier: new.noConstructor
+            reportUnmatched: false
+        -
+            message: '#Property M2Oidc\\OAuth\\Model\\Passkey\\WebauthnCeremonyFactory::\$serializer \(Symfony\\Component\\Serializer\\SerializerInterface\|null\) does not accept Webauthn\\Denormalizer\\WebauthnSerializer\.#'
+            identifier: assign.propertyType
+            reportUnmatched: false
+        -
+            message: '#Call to an undefined method Webauthn\\CeremonyStep\\CeremonyStepManagerFactory::(creationCeremony|requestCeremony|setAllowedOrigins)\(\)\.#'
             identifier: method.notFound
             reportUnmatched: false
         # Cm_Cache_Backend_Redis (colinmollenhour/cache-backend-redis) is an intentionally

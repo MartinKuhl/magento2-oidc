@@ -15,185 +15,162 @@ $loginType = (string) $val('login_type', 'both');
 $isActive  = isset($data['id']) ? (bool)(int) $val('is_active', 1) : true;
 $btnColor  = (string) $val('button_color', '#eb5202');
 ?>
+<div class="m2oidc-settings-page">
 <div class="admin__fieldset-wrapper">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Provider Identity')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(__('Basic identity and appearance settings for this provider.')) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Provider Identity')) ?></strong>
     </div>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(__('Basic identity and appearance settings for this provider.')) ?>
+    </p>
 
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px;">
-                    <label for="app_name">
-                        <strong>
-                            <?= $escaper->escapeHtml(__('Provider Name')) ?>
-                            <span style="color:red">*</span>
-                        </strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="app_name"
-                           name="app_name"
-                           required
-                           class="admin__control-text"
-                           placeholder="e.g. Authelia"
-                           value="<?= $escaper->escapeHtmlAttr($val('app_name')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Internal identifier used in the codebase.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="display_name">
-                        <strong><?= $escaper->escapeHtml(__('Display Name')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="display_name"
-                           name="display_name"
-                           class="admin__control-text"
-                           placeholder="e.g. Login with Authelia"
-                           value="<?= $escaper->escapeHtmlAttr($val('display_name')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Label shown on the SSO button.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="login_type">
-                        <strong><?= $escaper->escapeHtml(__('Login Type')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <select id="login_type" name="login_type" class="admin__control-select" style="width:100%;">
-                        <option value="customer"
-                            <?= $loginType === 'customer' ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('Customer')) ?>
-                        </option>
-                        <option value="admin"
-                            <?= $loginType === 'admin' ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('Admin')) ?>
-                        </option>
-                        <option value="both"
-                            <?= $loginType === 'both' ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('Both')) ?>
-                        </option>
-                    </select>
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Who can use this provider to log in.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="is_active">
-                        <strong><?= $escaper->escapeHtml(__('Active')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px;">
-                        <input type="hidden" name="is_active" value="0">
-                        <input type="checkbox"
-                               id="is_active"
-                               name="is_active"
-                               value="1"
-                               <?= $isActive ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Uncheck to disable this provider.')) ?>
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="sort_order">
-                        <strong><?= $escaper->escapeHtml(__('Sort Order')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="number"
-                           id="sort_order"
-                           name="sort_order"
-                           class="admin__control-text"
-                           value="<?= (int) $val('sort_order', 0) ?>"
-                           min="0"
-                           style="width:80px;">
-                    <small class="admin__field-note" style="margin-left:6px;">
-                        <?= $escaper->escapeHtml(__('Lower numbers appear first.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="button_label">
-                        <strong><?= $escaper->escapeHtml(__('Button Label')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="button_label"
-                           name="button_label"
-                           class="admin__control-text"
-                           placeholder="e.g. Login with SSO"
-                           value="<?= $escaper->escapeHtmlAttr($val('button_label')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Leave empty to use the Display Name.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="button_color">
-                        <strong><?= $escaper->escapeHtml(__('Button Color')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="color"
-                           id="button_color"
-                           name="button_color"
-                           value="<?= $escaper->escapeHtmlAttr($btnColor) ?>"
-                           style="width:60px; height:36px; padding:2px; cursor:pointer;">
-                    <small class="admin__field-note" style="margin-left:6px;">
-                        <?= $escaper->escapeHtml(__('Hex colour for the SSO login button.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="log_file_suffix">
-                        <strong><?= $escaper->escapeHtml(__('Log File Suffix')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="log_file_suffix"
-                           name="log_file_suffix"
-                           class="admin__control-text"
-                           placeholder="e.g. b2b"
-                           pattern="[a-zA-Z0-9_-]*"
-                           value="<?= $escaper->escapeHtmlAttr((string) $val('log_file_suffix')) ?>"
-                           style="width:200px;">
-                    <small class="admin__field-note" style="margin-left:6px;">
-                        <?= $escaper->escapeHtml(__(
-                            'Optional. When set, this provider logs to var/log/M2Oidc_<suffix>.log'
-                            . ' instead of the shared M2Oidc.log. Letters, digits, hyphens and underscores only.'
-                        )) ?>
-                    </small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field required">
+            <label class="admin__field-label" for="app_name">
+                <span><?= $escaper->escapeHtml(__('Provider Name')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="app_name"
+                       name="app_name"
+                       required
+                       class="admin__control-text"
+                       placeholder="e.g. Authelia"
+                       value="<?= $escaper->escapeHtmlAttr($val('app_name')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Internal identifier used in the codebase.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="display_name">
+                <span><?= $escaper->escapeHtml(__('Display Name')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="display_name"
+                       name="display_name"
+                       class="admin__control-text"
+                       placeholder="e.g. Login with Authelia"
+                       value="<?= $escaper->escapeHtmlAttr($val('display_name')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Label shown on the SSO button.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="login_type">
+                <span><?= $escaper->escapeHtml(__('Login Type')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <select id="login_type" name="login_type" class="admin__control-select">
+                    <option value="customer" <?= $loginType === 'customer' ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('Customer')) ?>
+                    </option>
+                    <option value="admin" <?= $loginType === 'admin' ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('Admin')) ?>
+                    </option>
+                    <option value="both" <?= $loginType === 'both' ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('Both')) ?>
+                    </option>
+                </select>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Who can use this provider to log in.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field choice">
+            <input type="hidden" name="is_active" value="0">
+            <input type="checkbox"
+                   id="is_active"
+                   name="is_active"
+                   value="1"
+                   class="admin__control-checkbox"
+                   <?= $isActive ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="is_active">
+                <span><?= $escaper->escapeHtml(__('Active')) ?></span>
+            </label>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__('Uncheck to disable this provider.')) ?>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="sort_order">
+                <span><?= $escaper->escapeHtml(__('Sort Order')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="number"
+                       id="sort_order"
+                       name="sort_order"
+                       class="admin__control-text"
+                       value="<?= (int) $val('sort_order', 0) ?>"
+                       min="0"
+                       style="width:80px;">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Lower numbers appear first.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="button_label">
+                <span><?= $escaper->escapeHtml(__('Button Label')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="button_label"
+                       name="button_label"
+                       class="admin__control-text"
+                       placeholder="e.g. Login with SSO"
+                       value="<?= $escaper->escapeHtmlAttr($val('button_label')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Leave empty to use the Display Name.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="button_color">
+                <span><?= $escaper->escapeHtml(__('Button Color')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="color"
+                       id="button_color"
+                       name="button_color"
+                       value="<?= $escaper->escapeHtmlAttr($btnColor) ?>"
+                       style="width:60px; height:36px; padding:2px; cursor:pointer;">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Hex colour for the SSO login button.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="log_file_suffix">
+                <span><?= $escaper->escapeHtml(__('Log File Suffix')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="log_file_suffix"
+                       name="log_file_suffix"
+                       class="admin__control-text"
+                       placeholder="e.g. b2b"
+                       pattern="[a-zA-Z0-9_-]*"
+                       value="<?= $escaper->escapeHtmlAttr((string) $val('log_file_suffix')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Optional. When set, this provider logs to var/log/M2Oidc_<suffix>.log'
+                        . ' instead of the shared M2Oidc.log. Letters, digits, hyphens and underscores only.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
 </div>
 <style>
 /* Dirty-field highlighting — applied by the script below when a field's
@@ -205,11 +182,11 @@ $btnColor  = (string) $val('button_color', '#eb5202');
     transition: border-color .15s, background-color .15s, box-shadow .15s;
 }
 /* Row accent for checkboxes and color-pickers (can't easily take a bg/border). */
-tr.m2oidc-row-modified > td:first-child {
+.m2oidc-settings-page .admin__field.m2oidc-row-modified {
     border-left: 3px solid #e07b00;
     padding-left: 9px;
 }
-tr > td:first-child {
+.m2oidc-settings-page .admin__field {
     transition: border-left .15s, padding-left .15s;
 }
 </style>

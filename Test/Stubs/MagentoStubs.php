@@ -412,12 +412,16 @@ namespace Magento\Backend\App {
         /** @var mixed */
         protected $_authorization;
 
+        /** @var mixed Set from Context::getAuth(), mirroring the real AbstractAction constructor. */
+        protected $_auth;
+
         /** @var \Magento\Backend\App\Action\Context|null */
         private $context;
 
         public function __construct($context = null)
         {
             $this->context = $context;
+            $this->_auth = $context ? $context->getAuth() : null;
         }
 
         /** Delegates to the Context mock so tests can wire the request object. */
@@ -627,12 +631,35 @@ namespace Magento\Backend\App\Action {
         {
             return null;
         }
+
+        /** @return mixed */
+        public function getAuth()
+        {
+            return null;
+        }
     }
 }
 
 namespace Magento\Backend\Model {
     class Auth
     {
+        /** @return mixed */
+        public function getUser()
+        {
+            return null;
+        }
+
+        /** @return mixed */
+        public function getAuthStorage()
+        {
+            return null;
+        }
+
+        /** @return bool */
+        public function isLoggedIn()
+        {
+            return false;
+        }
     }
 }
 

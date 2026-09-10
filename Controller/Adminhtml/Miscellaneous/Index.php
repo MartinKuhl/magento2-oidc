@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace M2Oidc\OAuth\Controller\Adminhtml\Signinsettings;
+namespace M2Oidc\OAuth\Controller\Adminhtml\Miscellaneous;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
@@ -21,7 +21,7 @@ use M2Oidc\OAuth\Model\Validation\ProviderDataValidator;
 use Psr\Log\LoggerInterface;
 
 /**
- * This class handles the action for endpoint: m2oidc/signinsettings/Index
+ * This class handles the action for endpoint: m2oidc/miscellaneous/Index
  * (Miscellaneous page — Debug Logs + Import/Export).
  *
  * Login / Logout Options have moved to the per-provider Login Options tab
@@ -37,7 +37,7 @@ class Index extends BaseAdminAction implements HttpPostActionInterface, HttpGetA
      *
      * @var string
      */
-    public const ADMIN_RESOURCE = 'M2Oidc_OAuth::signin_settings';
+    public const ADMIN_RESOURCE = 'M2Oidc_OAuth::miscellaneous';
 
     /**
      * Runtime/diagnostic provider fields excluded from configuration exports.
@@ -65,7 +65,7 @@ class Index extends BaseAdminAction implements HttpPostActionInterface, HttpGetA
     private readonly ProviderDataValidator $providerDataValidator;
 
     /**
-     * Initialize sign-in settings controller.
+     * Initialize miscellaneous settings controller.
      *
      * @param Context                                          $context
      * @param PageFactory                                      $resultPageFactory
@@ -153,7 +153,7 @@ class Index extends BaseAdminAction implements HttpPostActionInterface, HttpGetA
         }
 
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->getConfig()->getTitle()->prepend((string)__('OIDC Miscellaneous Settings'));
+        $resultPage->getConfig()->getTitle()->prepend((string)__('Miscellaneous'));
         return $resultPage;
     }
 
@@ -403,7 +403,7 @@ class Index extends BaseAdminAction implements HttpPostActionInterface, HttpGetA
     }
 
     /**
-     * Save the sign-in settings configuration.
+     * Log the client configuration values for diagnostics.
      *
      * @param (false|mixed|string)[] $values
      * @psalm-param list{string, mixed, mixed, mixed, mixed, mixed, mixed, mixed, mixed, mixed, mixed, mixed,

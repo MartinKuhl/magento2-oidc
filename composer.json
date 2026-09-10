@@ -1,7 +1,8 @@
 {
     "name": "martinkuhl/magento2-oidc-sso",
-    "description": "Magento 2 OIDC - SSO extension support login into Magento using any OAuth or OpenID Connect provider",
+    "description": "Magento 2 OIDC - SSO extension support login into Magento using any OAuth, OpenID Connect provider or passwordless login via PassKeys.",
     "type": "magento2-module",
+    "version": "1.0.0",
     "require": {
         "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
         "magento/framework": "*",

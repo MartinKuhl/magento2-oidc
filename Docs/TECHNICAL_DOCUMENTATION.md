@@ -161,7 +161,7 @@ M2Oidc_OAuth/
 │       │       └── LoginVerify.php           # Anonymous; verifies assertion, mints PKEY_ token, calls Auth::login(); sets is_passkey_authenticated auth-storage flag + passkey_authenticated cookie
 │       ├── OAuthsettings/Index.php           # Admin page: OAuth Settings; encrypts client_secret via EncryptorInterface before save; ADMIN_RESOURCE const
 │       ├── Attrsettings/Index.php            # Admin page: Attribute Mapping; ADMIN_RESOURCE const
-│       ├── Signinsettings/Index.php          # Admin page: Sign In Settings; import/export paths run through ProviderDataValidator / EXPORT_EXCLUDED_FIELDS; ADMIN_RESOURCE const
+│       ├── Miscellaneous/Index.php           # Admin page: Miscellaneous (/admin/m2oidc/miscellaneous/index) — Debug Logs + Import/Export; import/export paths run through ProviderDataValidator / EXPORT_EXCLUDED_FIELDS; ADMIN_RESOURCE const
 │       ├── Providersettings/Index.php        # Admin page: Provider Settings (display_name, login_type, is_active, sort_order, button_label, button_color); ADMIN_RESOURCE const
 │       ├── Passkeysettings/
 │       │   ├── Index.php                     # Admin page: Passkey Settings (/admin/m2oidc/passkeysettings/index); toggles + RP name/ID form + cross-user Registered Passkeys grid; ADMIN_RESOURCE = M2Oidc_OAuth::passkey_settings
@@ -216,7 +216,7 @@ M2Oidc_OAuth/
 │   │       └── SlidingWindowStrategy.php     # Sliding-window (Redis Lua); declares its own MAX_ATTEMPTS/WINDOW_SECONDS
 │   ├── Validation/
 │   │   ├── SsrfUrlValidator.php              # Shared loopback/RFC-1918 host blocking for endpoint URLs; used by Provider/Save.php, OAuthsettings, RefreshOidcDiscovery cron, ProviderDataValidator
-│   │   ├── ProviderDataValidator.php         # Shared enum whitelisting + SSRF checks + lockout-prevention guard; used by Provider/Save.php, ImportOidcConfig, Signinsettings import path
+│   │   ├── ProviderDataValidator.php         # Shared enum whitelisting + SSRF checks + lockout-prevention guard; used by Provider/Save.php, ImportOidcConfig, Miscellaneous import path
 │   │   └── ProviderValidationResult.php      # Value object returned by ProviderDataValidator
 │   ├── Service/
 │   │   ├── AdminUserCreator.php              # JIT admin provisioning; role resolution delegates to GroupMappingResolver; password via RandomPasswordGenerator
@@ -279,6 +279,7 @@ M2Oidc_OAuth/
 │   ├── OAuthSecurityHelper.php               # PKCE (cache-based), state tokens, nonces, relay state, all via AtomicCacheInterface
 │   ├── PasskeyConfig.php                     # Global (non-provider-scoped) passkey config: enabled_admin/enabled_customer/rp_name/rp_id under m2oidc_passkey/general/*; also derives the WebAuthn origin from the store base URL
 │   ├── PasskeySecurityHelper.php             # Passkey security primitives: challenge nonces, PKEY_ ephemeral auth tokens, customer login handoff nonces — all AtomicCacheInterface-backed, structurally parallel to OAuthSecurityHelper but with distinct 'PKEY_' markers
+│   ├── AdminAuthHelper.php                   # resolveAdminUser() unwraps Auth::getUser() to the real User model whether the session is password-, Passkey-, or OIDC-authenticated (the latter two return a StorageInterface adapter, not a plain User); used by every self-service passkey controller + UnlinkUser.php
 │   ├── SessionHelper.php                     # SameSite=None cookie handling (OIDC routes only)
 │   ├── Curl.php                              # HTTP client for token/userinfo requests
 │   ├── JwtVerifier.php                       # JWT signature validation using JWKS (cached, circuit-breaker on repeated failure)
@@ -340,7 +341,8 @@ M2Oidc_OAuth/
 │   ├── TokenAutoRefreshObserver.php          # Bound to controller_action_predispatch (frontend)
 │   ├── AdminTokenAutoRefreshObserver.php     # Bound to controller_action_predispatch (adminhtml)
 │   ├── AdminUserDeleteObserver.php           # Bound to admin_user_delete_after (global); removes OIDC user mapping AND all passkey credentials for the deleted admin
-│   └── CustomerDeleteObserver.php            # Bound to customer_delete_after (global); removes OIDC user mapping AND all passkey credentials for the deleted customer
+│   ├── CustomerDeleteObserver.php            # Bound to customer_delete_after (global); removes OIDC user mapping AND all passkey credentials for the deleted customer
+│   └── PasskeySessionRefreshObserver.php     # Bound to controller_action_predispatch (adminhtml); on a passkey-authenticated request, re-registers the session with PasskeySessionService so the auto-logout-on-delete session-ID mapping never goes stale
 │
 ├── Logger/
 │   ├── Logger.php                            # Custom Monolog logger
@@ -451,8 +453,12 @@ PASSKEY LOGIN FLOW — ADMIN (email-scoped):
           |-> PasskeyCredentialAdapter authenticates (no password check; fires admin_user_authenticate_before/after
               with passkey_auth=true)
        -> sets is_passkey_authenticated auth-storage flag + passkey_authenticated cookie (admin session lifetime)
+       -> registers this session with PasskeySessionService (auto-logout-on-delete tracking); kept pointed at the
+          *current* PHP session ID on every later admin request by PasskeySessionRefreshObserver
        -> returns {success, redirectUrl: admin/dashboard}
 ```
+
+**Note**: self-service passkey actions (`RegistrationOptions`/`RegistrationVerify`/`Delete` above, and `Provider/UnlinkUser.php`) resolve the acting admin via `Helper/AdminAuthHelper::resolveAdminUser()`, not a bare `instanceof \Magento\User\Model\User` check on `Auth::getUser()` — a passkey- or OIDC-authenticated session's `Auth::getUser()` returns the bridging adapter (`PasskeyCredentialAdapter`/`OidcCredentialAdapter`), not a plain `User`, which a naive check misidentifies as "not authenticated".
 
 ### Database Tables
 

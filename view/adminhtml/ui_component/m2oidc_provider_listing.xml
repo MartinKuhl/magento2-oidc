@@ -177,8 +177,7 @@
         </column>
 
         <actionsColumn name="actions"
-                       class="M2Oidc\OAuth\Ui\Component\Listing\Column\Actions"
-                       component="M2Oidc_OAuth/js/grid/columns/provider-actions">
+                       class="M2Oidc\OAuth\Ui\Component\Listing\Column\Actions">
             <settings>
                 <indexField>id</indexField>
                 <label translate="true">Actions</label>

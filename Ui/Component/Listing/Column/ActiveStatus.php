@@ -7,6 +7,7 @@ namespace M2Oidc\OAuth\Ui\Component\Listing\Column;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
+use M2Oidc\OAuth\Ui\Component\Listing\Column\Render\BadgeRenderer;
 
 /**
  * Virtual column: renders a coloured Active/Inactive badge per provider row.
@@ -14,21 +15,25 @@ use Magento\Ui\Component\Listing\Columns\Column;
  */
 class ActiveStatus extends Column
 {
+    /** @var BadgeRenderer */
+    private BadgeRenderer $badgeRenderer;
+
     /**
-     * @inheritDoc
+     * @param ContextInterface   $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param BadgeRenderer      $badgeRenderer
+     * @param mixed[]            $components
+     * @param mixed[]            $data
      */
-    /**
-     * @param array<string, mixed> $components
-     * @param array<string, mixed> $data
-     */
-    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
+        BadgeRenderer $badgeRenderer,
         array $components = [],
         array $data = []
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
+        $this->badgeRenderer = $badgeRenderer;
     }
 
     /**
@@ -48,8 +53,8 @@ class ActiveStatus extends Column
         foreach ($dataSource['data']['items'] as &$item) {
             $isActive = (bool)(int)($item['is_active'] ?? 1);
             $item[$fieldName] = $isActive
-                ? '<span style="color:#3c763d;font-weight:bold;">&#9679; Active</span>'
-                : '<span style="color:#c0392b;font-weight:bold;">&#9679; Inactive</span>';
+                ? $this->badgeRenderer->render('success', (string) __('Active'), '&#9679;')
+                : $this->badgeRenderer->render('danger', (string) __('Inactive'), '&#9679;');
         }
 
         return $dataSource;

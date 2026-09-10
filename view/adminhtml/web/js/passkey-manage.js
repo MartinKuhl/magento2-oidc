@@ -22,13 +22,20 @@ define(['jquery'], function ($) {
         fetch(config.deleteUrl, { method: 'POST', body: fd, credentials: 'same-origin', headers: { 'X-Requested-With': 'XMLHttpRequest' } })
             .then(function (r) { return r.json(); })
             .then(function (d) {
-                if (d.success) {
-                    $(btn).closest('.m2oidc-passkey-row').remove();
-                } else {
+                if (!d.success) {
                     window.alert(d.error || 'Unable to remove passkey.');
                 }
+                // Always reload: the server is the source of truth for which
+                // passkeys still exist. Relying on optimistic DOM removal alone
+                // let a silently-failed delete leave a "removed" row that was
+                // never actually deleted, while this list and the Registered
+                // Passkeys grid quietly disagreed.
+                window.location.reload();
             })
-            .catch(function () { window.alert('Request failed.'); });
+            .catch(function () {
+                window.alert('Request failed.');
+                window.location.reload();
+            });
     });
 
     $(document).on('click', '#m2oidc-passkey-register-btn', function () {

@@ -19,28 +19,21 @@ declare(strict_types=1);
 namespace M2Oidc\OAuth\Plugin\User\Block;
 
 use Magento\Framework\Stdlib\CookieManagerInterface;
-use M2Oidc\OAuth\Helper\OAuthUtility;
 
 class OidcIdentityFieldPlugin
 {
     /** @var \Magento\Framework\Stdlib\CookieManagerInterface */
     protected \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager;
 
-    /** @var \M2Oidc\OAuth\Helper\OAuthUtility */
-    protected \M2Oidc\OAuth\Helper\OAuthUtility $oauthUtility;
-
     /**
      * Initialize OIDC identity field plugin.
      *
      * @param CookieManagerInterface $cookieManager
-     * @param OAuthUtility           $oauthUtility
      */
     public function __construct(
-        CookieManagerInterface $cookieManager,
-        OAuthUtility $oauthUtility
+        CookieManagerInterface $cookieManager
     ) {
         $this->cookieManager = $cookieManager;
-        $this->oauthUtility = $oauthUtility;
     }
 
     /**
@@ -59,17 +52,12 @@ class OidcIdentityFieldPlugin
         $isOidcAuth = $this->cookieManager->getCookie('oidc_authenticated') === '1'
             || $this->cookieManager->getCookie('passkey_authenticated') === '1';
 
-        $this->oauthUtility->customlog("OidcIdentityFieldPlugin: afterSetForm called for " . get_class($subject));
-        $this->oauthUtility->customlog("OidcIdentityFieldPlugin: isOidcAuth = " . var_export($isOidcAuth, true));
-
         // Only modify for OIDC-authenticated users
         if ($isOidcAuth) {
             $form = $subject->getForm();
-            $this->oauthUtility->customlog("OidcIdentityFieldPlugin: Form exists = " . ($form ? 'yes' : 'no'));
 
             if ($form) {
                 $field = $form->getElement('current_password');
-                $this->oauthUtility->customlog("OidcIdentityFieldPlugin: Field found = " . ($field ? 'yes' : 'no'));
 
                 if ($field) {
                     // Remove required attribute
@@ -80,8 +68,6 @@ class OidcIdentityFieldPlugin
                     $classStr = (string) $currentClass;
                     $replaced = str_replace('required-entry', '', $classStr);
                     $field->setClass(trim($replaced));
-
-                    $this->oauthUtility->customlog("OidcIdentityFieldPlugin: Field modified - required removed");
                 }
             }
         }
