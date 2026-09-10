@@ -496,7 +496,11 @@ class OAuthUtility extends Data
      */
     public function flushCache(string $from = ""): void
     {
-        $types = ['db_ddl'];
+        // 'config' must be cleaned whenever setStoreConfig() writes a new value directly via
+        // WriterInterface::save() — that low-level writer does not itself invalidate the config
+        // cache (unlike Magento\Config\Model\Config::save(), used by System Config), so a warm
+        // config cache would keep serving the old value until this type is explicitly cleaned.
+        $types = ['db_ddl', 'config'];
 
         foreach ($types as $type) {
             $this->cacheTypeList->cleanType($type);

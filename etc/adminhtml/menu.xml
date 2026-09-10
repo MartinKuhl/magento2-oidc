@@ -20,7 +20,7 @@
             Routes to Controller/Adminhtml/Provider/Index.php via m2oidc/provider/index.
         -->
         <add id="M2Oidc_OAuth::provider_management"
-            title="Manage Providers"
+            title="Manage OIDC Providers"
             module="M2Oidc_OAuth"
             sortOrder="0"
             parent="M2Oidc_OAuth::OAuth"
@@ -34,7 +34,7 @@
         -->
         <!-- OIDC Session Activity: read-only grid of all SSO-linked users -->
         <add id="M2Oidc_OAuth::oidc_sessions"
-            title="Session Activity"
+            title="OIDC Session Activity"
             module="M2Oidc_OAuth"
             sortOrder="1"
             parent="M2Oidc_OAuth::OAuth"
@@ -50,13 +50,13 @@
             action="m2oidc/passkeysettings/index"
             resource="M2Oidc_OAuth::passkey_settings"/>
 
-        <add id="M2Oidc_OAuth::signin_settings"
+        <add id="M2Oidc_OAuth::miscellaneous"
             title="Miscellaneous"
             module="M2Oidc_OAuth"
             sortOrder="3"
             parent="M2Oidc_OAuth::OAuth"
-            action="m2oidc/signinsettings"
-            resource="M2Oidc_OAuth::signin_settings"/>
+            action="m2oidc/miscellaneous"
+            resource="M2Oidc_OAuth::miscellaneous"/>
 
     </menu>
 </config>

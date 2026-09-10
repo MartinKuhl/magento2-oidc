@@ -4,114 +4,123 @@
     in Manage Providers → Edit Provider.
 -->
 <?php
-$enableDebugLog = $block->isDebugLogEnable() ? 'checked' : '';
+/** @var \M2Oidc\OAuth\Block\OAuth $block */
+/** @var \Magento\Framework\Escaper $escaper */
 ?>
+<div class="m2oidc-settings-page">
 
-<div class="row">
-    <div class="col-sm-7 page_margin">
-        <div class="page" id="samlsettings">
+<div class="admin__fieldset-wrapper-title">
+    <strong><?= $escaper->escapeHtml(__('Debug Logs')) ?></strong>
+</div>
+<p class="admin__field-note">
+    <?= $escaper->escapeHtml(__('Enable logging and download debug information for troubleshooting.')) ?>
+</p>
 
-            <!-- Debug Logs Section -->
-            <div class="m2oidc_table_layout">
-                <h3>DEBUG LOGS</h3>
-                <hr>
-                <p style="font-style: italic; color: #666; margin-top: 10px;">
-                    Enable logging and download debug information for troubleshooting.
-                </p>
-            </div>
-
-            <!-- Enable Debug Log Form -->
-            <form id="enable_debug_log" method="post" action="">
-                <input name="form_key" type="hidden" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
-                <input type="hidden" name="option" value="enable_debug_log">
-                <br>
-                <input type="checkbox"
-                       name="debug_log_on"
-                       <?= $escaper->escapeHtmlAttr($enableDebugLog) ?>
-                       value="true">
-                Enable Debug Log
-                <div class="actions">
-                    <button type="button" class="action-primary"
-                            onclick="document.getElementById('enable_debug_log').submit();">
-                        <?= $escaper->escapeHtml(__('Submit')) ?>
-                    </button>
-                </div>
-            </form>
-
-            <!-- Download/Clear Logs Form -->
-            <form id="clear_download_logs" method="post" action="">
-                <input name="form_key" type="hidden" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
-                <input type="hidden" name="option" value="clear_download_logs">
-                <p style="margin-top:20px; margin-left:10px">
-                    The error logs will be cleared automatically on a weekly basis.
-                </p>
-                <div class="actions">
-                    <button type="submit" class="action-primary" name="download_logs">
-                        <?= $escaper->escapeHtml(__('Download Logs')) ?>
-                    </button>
-                    <button type="submit" class="action-primary" name="clear_logs">
-                        <?= $escaper->escapeHtml(__('Clear Logs')) ?>
-                    </button>
-                </div>
-            </form>
-
-            <!-- ═══════════════════════════════════════════════════════ -->
-            <!-- Configuration Import / Export Section                   -->
-            <!-- ═══════════════════════════════════════════════════════ -->
-            <div class="m2oidc_table_layout" style="margin-top: 30px;">
-                <h3>CONFIGURATION IMPORT / EXPORT</h3>
-                <hr>
-                <p style="font-style: italic; color: #666; margin-top: 10px;">
-                    Export or import OIDC provider configurations as JSON.
-                    Sensitive fields (e.g. client_secret) are encrypted in the export file.
-                </p>
-            </div>
-
-            <!-- Export Configuration -->
-            <form id="export_oidc_config" method="post" action="">
-                <input name="form_key" type="hidden"
-                       value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
-                <input type="hidden" name="option" value="export_oidc_config">
-                <br>
-                <div style="margin-bottom: 20px;">
-                    <label style="font-weight: bold;">Export Configuration</label>
-                    <p style="color: #666; font-size: 0.9em; margin: 5px 0;">
-                        Downloads all provider configurations as a JSON file.
-                    </p>
-                    <div class="actions">
-                        <button type="button" class="action-primary"
-                                onclick="document.getElementById('export_oidc_config').submit();">
-                            <?= $escaper->escapeHtml(__('Export')) ?>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Import Configuration -->
-            <form id="import_oidc_config" method="post" action="" enctype="multipart/form-data">
-                <input name="form_key" type="hidden"
-                       value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
-                <input type="hidden" name="option" value="import_oidc_config">
-                <div style="margin-bottom: 20px;">
-                    <label style="font-weight: bold;">Import Configuration</label>
-                    <p style="color: #666; font-size: 0.9em; margin: 5px 0;">
-                        Upload a previously exported JSON file. Existing providers (same app_name) are skipped.
-                    </p>
-                    <input type="file"
-                           name="import_config_file"
-                           accept=".json"
-                           required
-                           style="margin-bottom: 10px;">
-                    <br>
-                    <div class="actions">
-                        <button type="button" class="action-primary"
-                                onclick="document.getElementById('import_oidc_config').submit();">
-                            <?= $escaper->escapeHtml(__('Import')) ?>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
+<form id="enable_debug_log" method="post" action="">
+    <input name="form_key" type="hidden" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
+    <input type="hidden" name="option" value="enable_debug_log">
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="checkbox"
+                   name="debug_log_on"
+                   id="debug_log_on"
+                   class="admin__control-checkbox"
+                   <?= $block->isDebugLogEnable() ? 'checked="checked"' : '' ?>
+                   value="true">
+            <label class="admin__field-label" for="debug_log_on">
+                <span><?= $escaper->escapeHtml(__('Enable Debug Log')) ?></span>
+            </label>
         </div>
+    </fieldset>
+    <div class="actions">
+        <button type="submit" class="action-primary">
+            <?= $escaper->escapeHtml(__('Submit')) ?>
+        </button>
     </div>
+</form>
+
+<form id="clear_download_logs" method="post" action="">
+    <input name="form_key" type="hidden" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
+    <input type="hidden" name="option" value="clear_download_logs">
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(__('The error logs will be cleared automatically on a weekly basis.')) ?>
+    </p>
+    <div class="actions">
+        <button type="submit" class="action-primary" name="download_logs">
+            <?= $escaper->escapeHtml(__('Download Logs')) ?>
+        </button>
+        <button type="submit" class="action-primary" name="clear_logs">
+            <?= $escaper->escapeHtml(__('Clear Logs')) ?>
+        </button>
+    </div>
+</form>
+
+<div class="admin__fieldset-wrapper-title">
+    <strong><?= $escaper->escapeHtml(__('Configuration Import / Export')) ?></strong>
+</div>
+<p class="admin__field-note">
+    <?= $escaper->escapeHtml(__(
+        'Export or import OIDC provider configurations as JSON. '
+        . 'Sensitive fields (e.g. client_secret) are encrypted in the export file.'
+    )) ?>
+</p>
+
+<form id="export_oidc_config" method="post" action="">
+    <input name="form_key" type="hidden" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
+    <input type="hidden" name="option" value="export_oidc_config">
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label">
+                <span><?= $escaper->escapeHtml(__('Export Configuration')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Downloads all provider configurations as a JSON file.')) ?>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="action-primary">
+                        <?= $escaper->escapeHtml(__('Export')) ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<form id="import_oidc_config" method="post" action="" enctype="multipart/form-data">
+    <input name="form_key" type="hidden" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
+    <input type="hidden" name="option" value="import_oidc_config">
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="import_config_file">
+                <span><?= $escaper->escapeHtml(__('Import Configuration')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Upload a previously exported JSON file. Existing providers (same app_name) are skipped.'
+                    )) ?>
+                </div>
+                <input type="file"
+                       name="import_config_file"
+                       id="import_config_file"
+                       accept=".json"
+                       required>
+                <div class="actions">
+                    <button type="submit" class="action-primary">
+                        <?= $escaper->escapeHtml(__('Import')) ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<?php $moduleVersion = $block->getModuleVersion(); ?>
+<?php if ($moduleVersion !== ''): ?>
+<p class="admin__field-note" style="margin-top:24px; text-align:center;">
+    <?= $escaper->escapeHtml(__('Magento 2 OIDC - SSO extension version %1', $moduleVersion)) ?>
+</p>
+<?php endif; ?>
+
 </div>

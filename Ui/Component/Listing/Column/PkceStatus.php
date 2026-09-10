@@ -7,6 +7,7 @@ namespace M2Oidc\OAuth\Ui\Component\Listing\Column;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
+use M2Oidc\OAuth\Ui\Component\Listing\Column\Render\BadgeRenderer;
 
 /**
  * Virtual column: rendert ein farbiges PKCE-Badge pro Provider-Zeile.
@@ -14,22 +15,27 @@ use Magento\Ui\Component\Listing\Columns\Column;
  */
 class PkceStatus extends Column
 {
+    /** @var BadgeRenderer */
+    private BadgeRenderer $badgeRenderer;
+
     /**
      * Override to inject dependencies for OIDC PKCE status column rendering.
      *
      * @param ContextInterface   $context
      * @param UiComponentFactory $uiComponentFactory
-     * @param array<string, mixed> $components
-     * @param array<string, mixed> $data
+     * @param BadgeRenderer      $badgeRenderer
+     * @param mixed[]            $components
+     * @param mixed[]            $data
      */
-    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
+        BadgeRenderer $badgeRenderer,
         array $components = [],
         array $data = []
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
+        $this->badgeRenderer = $badgeRenderer;
     }
 
     /**
@@ -63,9 +69,9 @@ class PkceStatus extends Column
     private function renderBadge(string $pkceFlow): string
     {
         return match ($pkceFlow) {
-            'S256'  => '<span style="color:#3c763d;font-weight:bold;">&#10003; S256</span>',
-            'plain' => '<span style="color:#8a6d3b;font-weight:bold;">&#9888; plain</span>',
-            default => '<span style="color:#999;">&#8212; disabled</span>',
+            'S256'  => $this->badgeRenderer->render('success', 'S256'),
+            'plain' => $this->badgeRenderer->render('warning', (string) __('plain')),
+            default => $this->badgeRenderer->render('neutral', (string) __('disabled')),
         };
     }
 }

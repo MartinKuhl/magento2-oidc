@@ -3,9 +3,10 @@
  *
  * Snapshots every form control's value on page load, then listens for changes.
  * When a field's current value differs from its original value the field
- * receives the CSS class `m2oidc-field-modified` and its nearest <tr> ancestor
- * receives `m2oidc-row-modified` (used to accent rows whose only interactive
- * element is a checkbox or color-picker).
+ * receives the CSS class `m2oidc-field-modified` and its nearest row ancestor
+ * (a `.admin__field` on the fieldset-based tabs, or a `<tr>` on the remaining
+ * grid-style dynamic tables) receives `m2oidc-row-modified` — used to accent
+ * rows whose only interactive element is a checkbox or color-picker.
  *
  * Dynamic mapping rows added via cloneNode() are handled by a MutationObserver
  * so newly added inputs are snapshotted as "empty = original" and highlight as
@@ -50,17 +51,20 @@ define(['domReady!'], function () {
     }
 
     /**
-     * Apply or remove the dirty CSS classes on the field and its <tr> ancestor.
+     * Apply or remove the dirty CSS classes on the field and its row ancestor.
      * For checkboxes the field itself can't easily show a border/background, so
-     * the <tr> accent is the primary indicator.
+     * the row accent is the primary indicator.
      */
     function refresh(el) {
         var dirty = isDirty(el);
         el.classList.toggle(DIRTY_CLASS, dirty);
-        var row = el.closest ? el.closest('tr') : (function () {
+        var row = el.closest ? el.closest('tr, .admin__field') : (function () {
             // IE fallback — walk up manually
             var node = el.parentNode;
-            while (node && node.tagName !== 'TR') { node = node.parentNode; }
+            while (node && node.tagName !== 'TR' &&
+                   !(node.classList && node.classList.contains('admin__field'))) {
+                node = node.parentNode;
+            }
             return node;
         }());
         if (row) {

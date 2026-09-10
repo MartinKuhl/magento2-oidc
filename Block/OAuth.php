@@ -28,6 +28,12 @@ class OAuth extends \Magento\Framework\View\Element\Template
     /** @var \Magento\Framework\Data\Form\FormKey */
     protected \Magento\Framework\Data\Form\FormKey $_formKey;
 
+    /** @var \Magento\Framework\Component\ComponentRegistrarInterface */
+    private readonly \Magento\Framework\Component\ComponentRegistrarInterface $componentRegistrar;
+
+    /** @var \Magento\Framework\Filesystem\Driver\File */
+    private readonly \Magento\Framework\Filesystem\Driver\File $fileDriver;
+
     /**
      * Initialize OAuth block.
      *
@@ -36,6 +42,8 @@ class OAuth extends \Magento\Framework\View\Element\Template
      * @param Session $customerSession
      * @param Escaper $escaper
      * @param \Magento\Framework\Data\Form\FormKey $formKey
+     * @param \Magento\Framework\Component\ComponentRegistrarInterface $componentRegistrar
+     * @param \Magento\Framework\Filesystem\Driver\File $fileDriver
      * @param mixed[] $data
      */
     public function __construct(
@@ -44,12 +52,16 @@ class OAuth extends \Magento\Framework\View\Element\Template
         Session $customerSession,
         Escaper $escaper,
         \Magento\Framework\Data\Form\FormKey $formKey,
+        \Magento\Framework\Component\ComponentRegistrarInterface $componentRegistrar,
+        \Magento\Framework\Filesystem\Driver\File $fileDriver,
         array $data = []
     ) {
         $this->oauthUtility = $oauthUtility;
         $this->customerSession = $customerSession;
         $this->escaper = $escaper;
         $this->_formKey = $formKey;
+        $this->componentRegistrar = $componentRegistrar;
+        $this->fileDriver = $fileDriver;
         parent::__construct($context, $data);
     }
 
@@ -396,5 +408,42 @@ class OAuth extends \Magento\Framework\View\Element\Template
     public function resolveButtonLabel(?string $rawLabel, string $displayName): string
     {
         return in_array($rawLabel, [null, '', '0'], true) ? (string) __('Login with %1', $displayName) : $rawLabel;
+    }
+
+    /**
+     * Read the module's version straight from its composer.json.
+     *
+     * Returns an empty string if composer.json is missing/unreadable or has
+     * no "version" field, so callers can decide how to handle that case.
+     */
+    public function getModuleVersion(): string
+    {
+        $modulePath = $this->componentRegistrar->getPath(
+            \Magento\Framework\Component\ComponentRegistrar::MODULE,
+            'M2Oidc_OAuth'
+        );
+
+        if ($modulePath === null) {
+            return '';
+        }
+
+        $composerJsonPath = $modulePath . '/composer.json';
+
+        if (!$this->fileDriver->isExists($composerJsonPath)) {
+            return '';
+        }
+
+        try {
+            $composerData = json_decode(
+                $this->fileDriver->fileGetContents($composerJsonPath),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (\Magento\Framework\Exception\FileSystemException | \JsonException $e) {
+            return '';
+        }
+
+        return (string) ($composerData['version'] ?? '');
     }
 }

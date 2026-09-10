@@ -30,406 +30,362 @@ $syncAdminRole       = $block->getSyncAdminRoleOnSso();
 $idpInitiatedEnabled = $block->getIdpInitiatedEnabled();
 $headlessMode        = $block->getHeadlessMode();
 ?>
+<div class="m2oidc-settings-page">
 <fieldset class="admin__fieldset" style="padding:0; border:0;">
 
 <!-- ── Button Visibility ─────────────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:0;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('SSO Button')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Control where the "Login with …" SSO button is displayed.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('SSO Button')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Button Visibility')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="show_admin_link" value="0">
-                        <input type="checkbox"
-                               id="loginopt_show_admin_link"
-                               name="show_admin_link"
-                               value="1"
-                               <?= $showAdminLink ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Show SSO button on admin login page')) ?>
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px;">
-                        <input type="hidden" name="show_customer_link" value="0">
-                        <input type="checkbox"
-                               id="loginopt_show_customer_link"
-                               name="show_customer_link"
-                               value="1"
-                               <?= $showCustomerLink ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Show SSO button on customer login page')) ?>
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Control where the "Login with …" SSO button is displayed.')
+        ) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="hidden" name="show_admin_link" value="0">
+            <input type="checkbox"
+                   id="loginopt_show_admin_link"
+                   name="show_admin_link"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $showAdminLink ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_show_admin_link">
+                <span><?= $escaper->escapeHtml(__('Show SSO button on admin login page')) ?></span>
+            </label>
+        </div>
+        <div class="admin__field field choice">
+            <input type="hidden" name="show_customer_link" value="0">
+            <input type="checkbox"
+                   id="loginopt_show_customer_link"
+                   name="show_customer_link"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $showCustomerLink ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_show_customer_link">
+                <span><?= $escaper->escapeHtml(__('Show SSO button on customer login page')) ?></span>
+            </label>
+        </div>
+    </fieldset>
 </div>
 
 <!-- ── User Auto-Creation ────────────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('User Auto-Creation')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Automatically create Magento user accounts on first SSO login.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('User Auto-Creation')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Auto-Create Settings')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="m2oidc_auto_create_admin" value="0">
-                        <input type="checkbox"
-                               name="m2oidc_auto_create_admin"
-                               value="1"
-                               <?= $autoCreateAdmin ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Auto-create admin users on first SSO login')) ?>
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px;">
-                        <input type="hidden" name="m2oidc_auto_create_customer" value="0">
-                        <input type="checkbox"
-                               name="m2oidc_auto_create_customer"
-                               value="1"
-                               <?= $autoCreateCustomer ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Auto-create customer accounts on first SSO login')) ?>
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Automatically create Magento user accounts on first SSO login.')
+        ) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="hidden" name="m2oidc_auto_create_admin" value="0">
+            <input type="checkbox"
+                   id="m2oidc_auto_create_admin"
+                   name="m2oidc_auto_create_admin"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $autoCreateAdmin ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="m2oidc_auto_create_admin">
+                <span><?= $escaper->escapeHtml(__('Auto-create admin users on first SSO login')) ?></span>
+            </label>
+        </div>
+        <div class="admin__field field choice">
+            <input type="hidden" name="m2oidc_auto_create_customer" value="0">
+            <input type="checkbox"
+                   id="m2oidc_auto_create_customer"
+                   name="m2oidc_auto_create_customer"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $autoCreateCustomer ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="m2oidc_auto_create_customer">
+                <span><?= $escaper->escapeHtml(__('Auto-create customer accounts on first SSO login')) ?></span>
+            </label>
+        </div>
+    </fieldset>
 </div>
 
 <!-- ── Profile Sync on SSO Login ─────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Profile Sync on SSO Login')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Choose which profile data should be updated from the IdP on every SSO login. '
-                    . 'Applies only to existing accounts — auto-creation always writes all mapped fields.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Profile Sync on SSO Login')) ?></strong>
     </div>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Choose which profile data should be updated from the IdP on every SSO login. '
+                . 'Applies only to existing accounts — auto-creation always writes all mapped fields.')
+        ) ?>
+    </p>
 
-    <!-- Customer Profile Sync -->
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Customer Sync')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="sync_customer_profile_on_sso" value="0">
-                        <input type="checkbox"
-                               id="loginopt_sync_customer_profile"
-                               name="sync_customer_profile_on_sso"
-                               value="1"
-                               <?= $syncCustomerProfile ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Sync customer profile fields (name, email) on every SSO login')) ?>
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="sync_customer_address_on_sso" value="0">
-                        <input type="checkbox"
-                               id="loginopt_sync_customer_address"
-                               name="sync_customer_address_on_sso"
-                               value="1"
-                               <?= $syncCustomerAddress ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Sync customer address on every SSO login')) ?>
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px;">
-                        <input type="hidden" name="sync_customer_group_on_sso" value="0">
-                        <input type="checkbox"
-                               id="loginopt_sync_customer_group"
-                               name="sync_customer_group_on_sso"
-                               value="1"
-                               <?= $syncCustomerGroup ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Sync customer group on every SSO login')) ?>
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="admin__fieldset-wrapper-title" style="margin-top:16px;">
+        <?= $escaper->escapeHtml(__('Customer Sync')) ?>
+    </div>
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="hidden" name="sync_customer_profile_on_sso" value="0">
+            <input type="checkbox"
+                   id="loginopt_sync_customer_profile"
+                   name="sync_customer_profile_on_sso"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $syncCustomerProfile ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_sync_customer_profile">
+                <span><?= $escaper->escapeHtml(__('Sync customer profile fields (name, email) on every SSO login')) ?></span>
+            </label>
+        </div>
+        <div class="admin__field field choice">
+            <input type="hidden" name="sync_customer_address_on_sso" value="0">
+            <input type="checkbox"
+                   id="loginopt_sync_customer_address"
+                   name="sync_customer_address_on_sso"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $syncCustomerAddress ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_sync_customer_address">
+                <span><?= $escaper->escapeHtml(__('Sync customer address on every SSO login')) ?></span>
+            </label>
+        </div>
+        <div class="admin__field field choice">
+            <input type="hidden" name="sync_customer_group_on_sso" value="0">
+            <input type="checkbox"
+                   id="loginopt_sync_customer_group"
+                   name="sync_customer_group_on_sso"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $syncCustomerGroup ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_sync_customer_group">
+                <span><?= $escaper->escapeHtml(__('Sync customer group on every SSO login')) ?></span>
+            </label>
+        </div>
+    </fieldset>
 
-    <!-- Admin Profile Sync -->
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Admin Sync')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="sync_admin_profile_on_sso" value="0">
-                        <input type="checkbox"
-                               id="loginopt_sync_admin_profile"
-                               name="sync_admin_profile_on_sso"
-                               value="1"
-                               <?= $syncAdminProfile ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Sync admin profile fields (name, email) on every SSO login')) ?>
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px;">
-                        <input type="hidden" name="sync_admin_role_on_sso" value="0">
-                        <input type="checkbox"
-                               id="loginopt_sync_admin_role"
-                               name="sync_admin_role_on_sso"
-                               value="1"
-                               <?= $syncAdminRole ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Sync admin role on every SSO login')) ?>
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="admin__fieldset-wrapper-title" style="margin-top:16px;">
+        <?= $escaper->escapeHtml(__('Admin Sync')) ?>
+    </div>
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="hidden" name="sync_admin_profile_on_sso" value="0">
+            <input type="checkbox"
+                   id="loginopt_sync_admin_profile"
+                   name="sync_admin_profile_on_sso"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $syncAdminProfile ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_sync_admin_profile">
+                <span><?= $escaper->escapeHtml(__('Sync admin profile fields (name, email) on every SSO login')) ?></span>
+            </label>
+        </div>
+        <div class="admin__field field choice">
+            <input type="hidden" name="sync_admin_role_on_sso" value="0">
+            <input type="checkbox"
+                   id="loginopt_sync_admin_role"
+                   name="sync_admin_role_on_sso"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $syncAdminRole ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_sync_admin_role">
+                <span><?= $escaper->escapeHtml(__('Sync admin role on every SSO login')) ?></span>
+            </label>
+        </div>
+    </fieldset>
 </div>
 
 <!-- ── Login Restrictions & Auto Redirect ────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Login Restrictions')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Force OIDC-only authentication and optionally auto-redirect to the IdP. '
-                    . 'Requires the corresponding SSO button to be shown above.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Login Restrictions')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('OIDC-Only Mode')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <!-- Admin: Disable non-OIDC login -->
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                        <input type="hidden" name="m2oidc_disable_non_oidc_admin_login" value="0">
-                        <input type="checkbox"
-                               id="loginopt_disable_admin"
-                               name="m2oidc_disable_non_oidc_admin_login"
-                               value="1"
-                               <?= $disableNonOidcAdmin ? 'checked="checked"' : '' ?>
-                               <?= (!$showAdminLink || !$hasOidcAdmins) ? 'disabled="disabled"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Disable non-OIDC login for admins (OIDC login only)')) ?>
-                    </label>
-                    <?php if (!$hasOidcAdmins): ?>
-                    <p class="admin__field-note" style="margin:0 0 8px 26px; color:#e07b00; font-size:12px;">
-                        <?= $escaper->escapeHtml(
-                            __('Disabled: no admin users have logged in via this provider yet.')
-                        ) ?>
-                    </p>
-                    <?php endif; ?>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Force OIDC-only authentication and optionally auto-redirect to the IdP. '
+                . 'Requires the corresponding SSO button to be shown above.')
+        ) ?>
+    </p>
 
-                    <!-- Admin: Auto Redirect -->
-                    <label style="display:flex; align-items:center; gap:8px; margin:0 0 4px 26px;">
-                        <input type="hidden" name="autoredirect_admin" value="0">
-                        <input type="checkbox"
-                               id="loginopt_autoredirect_admin"
-                               name="autoredirect_admin"
-                               value="1"
-                               <?= $autoRedirectAdmin ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Auto redirect to IdP on admin login page')) ?>
-                    </label>
-                    <p class="admin__field-note" style="margin:0 0 14px 26px; color:#999; font-size:12px;">
-                        <?= $escaper->escapeHtml(__(
-                            'Requires exactly one configured provider and OIDC-only mode enabled above. '
-                            . 'Admins visiting the login page are redirected to the IdP automatically.'
-                        )) ?>
-                    </p>
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="hidden" name="m2oidc_disable_non_oidc_admin_login" value="0">
+            <input type="checkbox"
+                   id="loginopt_disable_admin"
+                   name="m2oidc_disable_non_oidc_admin_login"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $disableNonOidcAdmin ? 'checked="checked"' : '' ?>
+                   <?= (!$showAdminLink || !$hasOidcAdmins) ? 'disabled="disabled"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_disable_admin">
+                <span><?= $escaper->escapeHtml(__('Disable non-OIDC login for admins (OIDC login only)')) ?></span>
+            </label>
+            <?php if (!$hasOidcAdmins): ?>
+            <div class="admin__field-note" style="color:#e07b00;">
+                <?= $escaper->escapeHtml(
+                    __('Disabled: no admin users have logged in via this provider yet.')
+                ) ?>
+            </div>
+            <?php endif; ?>
+        </div>
 
-                    <!-- Customer: Disable non-OIDC login -->
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                        <input type="hidden" name="m2oidc_disable_non_oidc_customer_login" value="0">
-                        <input type="checkbox"
-                               id="loginopt_disable_customer"
-                               name="m2oidc_disable_non_oidc_customer_login"
-                               value="1"
-                               <?= $disableNonOidcCustomer ? 'checked="checked"' : '' ?>
-                               <?= (!$showCustomerLink || !$hasOidcCustomers) ? 'disabled="disabled"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Disable non-OIDC login for customers (OIDC login only)')) ?>
-                    </label>
-                    <?php if (!$hasOidcCustomers): ?>
-                    <p class="admin__field-note" style="margin:0 0 8px 26px; color:#e07b00; font-size:12px;">
-                        <?= $escaper->escapeHtml(__('Disabled: no customers have logged in via this provider yet.')) ?>
-                    </p>
-                    <?php endif; ?>
+        <div class="admin__field field choice" style="margin-left:26px;">
+            <input type="hidden" name="autoredirect_admin" value="0">
+            <input type="checkbox"
+                   id="loginopt_autoredirect_admin"
+                   name="autoredirect_admin"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $autoRedirectAdmin ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_autoredirect_admin">
+                <span><?= $escaper->escapeHtml(__('Auto redirect to IdP on admin login page')) ?></span>
+            </label>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'Requires exactly one configured provider and OIDC-only mode enabled above. '
+                    . 'Admins visiting the login page are redirected to the IdP automatically.'
+                )) ?>
+            </div>
+        </div>
 
-                    <!-- Customer: Auto Redirect -->
-                    <label style="display:flex; align-items:center; gap:8px; margin:0 0 4px 26px;">
-                        <input type="hidden" name="autoredirect_customer" value="0">
-                        <input type="checkbox"
-                               id="loginopt_autoredirect_customer"
-                               name="autoredirect_customer"
-                               value="1"
-                               <?= $autoRedirectCustomer ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Auto redirect to IdP on customer login page')) ?>
-                    </label>
-                    <p class="admin__field-note" style="margin:0 0 6px 26px; color:#999; font-size:12px;">
-                        <?= $escaper->escapeHtml(__(
-                            'Requires exactly one configured provider and OIDC-only mode enabled above. '
-                            . 'Customers visiting the login page are redirected to the IdP automatically.'
-                        )) ?>
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="admin__field field choice">
+            <input type="hidden" name="m2oidc_disable_non_oidc_customer_login" value="0">
+            <input type="checkbox"
+                   id="loginopt_disable_customer"
+                   name="m2oidc_disable_non_oidc_customer_login"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $disableNonOidcCustomer ? 'checked="checked"' : '' ?>
+                   <?= (!$showCustomerLink || !$hasOidcCustomers) ? 'disabled="disabled"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_disable_customer">
+                <span><?= $escaper->escapeHtml(__('Disable non-OIDC login for customers (OIDC login only)')) ?></span>
+            </label>
+            <?php if (!$hasOidcCustomers): ?>
+            <div class="admin__field-note" style="color:#e07b00;">
+                <?= $escaper->escapeHtml(__('Disabled: no customers have logged in via this provider yet.')) ?>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <div class="admin__field field choice" style="margin-left:26px;">
+            <input type="hidden" name="autoredirect_customer" value="0">
+            <input type="checkbox"
+                   id="loginopt_autoredirect_customer"
+                   name="autoredirect_customer"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $autoRedirectCustomer ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_autoredirect_customer">
+                <span><?= $escaper->escapeHtml(__('Auto redirect to IdP on customer login page')) ?></span>
+            </label>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'Requires exactly one configured provider and OIDC-only mode enabled above. '
+                    . 'Customers visiting the login page are redirected to the IdP automatically.'
+                )) ?>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <!-- ── IdP-Initiated SSO ──────────────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('IdP-Initiated Login')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(__(
-                'Allows users to start a login from the IdP dashboard (OIDC Third-Party Initiated Login §4). '
-                . 'When enabled, register the Initiate Login URI below in your IdP application settings.'
-            )) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('IdP-Initiated Login')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('IdP-Initiated Login')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="idp_initiated_enabled" value="0">
-                        <input type="checkbox"
-                               id="loginopt_idp_initiated_enabled"
-                               name="idp_initiated_enabled"
-                               value="1"
-                               <?= $idpInitiatedEnabled ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Enable IdP-Initiated Login (Third-Party Initiated)')) ?>
-                    </label>
-                    <?php
-                    $providerId = (int) ($data['id'] ?? 0);
-                    $baseUrl = $block->getUrl('', ['_nosid' => true, '_noroute' => true]);
-                    // Build the initiate login URI by replacing the admin path
-                    $path = '/m2oidc/actions/idpInitiatedLogin?provider_id=' . $providerId;
-                    $initiateUrl = rtrim($block->getBaseUrl(), '/') . $path;
-                    ?>
-                    <?php if ($providerId > 0): ?>
-                    <p class="admin__field-note" style="margin:0 0 8px 0; color:#666; font-size:12px;">
-                        <?= $escaper->escapeHtml(__('Initiate Login URI to register with your IdP:')) ?>
-                        <br>
-                        <code style="font-size:11px; word-break:break-all;">
-                            <?= $escaper->escapeHtml($initiateUrl) ?>
-                        </code>
-                    </p>
-                    <?php endif; ?>
-                    <p class="admin__field-note" style="color:#999; font-size:12px;">
-                        <?= $escaper->escapeHtml(__(
-                            'When disabled (default), only SP-initiated login is allowed. '
-                            . 'Enable only after verifying IdP-initiated flow works correctly in a test environment.'
-                        )) ?>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Headless / PWA Mode')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <label style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
-                        <input type="hidden" name="headless_mode" value="0">
-                        <input type="checkbox"
-                               id="loginopt_headless_mode"
-                               name="headless_mode"
-                               value="1"
-                               <?= $headlessMode ? 'checked="checked"' : '' ?>>
-                        <?= $escaper->escapeHtml(__('Enable Headless / PWA Token Flow')) ?>
-                    </label>
-                    <p class="admin__field-note" style="color:#999; font-size:12px;">
-                        <?= $escaper->escapeHtml(__(
-                            'When enabled, the OIDC flow returns a short-lived customer token '
-                            . 'via window.postMessage instead of creating a session cookie. '
-                            . 'Use with the oidcLoginUrl(headless: true) GraphQL query in your PWA.'
-                        )) ?>
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(__(
+            'Allows users to start a login from the IdP dashboard (OIDC Third-Party Initiated Login §4). '
+            . 'When enabled, register the Initiate Login URI below in your IdP application settings.'
+        )) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field choice">
+            <input type="hidden" name="idp_initiated_enabled" value="0">
+            <input type="checkbox"
+                   id="loginopt_idp_initiated_enabled"
+                   name="idp_initiated_enabled"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $idpInitiatedEnabled ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_idp_initiated_enabled">
+                <span><?= $escaper->escapeHtml(__('Enable IdP-Initiated Login (Third-Party Initiated)')) ?></span>
+            </label>
+            <?php
+            $providerId = (int) ($data['id'] ?? 0);
+            $baseUrl = $block->getUrl('', ['_nosid' => true, '_noroute' => true]);
+            // Build the initiate login URI by replacing the admin path
+            $path = '/m2oidc/actions/idpInitiatedLogin?provider_id=' . $providerId;
+            $initiateUrl = rtrim($block->getBaseUrl(), '/') . $path;
+            ?>
+            <?php if ($providerId > 0): ?>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__('Initiate Login URI to register with your IdP:')) ?>
+                <br>
+                <code style="font-size:11px; word-break:break-all;">
+                    <?= $escaper->escapeHtml($initiateUrl) ?>
+                </code>
+            </div>
+            <?php endif; ?>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'When disabled (default), only SP-initiated login is allowed. '
+                    . 'Enable only after verifying IdP-initiated flow works correctly in a test environment.'
+                )) ?>
+            </div>
+        </div>
+
+        <div class="admin__field field choice">
+            <input type="hidden" name="headless_mode" value="0">
+            <input type="checkbox"
+                   id="loginopt_headless_mode"
+                   name="headless_mode"
+                   class="admin__control-checkbox"
+                   value="1"
+                   <?= $headlessMode ? 'checked="checked"' : '' ?>>
+            <label class="admin__field-label" for="loginopt_headless_mode">
+                <span><?= $escaper->escapeHtml(__('Enable Headless / PWA Token Flow')) ?></span>
+            </label>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'When enabled, the OIDC flow returns a short-lived customer token '
+                    . 'via window.postMessage instead of creating a session cookie. '
+                    . 'Use with the oidcLoginUrl(headless: true) GraphQL query in your PWA.'
+                )) ?>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <!-- ── Post-Logout Redirect ─────────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Post-Logout Redirect')) ?>
-        </span>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Post-Logout Redirect')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px; vertical-align:top; padding-top:6px;">
-                    <label for="loginopt_post_logout_url">
-                        <strong><?= $escaper->escapeHtml(__('Post-Logout Landing Page')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="url"
-                           id="loginopt_post_logout_url"
-                           name="post_logout_url"
-                           class="admin__control-text"
-                           placeholder="https://your-site.com/some/custom/page"
-                           value="<?= $escaper->escapeHtmlAttr($block->getPostLogoutUrl()) ?>"
-                           style="width:100%;">
-                    <p class="admin__field-note" style="color:#999; font-size:12px;">
-                        <?= $escaper->escapeHtml(__(
-                            'Optional. Overrides the unified /m2oidc/actions/postlogout landing page for this '
-                            . 'provider only. Leave blank to use the default.'
-                        )) ?>
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="loginopt_post_logout_url">
+                <span><?= $escaper->escapeHtml(__('Post-Logout Landing Page')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="url"
+                       id="loginopt_post_logout_url"
+                       name="post_logout_url"
+                       class="admin__control-text"
+                       placeholder="https://your-site.com/some/custom/page"
+                       value="<?= $escaper->escapeHtmlAttr($block->getPostLogoutUrl()) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__(
+                        'Optional. Overrides the unified /m2oidc/actions/postlogout landing page for this '
+                        . 'provider only. Leave blank to use the default.'
+                    )) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <script>
@@ -481,3 +437,4 @@ $headlessMode        = $block->getHeadlessMode();
 </script>
 
 </fieldset>
+</div>

@@ -13,8 +13,8 @@
                         <resource id="M2Oidc_OAuth::provider_settings" title="Provider Settings" sortOrder="1"/>
                         <!-- OAuth Settings ACL definition -->
                         <resource id="M2Oidc_OAuth::oauth_settings" title="OAuth Settings" sortOrder="2"/>
-                        <!-- Sign In Settings ACL definition -->
-                        <resource id="M2Oidc_OAuth::signin_settings" title="Sign In Settings" sortOrder="3"/>
+                        <!-- Miscellaneous (Debug Logs + Import/Export) ACL definition -->
+                        <resource id="M2Oidc_OAuth::miscellaneous" title="Miscellaneous" sortOrder="3"/>
                         <!-- Attribute Settings ACL definition -->
                         <resource id="M2Oidc_OAuth::attr_settings" title="Attribute Mapping Settings" sortOrder="4"/>
                         <!-- OIDC Session Activity ACL definition -->

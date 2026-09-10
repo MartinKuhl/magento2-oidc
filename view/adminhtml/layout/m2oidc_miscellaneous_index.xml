@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <css src="M2Oidc_OAuth::css/adminSettings.css"/>
-    </head>
     <body>
         <!--
         Defining our block and phtml file for Miscellaneous settings (debug logs only).
@@ -11,7 +8,7 @@
         -->
         <referenceContainer name="content">
             <block class="M2Oidc\OAuth\Block\OAuth"
-                name="m2oidc.oauth.admin.signinsettings"
+                name="m2oidc.oauth.admin.miscellaneous"
                 template="misc.phtml" />
         </referenceContainer>
         <!--

@@ -27,239 +27,210 @@ $roleMappings = is_array($decoded) ? $decoded : [];
     <?php endforeach; ?>
 </datalist>
 
+<div class="m2oidc-settings-page">
 <fieldset class="admin__fieldset">
 
 <!-- Attribute Mapping -->
 <div class="admin__fieldset-wrapper">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Attribute Mapping')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Map OIDC token claims to Magento user fields. '
-                    . 'Each field accepts the exact claim name your provider returns. '
-                    . 'Use the "Test OIDC Flow" button to populate the autocomplete suggestions '
-                    . 'with the actual claims from your IdP.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Attribute Mapping')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px;">
-                    <label for="claim_encoding">
-                        <strong><?= $escaper->escapeHtml(__('Claim Value Encoding')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <select id="claim_encoding" name="claim_encoding" class="admin__control-select">
-                        <option value="none"
-                            <?= ($val('claim_encoding', 'none') === 'none') ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('None')) ?>
-                        </option>
-                        <option value="base64"
-                            <?= ($val('claim_encoding', 'none') === 'base64') ? 'selected="selected"' : '' ?>>
-                            <?= $escaper->escapeHtml(__('Base64')) ?>
-                        </option>
-                    </select>
-                    <p class="admin__field-note" style="margin-top:6px;">
-                        <?= $escaper->escapeHtml(
-                            __('Decode claim values before attribute mapping. '
-                                . 'Use "Base64" for providers like Zitadel that Base64-encode '
-                                . 'metadata values and keys. Invalid Base64 strings are left as-is.')
-                        ) ?>
-                    </p>
-                </td>
-            </tr>
-            <tr>
-                <td style="width:220px;">
-                    <label for="email_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Email Claim')) ?></strong>
-                        <span class="required" style="color:#e02b27;">*</span>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="email_attribute"
-                           name="email_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           required="required"
-                           value="<?= $escaper->escapeHtmlAttr($val('email_attribute', 'email')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="username_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Username Claim')) ?></strong>
-                        <span class="required" style="color:#e02b27;">*</span>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="username_attribute"
-                           name="username_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           required="required"
-                           value="<?= $escaper->escapeHtmlAttr($val('username_attribute', 'preferred_username')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="firstname_attribute">
-                        <strong><?= $escaper->escapeHtml(__('First Name Claim')) ?></strong>
-                        <span class="required" style="color:#e02b27;">*</span>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="firstname_attribute"
-                           name="firstname_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           required="required"
-                           value="<?= $escaper->escapeHtmlAttr($val('firstname_attribute', 'given_name')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="lastname_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Last Name Claim')) ?></strong>
-                        <span class="required" style="color:#e02b27;">*</span>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="lastname_attribute"
-                           name="lastname_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           required="required"
-                           value="<?= $escaper->escapeHtmlAttr($val('lastname_attribute', 'family_name')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="group_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Group / Role Claim')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="group_attribute"
-                           name="group_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('group_attribute')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Used for admin role and customer group mapping.')) ?>
-                    </small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Map OIDC token claims to Magento user fields. '
+                . 'Each field accepts the exact claim name your provider returns. '
+                . 'Use the "Test OIDC Flow" button to populate the autocomplete suggestions '
+                . 'with the actual claims from your IdP.')
+        ) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="claim_encoding">
+                <span><?= $escaper->escapeHtml(__('Claim Value Encoding')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <select id="claim_encoding" name="claim_encoding" class="admin__control-select">
+                    <option value="none"
+                        <?= ($val('claim_encoding', 'none') === 'none') ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('None')) ?>
+                    </option>
+                    <option value="base64"
+                        <?= ($val('claim_encoding', 'none') === 'base64') ? 'selected="selected"' : '' ?>>
+                        <?= $escaper->escapeHtml(__('Base64')) ?>
+                    </option>
+                </select>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('Decode claim values before attribute mapping. '
+                            . 'Use "Base64" for providers like Zitadel that Base64-encode '
+                            . 'metadata values and keys. Invalid Base64 strings are left as-is.')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field required">
+            <label class="admin__field-label" for="email_attribute">
+                <span><?= $escaper->escapeHtml(__('Email Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="email_attribute"
+                       name="email_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       required="required"
+                       value="<?= $escaper->escapeHtmlAttr($val('email_attribute', 'email')) ?>">
+            </div>
+        </div>
+
+        <div class="admin__field field required">
+            <label class="admin__field-label" for="username_attribute">
+                <span><?= $escaper->escapeHtml(__('Username Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="username_attribute"
+                       name="username_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       required="required"
+                       value="<?= $escaper->escapeHtmlAttr($val('username_attribute', 'preferred_username')) ?>">
+            </div>
+        </div>
+
+        <div class="admin__field field required">
+            <label class="admin__field-label" for="firstname_attribute">
+                <span><?= $escaper->escapeHtml(__('First Name Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="firstname_attribute"
+                       name="firstname_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       required="required"
+                       value="<?= $escaper->escapeHtmlAttr($val('firstname_attribute', 'given_name')) ?>">
+            </div>
+        </div>
+
+        <div class="admin__field field required">
+            <label class="admin__field-label" for="lastname_attribute">
+                <span><?= $escaper->escapeHtml(__('Last Name Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="lastname_attribute"
+                       name="lastname_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       required="required"
+                       value="<?= $escaper->escapeHtmlAttr($val('lastname_attribute', 'family_name')) ?>">
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="group_attribute">
+                <span><?= $escaper->escapeHtml(__('Group / Role Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="group_attribute"
+                       name="group_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('group_attribute')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Used for admin role and customer group mapping.')) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <!-- Admin Role Mapping -->
 <div id="m2oidc-admin-role-mapping-section" class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Admin Role Mapping')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Configure how OIDC group claim values map to Magento admin roles when auto-creating admin users.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Admin Role Mapping')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px;">
-                    <label for="default_role">
-                        <strong><?= $escaper->escapeHtml(__('Default Admin Role')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <select id="default_role"
-                            name="default_role"
-                            class="admin__control-select"
-                            style="width:100%;">
-                        <option value="">-- <?= $escaper->escapeHtml(__('None')) ?> --</option>
-                        <?php foreach ($roles as $role): ?>
-                            <option value="<?= $escaper->escapeHtmlAttr($role['value']) ?>"
-                                <?= ($val('default_role') == $role['value']) ? 'selected="selected"' : '' ?>>
-                                <?= $escaper->escapeHtml($role['label']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Assigned when no group-to-role mapping matches.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr id="m2oidc-role-mappings-row">
-                <td style="vertical-align:top; padding-top:8px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Role Mappings')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <div id="m2oidc-role-mappings">
-                        <?php
-                        $displayMappings = !empty($roleMappings) ? $roleMappings : [['group' => '', 'role' => '']];
-                        foreach ($displayMappings as $index => $mapping):
-                            ?>
-                            <div class="m2oidc-mapping-row"
-                                 style="margin-bottom:8px; display:flex; align-items:center;">
-                                <input type="text"
-                                       name="oauth_role_mapping[<?= (int) $index ?>][group]"
-                                       class="admin__control-text"
-                                       value="<?= $escaper->escapeHtmlAttr($mapping['group'] ?? '') ?>"
-                                       style="width:200px;">
-                                <span style="margin:0 10px;">&rarr;</span>
-                                <select name="oauth_role_mapping[<?= (int) $index ?>][role]"
-                                        class="admin__control-select"
-                                        style="width:220px;">
-                                    <option value="">-- <?= $escaper->escapeHtml(__('Select Role')) ?> --</option>
-                                    <?php foreach ($roles as $role): ?>
-                                        <option value="<?= $escaper->escapeHtmlAttr($role['value']) ?>"
-                                            <?= (isset($mapping['role']) && $mapping['role'] == $role['value'])
-                                                ? 'selected="selected"' : '' ?>>
-                                            <?= $escaper->escapeHtml($role['label']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="button"
-                                        class="action-delete m2oidc-remove-mapping"
-                                        style="margin-left:10px;">
-                                    <?= $escaper->escapeHtml(__('Remove')) ?>
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <button type="button"
-                            id="m2oidc-add-mapping"
-                            class="action-default"
-                            style="margin-top:4px;">
-                        + <?= $escaper->escapeHtml(__('Add Mapping')) ?>
-                    </button>
-                    <small class="admin__field-note" style="display:block; margin-top:4px;">
-                        <?= $escaper->escapeHtml(__('Map OIDC group names to Magento admin roles.')) ?>
-                    </small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Configure how OIDC group claim values map to Magento admin roles when auto-creating admin users.')
+        ) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="default_role">
+                <span><?= $escaper->escapeHtml(__('Default Admin Role')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <select id="default_role" name="default_role" class="admin__control-select">
+                    <option value="">-- <?= $escaper->escapeHtml(__('None')) ?> --</option>
+                    <?php foreach ($roles as $role): ?>
+                        <option value="<?= $escaper->escapeHtmlAttr($role['value']) ?>"
+                            <?= ($val('default_role') == $role['value']) ? 'selected="selected"' : '' ?>>
+                            <?= $escaper->escapeHtml($role['label']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Assigned when no group-to-role mapping matches.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div id="m2oidc-role-mappings-row" class="admin__field field">
+            <label class="admin__field-label">
+                <span><?= $escaper->escapeHtml(__('Role Mappings')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <div id="m2oidc-role-mappings">
+                    <?php
+                    $displayMappings = !empty($roleMappings) ? $roleMappings : [['group' => '', 'role' => '']];
+                    foreach ($displayMappings as $index => $mapping):
+                        ?>
+                        <div class="m2oidc-mapping-row"
+                             style="margin-bottom:8px; display:flex; align-items:center;">
+                            <input type="text"
+                                   name="oauth_role_mapping[<?= (int) $index ?>][group]"
+                                   class="admin__control-text"
+                                   value="<?= $escaper->escapeHtmlAttr($mapping['group'] ?? '') ?>"
+                                   style="width:200px;">
+                            <span style="margin:0 10px;">&rarr;</span>
+                            <select name="oauth_role_mapping[<?= (int) $index ?>][role]"
+                                    class="admin__control-select"
+                                    style="width:220px;">
+                                <option value="">-- <?= $escaper->escapeHtml(__('Select Role')) ?> --</option>
+                                <?php foreach ($roles as $role): ?>
+                                    <option value="<?= $escaper->escapeHtmlAttr($role['value']) ?>"
+                                        <?= (isset($mapping['role']) && $mapping['role'] == $role['value'])
+                                            ? 'selected="selected"' : '' ?>>
+                                        <?= $escaper->escapeHtml($role['label']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="button"
+                                    class="action-delete m2oidc-remove-mapping"
+                                    style="margin-left:10px;">
+                                <?= $escaper->escapeHtml(__('Remove')) ?>
+                            </button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <button type="button"
+                        id="m2oidc-add-mapping"
+                        class="action-default"
+                        style="margin-top:4px;">
+                    + <?= $escaper->escapeHtml(__('Add Mapping')) ?>
+                </button>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Map OIDC group names to Magento admin roles.')) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <!-- Customer Group Mapping -->
@@ -270,281 +241,237 @@ $decodedCgm = json_decode($rawCgm, true);
 $customerGroupMappings = is_array($decodedCgm) ? $decodedCgm : [];
 ?>
 <div id="m2oidc-customer-group-mapping-section" class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Customer Group Mapping')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Map OIDC group claim values to Magento customer groups. '
-                    . 'Uses the same "Group / Role Claim" configured above.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Customer Group Mapping')) ?></strong>
     </div>
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <!-- Default Customer Group -->
-            <tr>
-                <td style="width:220px;">
-                    <label for="default_group">
-                        <strong><?= $escaper->escapeHtml(__('Default Customer Group')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <select id="default_group"
-                            name="default_group"
-                            class="admin__control-select"
-                            style="width:100%;">
-                        <option value="">-- <?= $escaper->escapeHtml(__('None (use Magento default)')) ?> --</option>
-                        <?php foreach ($groups as $group): ?>
-                            <option value="<?= $escaper->escapeHtmlAttr($group['value']) ?>"
-                                <?= ($val('default_group') == $group['value']) ? 'selected="selected"' : '' ?>>
-                                <?= $escaper->escapeHtml($group['label']) ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Assigned when no group mapping matches.')) ?>
-                    </small>
-                </td>
-            </tr>
-            <!-- Customer Group Mappings -->
-            <tr id="m2oidc-cgm-mappings-row">
-                <td style="vertical-align:top; padding-top:8px;">
-                    <label>
-                        <strong><?= $escaper->escapeHtml(__('Group Mappings')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <div id="m2oidc-customer-group-mappings">
-                        <?php
-                        $displayCgm = !empty($customerGroupMappings)
-                            ? $customerGroupMappings
-                            : [['group' => '', 'customer_group' => '']];
-                        foreach ($displayCgm as $cgmIndex => $cgmMapping):
-                            ?>
-                            <div class="m2oidc-cgm-row"
-                                 style="margin-bottom:8px; display:flex; align-items:center;">
-                                <input type="text"
-                                       name="oauth_customer_group_mapping[<?= (int) $cgmIndex ?>][group]"
-                                       class="admin__control-text"
-                                       value="<?= $escaper->escapeHtmlAttr($cgmMapping['group'] ?? '') ?>"
-                                       style="width:200px;">
-                                <span style="margin:0 10px;">&rarr;</span>
-                                <select name="oauth_customer_group_mapping[<?= (int) $cgmIndex ?>][customer_group]"
-                                        class="admin__control-select"
-                                        style="width:220px;">
-                                    <option value="">
-                                        -- <?= $escaper->escapeHtml(__('Select Group')) ?> --
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Map OIDC group claim values to Magento customer groups. '
+                . 'Uses the same "Group / Role Claim" configured above.')
+        ) ?>
+    </p>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="default_group">
+                <span><?= $escaper->escapeHtml(__('Default Customer Group')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <select id="default_group" name="default_group" class="admin__control-select">
+                    <option value="">-- <?= $escaper->escapeHtml(__('None (use Magento default)')) ?> --</option>
+                    <?php foreach ($groups as $group): ?>
+                        <option value="<?= $escaper->escapeHtmlAttr($group['value']) ?>"
+                            <?= ($val('default_group') == $group['value']) ? 'selected="selected"' : '' ?>>
+                            <?= $escaper->escapeHtml($group['label']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Assigned when no group mapping matches.')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div id="m2oidc-cgm-mappings-row" class="admin__field field">
+            <label class="admin__field-label">
+                <span><?= $escaper->escapeHtml(__('Group Mappings')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <div id="m2oidc-customer-group-mappings">
+                    <?php
+                    $displayCgm = !empty($customerGroupMappings)
+                        ? $customerGroupMappings
+                        : [['group' => '', 'customer_group' => '']];
+                    foreach ($displayCgm as $cgmIndex => $cgmMapping):
+                        ?>
+                        <div class="m2oidc-cgm-row"
+                             style="margin-bottom:8px; display:flex; align-items:center;">
+                            <input type="text"
+                                   name="oauth_customer_group_mapping[<?= (int) $cgmIndex ?>][group]"
+                                   class="admin__control-text"
+                                   value="<?= $escaper->escapeHtmlAttr($cgmMapping['group'] ?? '') ?>"
+                                   style="width:200px;">
+                            <span style="margin:0 10px;">&rarr;</span>
+                            <select name="oauth_customer_group_mapping[<?= (int) $cgmIndex ?>][customer_group]"
+                                    class="admin__control-select"
+                                    style="width:220px;">
+                                <option value="">
+                                    -- <?= $escaper->escapeHtml(__('Select Group')) ?> --
+                                </option>
+                                <?php foreach ($groups as $group): ?>
+                                    <option value="<?= $escaper->escapeHtmlAttr($group['value']) ?>"
+                                        <?= (isset($cgmMapping['customer_group'])
+                                            && $cgmMapping['customer_group'] == $group['value'])
+                                            ? 'selected="selected"' : '' ?>>
+                                        <?= $escaper->escapeHtml($group['label']) ?>
                                     </option>
-                                    <?php foreach ($groups as $group): ?>
-                                        <option value="<?= $escaper->escapeHtmlAttr($group['value']) ?>"
-                                            <?= (isset($cgmMapping['customer_group'])
-                                                && $cgmMapping['customer_group'] == $group['value'])
-                                                ? 'selected="selected"' : '' ?>>
-                                            <?= $escaper->escapeHtml($group['label']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <button type="button"
-                                        class="action-delete m2oidc-remove-cgm"
-                                        style="margin-left:10px;">
-                                    <?= $escaper->escapeHtml(__('Remove')) ?>
-                                </button>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <button type="button"
-                            id="m2oidc-add-cgm"
-                            class="action-default"
-                            style="margin-top:4px;">
-                        + <?= $escaper->escapeHtml(__('Add Mapping')) ?>
-                    </button>
-                    <small class="admin__field-note" style="display:block; margin-top:4px;">
-                        <?= $escaper->escapeHtml(__('Map OIDC group names to Magento customer groups.')) ?>
-                    </small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="button"
+                                    class="action-delete m2oidc-remove-cgm"
+                                    style="margin-left:10px;">
+                                <?= $escaper->escapeHtml(__('Remove')) ?>
+                            </button>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <button type="button"
+                        id="m2oidc-add-cgm"
+                        class="action-default"
+                        style="margin-top:4px;">
+                    + <?= $escaper->escapeHtml(__('Add Mapping')) ?>
+                </button>
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Map OIDC group names to Magento customer groups.')) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 <!-- ── Customer Data Mapping ─────────────────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Customer Data Mapping')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Map OIDC claims to customer profile and address fields used during auto-creation.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Customer Data Mapping')) ?></strong>
     </div>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Map OIDC claims to customer profile and address fields used during auto-creation.')
+        ) ?>
+    </p>
 
-    <table class="admin__table-primary" style="width:100%; margin-top:16px;">
-        <tbody>
-            <tr>
-                <td style="width:220px;">
-                    <label for="dob_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Date of Birth Claim')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="dob_attribute"
-                           name="dob_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('dob_attribute', '')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Expected format from IdP: YYYY-MM-DD')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="gender_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Gender Claim')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="gender_attribute"
-                           name="gender_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('gender_attribute', '')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(__('Accepted values: male/m/1 or female/f/2')) ?>
-                    </small>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="billing_phone_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Phone Number Claim')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text"
-                           id="billing_phone_attribute"
-                           name="billing_phone_attribute"
-                           class="admin__control-text"
-                           list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('billing_phone_attribute', '')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="dob_attribute">
+                <span><?= $escaper->escapeHtml(__('Date of Birth Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="dob_attribute"
+                       name="dob_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('dob_attribute', '')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Expected format from IdP: YYYY-MM-DD')) ?>
+                </div>
+            </div>
+        </div>
 
-    <div style="display:flex; align-items:center; margin:24px 0 8px; background:#f5f5f5;
-                font-weight:700; font-size:13px; color:#333; text-transform:uppercase; letter-spacing:0.5px;">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="gender_attribute">
+                <span><?= $escaper->escapeHtml(__('Gender Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="gender_attribute"
+                       name="gender_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('gender_attribute', '')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(__('Accepted values: male/m/1 or female/f/2')) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin__field field">
+            <label class="admin__field-label" for="billing_phone_attribute">
+                <span><?= $escaper->escapeHtml(__('Phone Number Claim')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text"
+                       id="billing_phone_attribute"
+                       name="billing_phone_attribute"
+                       class="admin__control-text"
+                       list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('billing_phone_attribute', '')) ?>">
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="admin__fieldset-wrapper-title" style="margin-top:16px;">
         <?= $escaper->escapeHtml(__('Billing Address')) ?>
     </div>
-    <p class="admin__field-note" style="margin:0 0 8px; font-style:italic;">
+    <p class="admin__field-note">
         <?= $escaper->escapeHtml(
             __('Street, ZIP / Postal Code, City and Country must all be mapped for the address object to be created.')
         ) ?>
     </p>
-    <table class="admin__table-primary" style="width:100%;">
-        <tbody>
-            <tr>
-                <td style="width:220px;">
-                    <label for="billing_address_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Street')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text" id="billing_address_attribute" name="billing_address_attribute"
-                           class="admin__control-text" list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('billing_address_attribute', '')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="billing_zip_attribute">
-                        <strong><?= $escaper->escapeHtml(__('ZIP / Postal Code')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text" id="billing_zip_attribute" name="billing_zip_attribute"
-                           class="admin__control-text" list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('billing_zip_attribute', '')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="billing_city_attribute">
-                        <strong><?= $escaper->escapeHtml(__('City')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text" id="billing_city_attribute" name="billing_city_attribute"
-                           class="admin__control-text" list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('billing_city_attribute', '')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="billing_state_attribute">
-                        <strong><?= $escaper->escapeHtml(__('State / Region')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text" id="billing_state_attribute" name="billing_state_attribute"
-                           class="admin__control-text" list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('billing_state_attribute', '')) ?>"
-                           style="width:100%;">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="billing_country_attribute">
-                        <strong><?= $escaper->escapeHtml(__('Country')) ?></strong>
-                    </label>
-                </td>
-                <td>
-                    <input type="text" id="billing_country_attribute" name="billing_country_attribute"
-                           class="admin__control-text" list="oidc-claims-datalist"
-                           value="<?= $escaper->escapeHtmlAttr($val('billing_country_attribute', '')) ?>"
-                           style="width:100%;">
-                    <small class="admin__field-note">
-                        <?= $escaper->escapeHtml(
-                            __('ISO 3166-1 alpha-2 code (e.g. US, DE, GB) or full country name')
-                        ) ?>
-                    </small>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <fieldset class="admin__fieldset">
+        <div class="admin__field field">
+            <label class="admin__field-label" for="billing_address_attribute">
+                <span><?= $escaper->escapeHtml(__('Street')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" id="billing_address_attribute" name="billing_address_attribute"
+                       class="admin__control-text" list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('billing_address_attribute', '')) ?>">
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="billing_zip_attribute">
+                <span><?= $escaper->escapeHtml(__('ZIP / Postal Code')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" id="billing_zip_attribute" name="billing_zip_attribute"
+                       class="admin__control-text" list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('billing_zip_attribute', '')) ?>">
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="billing_city_attribute">
+                <span><?= $escaper->escapeHtml(__('City')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" id="billing_city_attribute" name="billing_city_attribute"
+                       class="admin__control-text" list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('billing_city_attribute', '')) ?>">
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="billing_state_attribute">
+                <span><?= $escaper->escapeHtml(__('State / Region')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" id="billing_state_attribute" name="billing_state_attribute"
+                       class="admin__control-text" list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('billing_state_attribute', '')) ?>">
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="admin__field-label" for="billing_country_attribute">
+                <span><?= $escaper->escapeHtml(__('Country')) ?></span>
+            </label>
+            <div class="admin__field-control">
+                <input type="text" id="billing_country_attribute" name="billing_country_attribute"
+                       class="admin__control-text" list="oidc-claims-datalist"
+                       value="<?= $escaper->escapeHtmlAttr($val('billing_country_attribute', '')) ?>">
+                <div class="admin__field-note">
+                    <?= $escaper->escapeHtml(
+                        __('ISO 3166-1 alpha-2 code (e.g. US, DE, GB) or full country name')
+                    ) ?>
+                </div>
+            </div>
+        </div>
+    </fieldset>
 </div>
 
 
 <!-- ── Phase 4: Attribute Sync Settings ──────────────────────────────────── -->
 <div class="admin__fieldset-wrapper" style="margin-top:24px;" id="m2oidc-attr-sync-section">
-    <div class="admin__fieldset-wrapper-title" style="margin-bottom:12px;">
-        <span class="admin__fieldset-wrapper-title-text"
-              style="font-size:15px; font-weight:700; color:#1a1a1a; letter-spacing:0.2px;">
-            <?= $escaper->escapeHtml(__('Attribute Sync Settings')) ?>
-        </span>
-        <p class="admin__field-note" style="font-style:italic; margin-top:8px;">
-            <?= $escaper->escapeHtml(
-                __('Per-attribute sync control. Each row maps a Magento attribute to the OIDC claim '
-                    . 'that provides its value and controls whether it is re-synced on every SSO login. '
-                    . 'Rows here are stored in the normalized mapping table and take precedence over the '
-                    . 'legacy single-field inputs above when claim keys overlap.')
-            ) ?>
-        </p>
+    <div class="admin__fieldset-wrapper-title">
+        <strong><?= $escaper->escapeHtml(__('Attribute Sync Settings')) ?></strong>
     </div>
+    <p class="admin__field-note">
+        <?= $escaper->escapeHtml(
+            __('Per-attribute sync control. Each row maps a Magento attribute to the OIDC claim '
+                . 'that provides its value and controls whether it is re-synced on every SSO login. '
+                . 'Rows here are stored in the normalized mapping table and take precedence over the '
+                . 'legacy single-field inputs above when claim keys overlap.')
+        ) ?>
+    </p>
 
     <table class="admin__table-primary" style="width:100%; margin-top:16px;">
         <thead>
@@ -653,6 +580,7 @@ $customerGroupMappings = is_array($decodedCgm) ? $decodedCgm : [];
 </div>
 
 </fieldset>
+</div>
 
 <script>
 (function () {

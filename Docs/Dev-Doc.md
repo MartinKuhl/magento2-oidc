@@ -117,9 +117,3 @@ Psalm:   Level 3
 
 composer require magento/magento-coding-standard bitexpert/phpstan-magento vimeo/psalm phpunit/phpunit:^10.5 rector/rector --no-update #phpstan/phpstan
 composer update --no-dev
-
-
-
-https://m2-local.casa-kuhl.de/m2oidc/actions/idpInitiatedLogin?provider_id=1
-
-&login_hint=martin_kuhl@gmx.net

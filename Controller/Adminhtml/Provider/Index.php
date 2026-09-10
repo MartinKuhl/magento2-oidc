@@ -51,7 +51,7 @@ class Index extends Action implements HttpGetActionInterface
         $page = $this->pageFactory->create();
         /** @var \Magento\Backend\Model\View\Result\Page $page */
         $page->setActiveMenu('M2Oidc_OAuth::provider_management');
-        $page->getConfig()->getTitle()->prepend((string) __('OIDC Provider Management'));
+        $page->getConfig()->getTitle()->prepend((string) __('Manage OIDC Providers'));
         $page->addBreadcrumb((string) __('M2Oidc OIDC'), (string) __('M2Oidc OIDC'));
         $page->addBreadcrumb((string) __('Manage Providers'), (string) __('Manage Providers'));
         return $page;

@@ -7,6 +7,7 @@ namespace M2Oidc\OAuth\Ui\Component\Listing\Column;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
+use M2Oidc\OAuth\Ui\Component\Listing\Column\Render\BadgeRenderer;
 
 /**
  * Virtual column: zeigt ob ein JWKS-Endpoint konfiguriert ist.
@@ -14,22 +15,27 @@ use Magento\Ui\Component\Listing\Columns\Column;
  */
 class JwksStatus extends Column
 {
+    /** @var BadgeRenderer */
+    private BadgeRenderer $badgeRenderer;
+
     /**
      * Override to inject dependencies for OIDC JWKS status column rendering.
      *
      * @param ContextInterface   $context
      * @param UiComponentFactory $uiComponentFactory
-     * @param array<string, mixed> $components
-     * @param array<string, mixed> $data
+     * @param BadgeRenderer      $badgeRenderer
+     * @param mixed[]            $components
+     * @param mixed[]            $data
      */
-    // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod
     public function __construct(
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
+        BadgeRenderer $badgeRenderer,
         array $components = [],
         array $data = []
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
+        $this->badgeRenderer = $badgeRenderer;
     }
 
     /**
@@ -63,9 +69,9 @@ class JwksStatus extends Column
     private function renderBadge(string $jwksUri): string
     {
         if ($jwksUri !== '') {
-            return '<span style="color:#3c763d;font-weight:bold;">&#10003; configured</span>';
+            return $this->badgeRenderer->render('success', (string) __('configured'));
         }
 
-        return '<span style="color:#999;">&#8212; not set</span>';
+        return $this->badgeRenderer->render('neutral', (string) __('not set'));
     }
 }

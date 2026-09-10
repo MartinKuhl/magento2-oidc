@@ -2,57 +2,48 @@
 /** @var \M2Oidc\OAuth\Block\Adminhtml\Passkeysettings\Index $block */
 /** @var \Magento\Framework\Escaper $escaper */
 ?>
-<div class="admin__page-nav-title">
-    <span><?= $escaper->escapeHtml(__('Passkey Settings')) ?></span>
-</div>
+<div class="m2oidc-settings-page">
 
 <form id="m2oidc-passkey-settings-form" action="<?= $escaper->escapeUrl($block->getSaveUrl()) ?>" method="post">
     <input type="hidden" name="form_key" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>" />
     <br/>
     <fieldset class="admin__fieldset">
-        <div class="admin__field field">
-            <label class="admin__field-label"><?= $escaper->escapeHtml(__('Enable Passkey Login for Admin')) ?></label>
-            <div class="admin__field-control">
-                <input type="checkbox" name="enabled_admin" value="1" class="admin__control-checkbox"
-                    id="enabled_admin" <?= $block->isEnabledForAdmin() ? 'checked="checked"' : '' ?> />
-                <label for="enabled_admin"></label>
-                <div class="admin__field-note">
-                    <?= $escaper->escapeHtml(__(
-                        'Allow admin users to log in with a registered passkey (WebAuthn) instead of a password.'
-                    )) ?>
-                </div>
+        <div class="admin__field field choice">
+            <input type="checkbox" name="enabled_admin" value="1" class="admin__control-checkbox"
+                id="enabled_admin" <?= $block->isEnabledForAdmin() ? 'checked="checked"' : '' ?> />
+            <label class="admin__field-label" for="enabled_admin">
+                <span><?= $escaper->escapeHtml(__('Enable Passkey Login for Admin')) ?></span>
+            </label>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'Allow admin users to log in with a registered passkey (WebAuthn) instead of a password.'
+                )) ?>
             </div>
         </div>
-        <div class="admin__field field">
-            <label class="admin__field-label">
-                <?= $escaper->escapeHtml(__('Enable Passkey Login for Customers')) ?>
+        <div class="admin__field field choice">
+            <input type="checkbox" name="enabled_customer" value="1" class="admin__control-checkbox"
+                id="enabled_customer" <?= $block->isEnabledForCustomer() ? 'checked="checked"' : '' ?> />
+            <label class="admin__field-label" for="enabled_customer">
+                <span><?= $escaper->escapeHtml(__('Enable Passkey Login for Customers')) ?></span>
             </label>
-            <div class="admin__field-control">
-                <input type="checkbox" name="enabled_customer" value="1" class="admin__control-checkbox"
-                    id="enabled_customer" <?= $block->isEnabledForCustomer() ? 'checked="checked"' : '' ?> />
-                <label for="enabled_customer"></label>
-                <div class="admin__field-note">
-                    <?= $escaper->escapeHtml(__(
-                        'Allow customers to log in with a registered passkey (WebAuthn) instead of a password.'
-                    )) ?>
-                </div>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'Allow customers to log in with a registered passkey (WebAuthn) instead of a password.'
+                )) ?>
             </div>
         </div>
-        <div class="admin__field field">
-            <label class="admin__field-label">
-                <?= $escaper->escapeHtml(__('Auto-Logout on Passkey Deletion')) ?>
+        <div class="admin__field field choice">
+            <input type="checkbox" name="auto_logout_on_delete" value="1" class="admin__control-checkbox"
+                id="auto_logout_on_delete"
+                <?= $block->isAutoLogoutOnDeleteEnabled() ? 'checked="checked"' : '' ?> />
+            <label class="admin__field-label" for="auto_logout_on_delete">
+                <span><?= $escaper->escapeHtml(__('Auto-Logout on Passkey Deletion')) ?></span>
             </label>
-            <div class="admin__field-control">
-                <input type="checkbox" name="auto_logout_on_delete" value="1" class="admin__control-checkbox"
-                    id="auto_logout_on_delete"
-                    <?= $block->isAutoLogoutOnDeleteEnabled() ? 'checked="checked"' : '' ?> />
-                <label for="auto_logout_on_delete"></label>
-                <div class="admin__field-note">
-                    <?= $escaper->escapeHtml(__(
-                        'Immediately end a user\'s active session when one of their passkeys is deleted. '
-                        . 'Applies only to sessions established via SSO or Passkey login.'
-                    )) ?>
-                </div>
+            <div class="admin__field-note">
+                <?= $escaper->escapeHtml(__(
+                    'Immediately end a user\'s active session when one of their passkeys is deleted. '
+                    . 'Applies only to sessions established via SSO or Passkey login.'
+                )) ?>
             </div>
         </div>
         <div class="admin__field field">
@@ -101,8 +92,12 @@
 
 <br/>
 
-<h3><?= $escaper->escapeHtml(__('Registered Passkeys')) ?></h3>
-<p><?= $escaper->escapeHtml(__(
+<div class="admin__fieldset-wrapper-title">
+    <strong><?= $escaper->escapeHtml(__('Registered Passkeys')) ?></strong>
+</div>
+<p class="admin__field-note"><?= $escaper->escapeHtml(__(
     'All passkeys registered across admin and customer accounts. '
     . 'Use this for lockout recovery — e.g. a user lost their device.'
 )) ?></p>
+
+</div>

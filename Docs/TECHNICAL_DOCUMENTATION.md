@@ -161,7 +161,7 @@ M2Oidc_OAuth/
 │       │       └── LoginVerify.php           # Anonymous; verifies assertion, mints PKEY_ token, calls Auth::login(); sets is_passkey_authenticated auth-storage flag + passkey_authenticated cookie
 │       ├── OAuthsettings/Index.php           # Admin page: OAuth Settings; encrypts client_secret via EncryptorInterface before save; ADMIN_RESOURCE const
 │       ├── Attrsettings/Index.php            # Admin page: Attribute Mapping; ADMIN_RESOURCE const
-│       ├── Signinsettings/Index.php          # Admin page: Sign In Settings; import/export paths run through ProviderDataValidator / EXPORT_EXCLUDED_FIELDS; ADMIN_RESOURCE const
+│       ├── Miscellaneous/Index.php           # Admin page: Miscellaneous (/admin/m2oidc/miscellaneous/index) — Debug Logs + Import/Export; import/export paths run through ProviderDataValidator / EXPORT_EXCLUDED_FIELDS; ADMIN_RESOURCE const
 │       ├── Providersettings/Index.php        # Admin page: Provider Settings (display_name, login_type, is_active, sort_order, button_label, button_color); ADMIN_RESOURCE const
 │       ├── Passkeysettings/
 │       │   ├── Index.php                     # Admin page: Passkey Settings (/admin/m2oidc/passkeysettings/index); toggles + RP name/ID form + cross-user Registered Passkeys grid; ADMIN_RESOURCE = M2Oidc_OAuth::passkey_settings
@@ -216,7 +216,7 @@ M2Oidc_OAuth/
 │   │       └── SlidingWindowStrategy.php     # Sliding-window (Redis Lua); declares its own MAX_ATTEMPTS/WINDOW_SECONDS
 │   ├── Validation/
 │   │   ├── SsrfUrlValidator.php              # Shared loopback/RFC-1918 host blocking for endpoint URLs; used by Provider/Save.php, OAuthsettings, RefreshOidcDiscovery cron, ProviderDataValidator
-│   │   ├── ProviderDataValidator.php         # Shared enum whitelisting + SSRF checks + lockout-prevention guard; used by Provider/Save.php, ImportOidcConfig, Signinsettings import path
+│   │   ├── ProviderDataValidator.php         # Shared enum whitelisting + SSRF checks + lockout-prevention guard; used by Provider/Save.php, ImportOidcConfig, Miscellaneous import path
 │   │   └── ProviderValidationResult.php      # Value object returned by ProviderDataValidator
 │   ├── Service/
 │   │   ├── AdminUserCreator.php              # JIT admin provisioning; role resolution delegates to GroupMappingResolver; password via RandomPasswordGenerator
